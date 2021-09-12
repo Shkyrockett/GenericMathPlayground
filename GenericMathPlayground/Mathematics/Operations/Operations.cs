@@ -1,5 +1,19 @@
-﻿namespace GenericMathPlayground.Mathematics;
+﻿// <copyright file="Operations.cs" company="Shkyrockett" >
+//     Copyright © 2021 Shkyrockett. All rights reserved.
+// </copyright>
+// <author id="shkyrockett">Shkyrockett</author>
+// <license>
+//     Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </license>
+// <summary></summary>
+// <remarks>
+// </remarks>
 
+namespace GenericMathPlayground.Mathematics;
+
+/// <summary>
+/// 
+/// </summary>
 public static partial class Operations
 {
     /// <summary>
@@ -8,6 +22,7 @@ public static partial class Operations
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="value"></param>
+    /// <param name="result"></param>
     /// <returns></returns>
     public static bool TryCast<T, TResult>(this T value, out TResult result) where T : INumber<T> where TResult : INumber<TResult> => TResult.TryCreate(value, out result);
 

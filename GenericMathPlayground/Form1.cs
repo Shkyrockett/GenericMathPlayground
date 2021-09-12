@@ -1,13 +1,30 @@
-﻿using GenericMathPlayground.Geometry;
+﻿// <copyright file="Form1.cs" company="Shkyrockett" >
+//     Copyright © 2021 Shkyrockett. All rights reserved.
+// </copyright>
+// <author id="shkyrockett">Shkyrockett</author>
+// <license>
+//     Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </license>
+// <summary></summary>
+// <remarks>
+// </remarks>
+
+using GenericMathPlayground.Geometry;
 using GenericMathPlayground.Mathematics;
 using GenericMathPlayground.Physics;
 using System.Windows.Forms;
 
 namespace GenericMathPlayground
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class Form1
         : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Form1()
         {
             InitializeComponent();

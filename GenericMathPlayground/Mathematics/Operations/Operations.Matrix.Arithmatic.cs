@@ -1,6 +1,17 @@
-﻿using System.Runtime.CompilerServices;
+﻿// <copyright file="Operations.Matrix.Arithmatic.cs" company="Shkyrockett" >
+//     Copyright © 2021 Shkyrockett. All rights reserved.
+// </copyright>
+// <author id="shkyrockett">Shkyrockett</author>
+// <license>
+//     Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </license>
+// <summary></summary>
+// <remarks>
+// </remarks>
+
 using Microsoft.Toolkit.HighPerformance;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
 
@@ -46,7 +57,7 @@ public static partial class Operations
     public static TResult[,] Add<T, TResult>(Span2D<T> augend, Span2D<T> addend)
         where T : INumber<T>
         where TResult : INumber<TResult>
-{
+    {
         // Commented out because of lack of convertibility...
         //if (augend == null) return addend.ToArray();
         //if (addend == null) return augend.ToArray();

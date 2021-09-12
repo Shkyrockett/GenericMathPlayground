@@ -1,4 +1,4 @@
-﻿// <copyright file="IPoint.cs" company="Shkyrockett" >
+﻿// <copyright file="IColor.cs" company="Shkyrockett" >
 //     Copyright © 2021 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
@@ -9,16 +9,13 @@
 // <remarks>
 // </remarks>
 
-using GenericMathPlayground.Mathematics;
-
-namespace GenericMathPlayground.Geometry
+namespace GenericMathPlayground.Chromatics
 {
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IPoint<T>
-        : IVector<T>
+    public interface IColor<T>
         where T : INumber<T>
     {
     }
