@@ -9,6 +9,8 @@
 // <remarks>
 // </remarks>
 
+using System;
+
 namespace GenericMathPlayground.Chromatics
 {
     /// <summary>

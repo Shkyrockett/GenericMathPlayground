@@ -9,6 +9,10 @@
 // <remarks>
 // </remarks>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>

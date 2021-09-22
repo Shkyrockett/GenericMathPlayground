@@ -1,4 +1,4 @@
-﻿// <copyright file="IMatrix.cs" company="Shkyrockett" >
+﻿// <copyright file="UnitConversion.Rotation.cs" company="Shkyrockett" >
 //     Copyright © 2021 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
@@ -9,13 +9,11 @@
 // <remarks>
 // </remarks>
 
-namespace GenericMathPlayground.Mathematics
+namespace GenericMathPlayground.Physics;
+
+/// <summary>
+/// 
+/// </summary>
+public static partial class UnitConversion
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IMatrix<T>
-    {
-    }
 }

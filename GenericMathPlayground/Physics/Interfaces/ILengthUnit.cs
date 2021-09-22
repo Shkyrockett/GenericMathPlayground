@@ -15,11 +15,15 @@ namespace GenericMathPlayground.Physics
     /// 
     /// </summary>
     public interface ILengthUnit
-        : INumber<double>
     {
         /// <summary>
         /// 
         /// </summary>
-        double Value { get; set; }
+        double Value { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        static abstract double InMeters {  get; }
     }
 }

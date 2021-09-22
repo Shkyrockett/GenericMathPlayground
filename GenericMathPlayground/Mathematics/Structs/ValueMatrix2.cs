@@ -9,6 +9,8 @@
 // <remarks>
 // </remarks>
 
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -19,6 +21,7 @@ namespace GenericMathPlayground.Mathematics
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public struct ValueMatrix2<T>
         : IMatrix<T>,
@@ -95,21 +98,25 @@ namespace GenericMathPlayground.Mathematics
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T M1x1 { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T M1x2 { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T M2x1 { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T M2x2 { get; set; }
 
         /// <summary>
@@ -231,10 +238,8 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="other"></param>
         /// <returns></returns>
         public bool Equals(ValueMatrix2<T> other)
-            => EqualityComparer<T>.Default.Equals(M1x1, other.M1x1) &&
-               EqualityComparer<T>.Default.Equals(M1x2, other.M1x2) &&
-               EqualityComparer<T>.Default.Equals(M2x1, other.M2x1) &&
-               EqualityComparer<T>.Default.Equals(M2x2, other.M2x2);
+            => M1x1.Equals(other.M1x1) && M1x2.Equals(other.M1x2) &&
+               M2x1.Equals(other.M2x1) && M2x2.Equals(other.M2x2);
 
         /// <summary>
         /// 

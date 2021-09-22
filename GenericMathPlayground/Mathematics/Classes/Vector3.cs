@@ -10,8 +10,9 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using System;
 
-namespace GenericMathPlayground.Geometry
+namespace GenericMathPlayground.Mathematics
 {
     /// <summary>
     /// 
@@ -50,25 +51,25 @@ namespace GenericMathPlayground.Geometry
         /// 
         /// </summary>
         /// <param name="tuple"></param>
-        public Vector3((T X, T Y, T Z) tuple) => value = new(tuple);
+        public Vector3((T I, T J, T K) tuple) => value = new(tuple);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        public Vector3(T x, T y, T z) => value = new(x, y, z);
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="k"></param>
+        public Vector3(T i, T j, T k) => value = new(i, j, k);
         #endregion
 
         #region Deconstructors
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        /// <param name="Z"></param>
-        public void Deconstruct(out T X, out T Y, out T Z) => (X, Y, Z) = value;
+        /// <param name="I"></param>
+        /// <param name="J"></param>
+        /// <param name="K"></param>
+        public void Deconstruct(out T I, out T J, out T K) => (I, J, K) = value;
         #endregion
 
         #region Properties
@@ -80,17 +81,32 @@ namespace GenericMathPlayground.Geometry
         /// <summary>
         /// 
         /// </summary>
-        public T X { get { return value.X; } set { this.value.X = value; } }
+        public T I { get { return value.I; } set { this.value.I = value; } }
 
         /// <summary>
         /// 
         /// </summary>
-        public T Y { get { return value.Y; } set { this.value.Y = value; } }
+        public T J { get { return value.J; } set { this.value.J = value; } }
 
         /// <summary>
         /// 
         /// </summary>
-        public T Z { get { return value.Z; } set { this.value.Z = value; } }
+        public T K { get { return value.K; } set { this.value.K = value; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector2<T>.X { get { return I; } set { I = value; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector2<T>.Y { get { return J; } set { J = value; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector3<T>.Z { get { return K; } set { K = value; } }
         #endregion
 
         #region Operators

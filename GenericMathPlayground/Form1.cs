@@ -12,6 +12,7 @@
 using GenericMathPlayground.Geometry;
 using GenericMathPlayground.Mathematics;
 using GenericMathPlayground.Physics;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace GenericMathPlayground
@@ -29,11 +30,18 @@ namespace GenericMathPlayground
         {
             InitializeComponent();
 
-            var a = new ValuePoint2<FeetUnit>(1d, 0d);
-            var b = new ValueVector2<FeetUnit>(0d, 1d);
-            var c = new ValueSize2<FeetUnit>(2d, 2d);
+            var a = new ValuePoint2<MetersUnit>(1d, 0d);
+            var b = new ValueVector2<MetersUnit>(0d, 1d);
+            var c = new ValueSize2<MetersUnit>(2d, 2d);
             var d = (a + b) * c;
-            label1.Text = $"({a} + {b}) * {c} = {d}";
+
+            var l = new VectorList(a, b, c, d);
+
+            var u = new MetersUnit(2);
+            UnitConversion.ConvertTo(u, out FeetUnit v);
+
+            textBox1.Text = $"({a} + {b}) * {c} = {d}\r\n\r\n{u.ToString("R", CultureInfo.InvariantCulture)} = {v.ToString("R", CultureInfo.InvariantCulture)}";
+            propertyGrid1.SelectedObject = l;
         }
     }
 }

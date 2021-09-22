@@ -10,6 +10,8 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Versioning;
@@ -19,8 +21,10 @@ namespace GenericMathPlayground.Physics
     /// <summary>
     /// 
     /// </summary>
+    [TypeConverter(typeof(LengthUnitConverter<FeetUnit>))]
     public readonly struct FeetUnit
-        : IComparable,
+        : ILengthUnit,
+        IComparable,
         IComparable<FeetUnit>,
         IConvertible,
         IEquatable<FeetUnit>,
@@ -49,11 +53,7 @@ namespace GenericMathPlayground.Physics
         ISignedNumber<FeetUnit>,
         IMinMaxValue<FeetUnit>
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly double value;
-
+        #region Abstract Properties
         /// <summary>
         /// 
         /// </summary>
@@ -144,12 +144,26 @@ namespace GenericMathPlayground.Physics
         [RequiresPreviewFeatures]
         public static FeetUnit NegativeOne => -1d;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [RequiresPreviewFeatures]
+        public static double InMeters => 0.3048d;
+        #endregion
+
         #region Constructors
         /// <summary>
         /// 
         /// </summary>
         /// <param name="v"></param>
-        public FeetUnit(double v) : this() => value = v;
+        public FeetUnit(double v) : this() => Value = v;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Value { get; }
         #endregion
 
         #region OPerators
@@ -161,7 +175,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool operator ==(FeetUnit left, FeetUnit right) => left.value == right.value;
+        public static bool operator ==(FeetUnit left, FeetUnit right) => left.Value == right.Value;
 
         /// <summary>
         /// Returns a value that indicates whether two specified <see cref="FeetUnit" /> values are not equal.
@@ -181,7 +195,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="left" /> is greater than <paramref name="right" />; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool operator >(FeetUnit left, FeetUnit right) => left.value > right.value;
+        public static bool operator >(FeetUnit left, FeetUnit right) => left.Value > right.Value;
 
         /// <summary>
         /// Returns a value that indicates whether a specified <see cref="FeetUnit" /> value is greater than or equal to another specified <see cref="FeetUnit" /> value.
@@ -191,7 +205,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="left" /> is greater than or equal to <paramref name="right" />; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool operator >=(FeetUnit left, FeetUnit right) => left.value >= right.value;
+        public static bool operator >=(FeetUnit left, FeetUnit right) => left.Value >= right.Value;
 
         /// <summary>
         /// Returns a value that indicates whether a specified <see cref="FeetUnit" /> value is less than another specified <see cref="FeetUnit" /> value.
@@ -201,7 +215,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="left" /> is less than <paramref name="right" />; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool operator <(FeetUnit left, FeetUnit right) => left.value < right.value;
+        public static bool operator <(FeetUnit left, FeetUnit right) => left.Value < right.Value;
 
         /// <summary>
         /// Returns a value that indicates whether a specified <see cref="FeetUnit" /> value is less than or equal to another specified <see cref="FeetUnit" /> value.
@@ -211,7 +225,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="left" /> is less than or equal to <paramref name="right" />; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool operator <=(FeetUnit left, FeetUnit right) => left.value <= right.value;
+        public static bool operator <=(FeetUnit left, FeetUnit right) => left.Value <= right.Value;
 
         /// <summary>
         /// 
@@ -261,14 +275,14 @@ namespace GenericMathPlayground.Physics
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static FeetUnit operator -(FeetUnit value) => new(-value.value);
+        public static FeetUnit operator -(FeetUnit value) => new(-value.Value);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static FeetUnit operator --(FeetUnit value) => new(value.value - One.value);
+        public static FeetUnit operator --(FeetUnit value) => new(value.Value - One.Value);
 
         /// <summary>
         /// 
@@ -276,21 +290,21 @@ namespace GenericMathPlayground.Physics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static FeetUnit operator -(FeetUnit left, FeetUnit right) => new(left.value - right.value);
+        public static FeetUnit operator -(FeetUnit left, FeetUnit right) => new(left.Value - right.Value);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static FeetUnit operator +(FeetUnit value) => new(+value.value);
+        public static FeetUnit operator +(FeetUnit value) => new(+value.Value);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static FeetUnit operator ++(FeetUnit value) => new(value.value + One.value);
+        public static FeetUnit operator ++(FeetUnit value) => new(value.Value + One.Value);
 
         /// <summary>
         /// 
@@ -298,7 +312,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static FeetUnit operator +(FeetUnit left, FeetUnit right) => new(left.value + right.value);
+        public static FeetUnit operator +(FeetUnit left, FeetUnit right) => new(left.Value + right.Value);
 
         /// <summary>
         /// 
@@ -306,7 +320,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static FeetUnit operator /(FeetUnit left, FeetUnit right) => new(left.value / right.value);
+        public static FeetUnit operator /(FeetUnit left, FeetUnit right) => new(left.Value / right.Value);
 
         /// <summary>
         /// 
@@ -314,7 +328,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static FeetUnit operator %(FeetUnit left, FeetUnit right) => new(left.value % right.value);
+        public static FeetUnit operator %(FeetUnit left, FeetUnit right) => new(left.Value % right.Value);
 
         /// <summary>
         /// 
@@ -322,7 +336,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static FeetUnit operator *(FeetUnit left, FeetUnit right) => new(left.value * right.value);
+        public static FeetUnit operator *(FeetUnit left, FeetUnit right) => new(left.Value * right.Value);
 
         /// <summary>
         /// 
@@ -339,7 +353,7 @@ namespace GenericMathPlayground.Physics
         /// A signed number indicating the relative values of this instance and <paramref name="value" />.  
         /// <list type="table"><listheader><term> Return Value</term><description> Description</description></listheader><item><term> Less than zero</term><description> This instance is less than <paramref name="value" />, or this instance is not a number (<see cref="F:FeetUnit.NaN" />) and <paramref name="value" /> is a number.</description></item><item><term> Zero</term><description> This instance is equal to <paramref name="value" />, or both this instance and <paramref name="value" /> are not a number (<see cref="F:FeetUnit.NaN" />), <see cref="F:FeetUnit.PositiveInfinity" />, or <see cref="F:FeetUnit.NegativeInfinity" />.</description></item><item><term> Greater than zero</term><description> This instance is greater than <paramref name="value" />, or this instance is a number and <paramref name="value" /> is not a number (<see cref="F:FeetUnit.NaN" />).</description></item></list>
         /// </returns>
-        public int CompareTo(double value) => this.value.CompareTo(value);
+        public int CompareTo(double value) => Value.CompareTo(value);
 
         /// <summary>
         /// Compares this instance to a specified object and returns an integer that indicates whether the value of this instance is less than, equal to, or greater than the value of the specified object.
@@ -351,7 +365,7 @@ namespace GenericMathPlayground.Physics
         /// A signed number indicating the relative values of this instance and <paramref name="value" />.  
         /// <list type="table"><listheader><term> Value</term><description> Description</description></listheader><item><term> A negative integer</term><description> This instance is less than <paramref name="value" />, or this instance is not a number (<see cref="F:FeetUnit.NaN" />) and <paramref name="value" /> is a number.</description></item><item><term> Zero</term><description> This instance is equal to <paramref name="value" />, or this instance and <paramref name="value" /> are both <see langword="FeetUnit.NaN" />, <see cref="F:FeetUnit.PositiveInfinity" />, or <see cref="F:FeetUnit.NegativeInfinity" /></description></item><item><term> A positive integer</term><description> This instance is greater than <paramref name="value" />, OR this instance is a number and <paramref name="value" /> is not a number (<see cref="F:FeetUnit.NaN" />), OR <paramref name="value" /> is <see langword="null" />.</description></item></list>
         /// </returns>
-        public int CompareTo(object? value) => this.value.CompareTo(value);
+        public int CompareTo(object? value) => Value.CompareTo(value);
 
         /// <summary>
         /// Returns a value indicating whether this instance and a specified <see cref="FeetUnit" /> object represent the same value.
@@ -360,7 +374,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="obj" /> is equal to this instance; otherwise, <see langword="false" />.
         /// </returns>
-        public bool Equals(double obj) => value.Equals(obj);
+        public bool Equals(double obj) => Value.Equals(obj);
 
         /// <summary>
         /// Returns a value indicating whether this instance is equal to a specified object.
@@ -369,13 +383,13 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="obj" /> is an instance of <see cref="FeetUnit" /> and equals the value of this instance; otherwise, <see langword="false" />.
         /// </returns>
-        public override bool Equals([NotNullWhen(true)] object? obj) => value.Equals(obj);
+        public override bool Equals([NotNullWhen(true)] object? obj) => Value.Equals(obj);
 
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
         /// <returns>A 32-bit signed integer hash code.</returns>
-        public override int GetHashCode() => value.GetHashCode();
+        public override int GetHashCode() => Value.GetHashCode();
 
         /// <summary>
         /// Returns the <see cref="T:System.TypeCode" /> for value type <see cref="FeetUnit" />.
@@ -383,7 +397,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The enumerated constant, <see cref="F:System.TypeCode.FeetUnit" />.
         /// </returns>
-        public TypeCode GetTypeCode() => value.GetTypeCode();
+        public TypeCode GetTypeCode() => Value.GetTypeCode();
 
         /// <summary>
         /// Determines whether the specified value is finite (zero, subnormal, or normal).
@@ -392,7 +406,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if the value is finite (zero, subnormal or normal); <see langword="false" /> otherwise.
         /// </returns>
-        public static bool IsFinite(FeetUnit d) => double.IsFinite(d.value);
+        public static bool IsFinite(FeetUnit d) => double.IsFinite(d.Value);
 
         /// <summary>
         /// Returns a value indicating whether the specified number evaluates to negative or positive infinity.
@@ -401,7 +415,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="d" /> evaluates to <see cref="F:FeetUnit.PositiveInfinity" /> or <see cref="F:FeetUnit.NegativeInfinity" />; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool IsInfinity(FeetUnit d) => double.IsInfinity(d.value);
+        public static bool IsInfinity(FeetUnit d) => double.IsInfinity(d.Value);
 
         /// <summary>
         /// Returns a value that indicates whether the specified value is not a number (<see cref="F:FeetUnit.NaN" />).
@@ -410,7 +424,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="d" /> evaluates to <see cref="F:FeetUnit.NaN" />; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool IsNaN(FeetUnit d) => double.IsNaN(d.value);
+        public static bool IsNaN(FeetUnit d) => double.IsNaN(d.Value);
 
         /// <summary>
         /// Determines whether the specified value is negative.
@@ -419,7 +433,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if the value is negative; <see langword="false" /> otherwise.
         /// </returns>
-        public static bool IsNegative(FeetUnit d) => double.IsNegative(d.value);
+        public static bool IsNegative(FeetUnit d) => double.IsNegative(d.Value);
 
         /// <summary>
         /// Returns a value indicating whether the specified number evaluates to negative infinity.
@@ -428,7 +442,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="d" /> evaluates to <see cref="F:FeetUnit.NegativeInfinity" />; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool IsNegativeInfinity(FeetUnit d) => double.IsNegativeInfinity(d.value);
+        public static bool IsNegativeInfinity(FeetUnit d) => double.IsNegativeInfinity(d.Value);
 
         /// <summary>
         /// Determines whether the specified value is normal.
@@ -437,7 +451,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if the value is normal; <see langword="false" /> otherwise.
         /// </returns>
-        public static bool IsNormal(FeetUnit d) => double.IsNormal(d.value);
+        public static bool IsNormal(FeetUnit d) => double.IsNormal(d.Value);
 
         /// <summary>
         /// Returns a value indicating whether the specified number evaluates to positive infinity.
@@ -446,7 +460,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if <paramref name="d" /> evaluates to <see cref="F:FeetUnit.PositiveInfinity" />; otherwise, <see langword="false" />.
         /// </returns>
-        public static bool IsPositiveInfinity(FeetUnit d) => double.IsPositiveInfinity(d.value);
+        public static bool IsPositiveInfinity(FeetUnit d) => double.IsPositiveInfinity(d.Value);
 
         /// <summary>
         /// Determines whether the specified value is subnormal.
@@ -455,7 +469,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if the value is subnormal; <see langword="false" /> otherwise.
         /// </returns>
-        public static bool IsSubnormal(FeetUnit d) => double.IsSubnormal(d.value);
+        public static bool IsSubnormal(FeetUnit d) => double.IsSubnormal(d.Value);
 
         /// <summary>
         /// Converts a character span that contains the string representation of a number in a specified style and culture-specific format to its double-precision floating-point number equivalent.
@@ -553,7 +567,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if the value of the current instance is not zero; otherwise, <see langword="false" />.
         /// </returns>
-        bool IConvertible.ToBoolean(IFormatProvider? provider) => Convert.ToBoolean(value, provider);
+        bool IConvertible.ToBoolean(IFormatProvider? provider) => Convert.ToBoolean(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToByte(System.IFormatProvider)" />.
@@ -562,7 +576,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to a <see cref="T:System.Byte" />.
         /// </returns>
-        byte IConvertible.ToByte(IFormatProvider? provider) => Convert.ToByte(value, provider);
+        byte IConvertible.ToByte(IFormatProvider? provider) => Convert.ToByte(Value, provider);
 
         /// <summary>
         /// This conversion is not supported. Attempting to use this method throws an <see cref="T:System.InvalidCastException" />.
@@ -572,7 +586,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// This conversion is not supported. No value is returned.
         /// </returns>
-        char IConvertible.ToChar(IFormatProvider? provider) => Convert.ToChar(value, provider);
+        char IConvertible.ToChar(IFormatProvider? provider) => Convert.ToChar(Value, provider);
 
         /// <summary>
         /// This conversion is not supported. Attempting to use this method throws an <see cref="T:System.InvalidCastException" />
@@ -582,7 +596,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// This conversion is not supported. No value is returned.
         /// </returns>
-        DateTime IConvertible.ToDateTime(IFormatProvider? provider) => Convert.ToDateTime(value, provider);
+        DateTime IConvertible.ToDateTime(IFormatProvider? provider) => Convert.ToDateTime(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToDecimal(System.IFormatProvider)" />.
@@ -591,7 +605,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to a <see cref="T:System.Decimal" />.
         /// </returns>
-        decimal IConvertible.ToDecimal(IFormatProvider? provider) => Convert.ToInt16(value, provider);
+        decimal IConvertible.ToDecimal(IFormatProvider? provider) => Convert.ToInt16(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToDouble(System.IFormatProvider)" />.
@@ -600,7 +614,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, unchanged.
         /// </returns>
-        double IConvertible.ToDouble(IFormatProvider? provider) => value;
+        double IConvertible.ToDouble(IFormatProvider? provider) => Value;
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToInt16(System.IFormatProvider)" />.
@@ -609,7 +623,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to an <see cref="T:System.Int16" />.
         /// </returns>
-        short IConvertible.ToInt16(IFormatProvider? provider) => Convert.ToInt16(value, provider);
+        short IConvertible.ToInt16(IFormatProvider? provider) => Convert.ToInt16(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToInt32(System.IFormatProvider)" />.
@@ -618,21 +632,21 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to an <see cref="T:System.Int32" />.
         /// </returns>
-        int IConvertible.ToInt32(IFormatProvider? provider) => Convert.ToInt32(value, provider);
+        int IConvertible.ToInt32(IFormatProvider? provider) => Convert.ToInt32(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToInt64(System.IFormatProvider)" />.
         /// </summary>
         /// <param name="provider">This parameter is ignored.</param>
         /// <returns>The value of the current instance, converted to an <see cref="T:System.Int64" />.</returns>
-        long IConvertible.ToInt64(IFormatProvider? provider) => Convert.ToInt64(value, provider);
+        long IConvertible.ToInt64(IFormatProvider? provider) => Convert.ToInt64(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToSByte(System.IFormatProvider)" />.
         /// </summary>
         /// <param name="provider">This parameter is ignored.</param>
         /// <returns>The value of the current instance, converted to an <see cref="T:System.SByte" />.</returns>
-        sbyte IConvertible.ToSByte(IFormatProvider? provider) => Convert.ToSByte(value, provider);
+        sbyte IConvertible.ToSByte(IFormatProvider? provider) => Convert.ToSByte(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToSingle(System.IFormatProvider)" />.
@@ -641,7 +655,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to a <see cref="T:System.Single" />.
         /// </returns>
-        float IConvertible.ToSingle(IFormatProvider? provider) => Convert.ToSingle(value, provider);
+        float IConvertible.ToSingle(IFormatProvider? provider) => Convert.ToSingle(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToType(System.Type,System.IFormatProvider)" />.
@@ -651,7 +665,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to <paramref name="type" />.
         /// </returns>
-        object IConvertible.ToType(Type type, IFormatProvider? provider) => Convert.ChangeType(value, type, provider);
+        object IConvertible.ToType(Type type, IFormatProvider? provider) => Convert.ChangeType(Value, type, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToUInt16(System.IFormatProvider)" />.
@@ -660,7 +674,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to a <see cref="T:System.UInt16" />.
         /// </returns>
-        ushort IConvertible.ToUInt16(IFormatProvider? provider) => Convert.ToUInt16(value, provider);
+        ushort IConvertible.ToUInt16(IFormatProvider? provider) => Convert.ToUInt16(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToUInt32(System.IFormatProvider)" />.
@@ -669,7 +683,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to a <see cref="T:System.UInt32" />.
         /// </returns>
-        uint IConvertible.ToUInt32(IFormatProvider? provider) => Convert.ToUInt32(value, provider);
+        uint IConvertible.ToUInt32(IFormatProvider? provider) => Convert.ToUInt32(Value, provider);
 
         /// <summary>
         /// For a description of this member, see <see cref="M:System.IConvertible.ToUInt64(System.IFormatProvider)" />.
@@ -678,7 +692,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The value of the current instance, converted to a <see cref="T:System.UInt64" />.
         /// </returns>
-        ulong IConvertible.ToUInt64(IFormatProvider? provider) => Convert.ToUInt64(value, provider);
+        ulong IConvertible.ToUInt64(IFormatProvider? provider) => Convert.ToUInt64(Value, provider);
 
         /// <summary>
         /// Converts the numeric value of this instance to its equivalent string representation.
@@ -686,7 +700,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The string representation of the value of this instance.
         /// </returns>
-        public override string ToString() => ToString(null, null);
+        public override string ToString() => ToString("R", CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Converts the numeric value of this instance to its equivalent string representation using the specified culture-specific format information.
@@ -695,7 +709,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The string representation of the value of this instance as specified by <paramref name="provider" />.
         /// </returns>
-        public string ToString(IFormatProvider? provider) => ToString(null, provider);
+        public string ToString(IFormatProvider? provider) => ToString("R", provider);
 
         /// <summary>
         /// Converts the numeric value of this instance to its equivalent string representation, using the specified format.
@@ -706,7 +720,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The string representation of the value of this instance as specified by <paramref name="format" />.
         /// </returns>
-        public string ToString(string? format) => ToString(format);
+        public string ToString(string? format) => ToString(format, CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Converts the numeric value of this instance to its equivalent string representation using the specified format and culture-specific format information.
@@ -716,7 +730,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         /// The string representation of the value of this instance as specified by <paramref name="format" /> and <paramref name="provider" />.
         /// </returns>
-        public string ToString(string? format, IFormatProvider? provider) => $"{value.ToString(format, provider)} ft";
+        public string ToString(string? format, IFormatProvider? provider) => $"{Value.ToString(format, provider)} ft";
 
         /// <summary>
         /// Tries to format the value of the current double instance into the provided span of characters.
@@ -728,7 +742,7 @@ namespace GenericMathPlayground.Physics
         /// <returns>
         ///   <see langword="true" /> if the formatting was successful; otherwise, <see langword="false" />.
         /// </returns>
-        public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null) => value.TryFormat(destination, out charsWritten, format, provider);
+        public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null) => Value.TryFormat(destination, out charsWritten, format, provider);
 
         /// <summary>
         /// 
@@ -855,7 +869,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="value"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static bool IsPow2(FeetUnit value) => value.value == Math.Pow(2d, Math.Log(value.value, 2d));
+        public static bool IsPow2(FeetUnit value) => value.Value == Math.Pow(2d, Math.Log(value.Value, 2d));
 
         /// <summary>
         /// 
@@ -863,7 +877,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Acos(FeetUnit x) => Math.Acos(x.value);
+        public static FeetUnit Acos(FeetUnit x) => Math.Acos(x.Value);
 
         /// <summary>
         /// 
@@ -871,7 +885,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Acosh(FeetUnit x) => Math.Acosh(x.value);
+        public static FeetUnit Acosh(FeetUnit x) => Math.Acosh(x.Value);
 
         /// <summary>
         /// 
@@ -879,7 +893,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Asin(FeetUnit x) => Math.Asin(x.value);
+        public static FeetUnit Asin(FeetUnit x) => Math.Asin(x.Value);
 
         /// <summary>
         /// 
@@ -887,7 +901,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Asinh(FeetUnit x) => Math.Asinh(x.value);
+        public static FeetUnit Asinh(FeetUnit x) => Math.Asinh(x.Value);
 
         /// <summary>
         /// 
@@ -895,7 +909,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Atan(FeetUnit x) => Math.Atan(x.value);
+        public static FeetUnit Atan(FeetUnit x) => Math.Atan(x.Value);
 
         /// <summary>
         /// 
@@ -904,7 +918,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Atan2(FeetUnit y, FeetUnit x) => Math.Atan2(y.value, x.value);
+        public static FeetUnit Atan2(FeetUnit y, FeetUnit x) => Math.Atan2(y.Value, x.Value);
 
         /// <summary>
         /// 
@@ -912,7 +926,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Atanh(FeetUnit x) => Math.Atanh(x.value);
+        public static FeetUnit Atanh(FeetUnit x) => Math.Atanh(x.Value);
 
         /// <summary>
         /// 
@@ -920,7 +934,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit BitIncrement(FeetUnit x) => Math.BitIncrement(x.value);
+        public static FeetUnit BitIncrement(FeetUnit x) => Math.BitIncrement(x.Value);
 
         /// <summary>
         /// 
@@ -928,7 +942,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit BitDecrement(FeetUnit x) => Math.BitDecrement(x.value);
+        public static FeetUnit BitDecrement(FeetUnit x) => Math.BitDecrement(x.Value);
 
         /// <summary>
         /// 
@@ -936,7 +950,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Cbrt(FeetUnit x) => Math.Cbrt(x.value);
+        public static FeetUnit Cbrt(FeetUnit x) => Math.Cbrt(x.Value);
 
         /// <summary>
         /// 
@@ -944,7 +958,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Ceiling(FeetUnit x) => Math.Ceiling(x.value);
+        public static FeetUnit Ceiling(FeetUnit x) => Math.Ceiling(x.Value);
 
         /// <summary>
         /// 
@@ -953,7 +967,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="y"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit CopySign(FeetUnit x, FeetUnit y) => Math.CopySign(x.value, y.value);
+        public static FeetUnit CopySign(FeetUnit x, FeetUnit y) => Math.CopySign(x.Value, y.Value);
 
         /// <summary>
         /// 
@@ -961,7 +975,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Cos(FeetUnit x) => Math.Cos(x.value);
+        public static FeetUnit Cos(FeetUnit x) => Math.Cos(x.Value);
 
         /// <summary>
         /// 
@@ -969,7 +983,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Cosh(FeetUnit x) => Math.Cosh(x.value);
+        public static FeetUnit Cosh(FeetUnit x) => Math.Cosh(x.Value);
 
         /// <summary>
         /// 
@@ -977,7 +991,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Exp(FeetUnit x) => Math.Exp(x.value);
+        public static FeetUnit Exp(FeetUnit x) => Math.Exp(x.Value);
 
         /// <summary>
         /// 
@@ -985,7 +999,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Floor(FeetUnit x) => Math.Floor(x.value);
+        public static FeetUnit Floor(FeetUnit x) => Math.Floor(x.Value);
 
         /// <summary>
         /// 
@@ -995,7 +1009,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="addend"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit FusedMultiplyAdd(FeetUnit left, FeetUnit right, FeetUnit addend) => Math.FusedMultiplyAdd(left.value, right.value, addend.value);
+        public static FeetUnit FusedMultiplyAdd(FeetUnit left, FeetUnit right, FeetUnit addend) => Math.FusedMultiplyAdd(left.Value, right.Value, addend.Value);
 
         /// <summary>
         /// 
@@ -1004,7 +1018,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="right"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit IEEERemainder(FeetUnit left, FeetUnit right) => Math.IEEERemainder(left.value, right.value);
+        public static FeetUnit IEEERemainder(FeetUnit left, FeetUnit right) => Math.IEEERemainder(left.Value, right.Value);
 
         /// <summary>
         /// 
@@ -1012,7 +1026,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Log(FeetUnit x) => Math.Log(x.value);
+        public static FeetUnit Log(FeetUnit x) => Math.Log(x.Value);
 
         /// <summary>
         /// 
@@ -1021,7 +1035,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="newBase"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Log(FeetUnit x, FeetUnit newBase) => Math.Log(x.value, newBase.value);
+        public static FeetUnit Log(FeetUnit x, FeetUnit newBase) => Math.Log(x.Value, newBase.Value);
 
         /// <summary>
         /// 
@@ -1029,7 +1043,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Log2(FeetUnit x) => Math.Log2(x.value);
+        public static FeetUnit Log2(FeetUnit x) => Math.Log2(x.Value);
 
         /// <summary>
         /// 
@@ -1037,16 +1051,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Log10(FeetUnit x) => Math.Log10(x.value);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        [RequiresPreviewFeatures]
-        public static FeetUnit MaxMagnitude(FeetUnit x, FeetUnit y) => new(Math.MaxMagnitude(x.value, y.value));
+        public static FeetUnit Log10(FeetUnit x) => Math.Log10(x.Value);
 
         /// <summary>
         /// 
@@ -1055,7 +1060,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="y"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit MinMagnitude(FeetUnit x, FeetUnit y) => new(Math.MinMagnitude(x.value, y.value));
+        public static FeetUnit MaxMagnitude(FeetUnit x, FeetUnit y) => new(Math.MaxMagnitude(x.Value, y.Value));
 
         /// <summary>
         /// 
@@ -1064,7 +1069,16 @@ namespace GenericMathPlayground.Physics
         /// <param name="y"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Pow(FeetUnit x, FeetUnit y) => Math.Pow(x.value, y.value);
+        public static FeetUnit MinMagnitude(FeetUnit x, FeetUnit y) => new(Math.MinMagnitude(x.Value, y.Value));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        [RequiresPreviewFeatures]
+        public static FeetUnit Pow(FeetUnit x, FeetUnit y) => Math.Pow(x.Value, y.Value);
 
         /// <summary>
         /// 
@@ -1072,7 +1086,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Round(FeetUnit x) => Math.Round(x.value);
+        public static FeetUnit Round(FeetUnit x) => Math.Round(x.Value);
 
         /// <summary>
         /// 
@@ -1081,7 +1095,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="mode"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Round(FeetUnit x, MidpointRounding mode) => Math.Round(x.value, mode);
+        public static FeetUnit Round(FeetUnit x, MidpointRounding mode) => Math.Round(x.Value, mode);
 
         /// <summary>
         /// 
@@ -1089,7 +1103,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Sin(FeetUnit x) => Math.Sin(x.value);
+        public static FeetUnit Sin(FeetUnit x) => Math.Sin(x.Value);
 
         /// <summary>
         /// 
@@ -1097,7 +1111,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Sinh(FeetUnit x) => Math.Sinh(x.value);
+        public static FeetUnit Sinh(FeetUnit x) => Math.Sinh(x.Value);
 
         /// <summary>
         /// 
@@ -1105,7 +1119,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Sqrt(FeetUnit x) => Math.Sqrt(x.value);
+        public static FeetUnit Sqrt(FeetUnit x) => Math.Sqrt(x.Value);
 
         /// <summary>
         /// 
@@ -1113,7 +1127,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Tan(FeetUnit x) => Math.Tan(x.value);
+        public static FeetUnit Tan(FeetUnit x) => Math.Tan(x.Value);
 
         /// <summary>
         /// 
@@ -1121,7 +1135,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Tanh(FeetUnit x) => Math.Tanh(x.value);
+        public static FeetUnit Tanh(FeetUnit x) => Math.Tanh(x.Value);
 
         /// <summary>
         /// 
@@ -1129,7 +1143,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Truncate(FeetUnit x) => Math.Truncate(x.value);
+        public static FeetUnit Truncate(FeetUnit x) => Math.Truncate(x.Value);
 
         /// <summary>
         /// 
@@ -1137,7 +1151,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="value"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Abs(FeetUnit value) => Math.Abs(value.value);
+        public static FeetUnit Abs(FeetUnit value) => Math.Abs(value.Value);
 
         /// <summary>
         /// 
@@ -1147,7 +1161,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="max"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Clamp(FeetUnit value, FeetUnit min, FeetUnit max) => Math.Clamp(value.value, min.value, max.value);
+        public static FeetUnit Clamp(FeetUnit value, FeetUnit min, FeetUnit max) => Math.Clamp(value.Value, min.Value, max.Value);
 
         /// <summary>
         /// 
@@ -1183,7 +1197,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="right"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static (FeetUnit Quotient, FeetUnit Remainder) DivRem(FeetUnit left, FeetUnit right) => DivRem(left.value, right.value);
+        public static (FeetUnit Quotient, FeetUnit Remainder) DivRem(FeetUnit left, FeetUnit right) => DivRem(left.Value, right.Value);
 
         /// <summary>
         /// 
@@ -1192,7 +1206,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="y"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Max(FeetUnit x, FeetUnit y) => Math.Max(x.value, y.value);
+        public static FeetUnit Max(FeetUnit x, FeetUnit y) => Math.Max(x.Value, y.Value);
 
         /// <summary>
         /// 
@@ -1201,7 +1215,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="y"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Min(FeetUnit x, FeetUnit y) => Math.Min(x.value, y.value);
+        public static FeetUnit Min(FeetUnit x, FeetUnit y) => Math.Min(x.Value, y.Value);
 
         /// <summary>
         /// 
@@ -1209,21 +1223,21 @@ namespace GenericMathPlayground.Physics
         /// <param name="value"></param>
         /// <returns></returns>
         [RequiresPreviewFeatures]
-        public static FeetUnit Sign(FeetUnit value) => Math.Sign(value.value);
+        public static FeetUnit Sign(FeetUnit value) => Math.Sign(value.Value);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public int CompareTo(FeetUnit other) => value.CompareTo(other.value);
+        public int CompareTo(FeetUnit other) => Value.CompareTo(other.Value);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(FeetUnit other) => value.Equals(other.value);
+        public bool Equals(FeetUnit other) => Value.Equals(other.Value);
 
         /// <summary>
         /// 
@@ -1231,7 +1245,7 @@ namespace GenericMathPlayground.Physics
         /// <typeparam name="TInteger"></typeparam>
         /// <param name="x"></param>
         /// <returns></returns>
-        public static TInteger ILogB<TInteger>(FeetUnit x) where TInteger : IBinaryInteger<TInteger> => Operations.Cast<int, TInteger>(Math.ILogB(x.value)) ?? TInteger.Zero;
+        public static TInteger ILogB<TInteger>(FeetUnit x) where TInteger : IBinaryInteger<TInteger> => Operations.Cast<int, TInteger>(Math.ILogB(x.Value)) ?? TInteger.Zero;
 
         /// <summary>
         /// 
@@ -1253,7 +1267,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <param name="digits"></param>
         /// <returns></returns>
-        public static FeetUnit Round<TInteger>(FeetUnit x, TInteger digits) where TInteger : IBinaryInteger<TInteger> => Math.Round(x.value, Operations.Cast<TInteger, int>(digits));
+        public static FeetUnit Round<TInteger>(FeetUnit x, TInteger digits) where TInteger : IBinaryInteger<TInteger> => Math.Round(x.Value, Operations.Cast<TInteger, int>(digits));
 
         /// <summary>
         /// 
@@ -1263,7 +1277,7 @@ namespace GenericMathPlayground.Physics
         /// <param name="digits"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static FeetUnit Round<TInteger>(FeetUnit x, TInteger digits, MidpointRounding mode) where TInteger : IBinaryInteger<TInteger> => Math.Round(x.value, Operations.Cast<TInteger, int>(digits), mode);
+        public static FeetUnit Round<TInteger>(FeetUnit x, TInteger digits, MidpointRounding mode) where TInteger : IBinaryInteger<TInteger> => Math.Round(x.Value, Operations.Cast<TInteger, int>(digits), mode);
 
         /// <summary>
         /// 
@@ -1272,6 +1286,6 @@ namespace GenericMathPlayground.Physics
         /// <param name="x"></param>
         /// <param name="n"></param>
         /// <returns></returns>
-        public static FeetUnit ScaleB<TInteger>(FeetUnit x, TInteger n) where TInteger : IBinaryInteger<TInteger> => Math.ScaleB(x.value, Operations.Cast<TInteger, int>(n));
+        public static FeetUnit ScaleB<TInteger>(FeetUnit x, TInteger n) where TInteger : IBinaryInteger<TInteger> => Math.ScaleB(x.Value, Operations.Cast<TInteger, int>(n));
     }
 }

@@ -10,6 +10,8 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -20,6 +22,7 @@ namespace GenericMathPlayground.Geometry
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public struct ValueSize3<T>
         : ISize3<T>,
@@ -36,17 +39,22 @@ namespace GenericMathPlayground.Geometry
         IIncrementOperators<ValueSize3<T>>,
         IUnaryPlusOperators<ValueSize3<T>, ValueSize3<T>>,
         IAdditionOperators<ValueSize3<T>, IVector3<T>, ValueSize3<T>>,
+        IAdditionOperators2<IVector3<T>, ValueSize3<T>, IVector3<T>>,
         IDecrementOperators<ValueSize3<T>>,
         IUnaryNegationOperators<ValueSize3<T>, ValueSize3<T>>,
         ISubtractionOperators<ValueSize3<T>, IVector3<T>, ValueSize3<T>>,
-        IMultiplyOperators<ValueSize3<T>, T, ValuePoint3<T>>,
+        ISubtractionOperators2<IVector3<T>, ValueSize3<T>, IVector3<T>>,
+        IMultiplyOperators<ValueSize3<T>, T, ValueSize3<T>>,
         IMultiplyOperators<ValueSize3<T>, ValueSize3<T>, ValueSize3<T>>,
         IMultiplyOperators<ValueSize3<T>, IVector3<T>, ValueSize3<T>>,
-        IDivisionOperators<ValueSize3<T>, T, ValuePoint3<T>>,
+        IMultiplyOperators2<IVector3<T>, ValueSize3<T>, IVector3<T>>,
+        IDivisionOperators<ValueSize3<T>, T, ValueSize3<T>>,
         IDivisionOperators<ValueSize3<T>, ValueSize3<T>, ValueSize3<T>>,
         IDivisionOperators<ValueSize3<T>, IVector3<T>, ValueSize3<T>>,
+        IDivisionOperators2<IVector3<T>, ValueSize3<T>, IVector3<T>>,
         IModulusOperators<ValueSize3<T>, T, ValueSize3<T>>,
-        IModulusOperators<ValueSize3<T>, ValueSize3<T>, ValueSize3<T>>
+        IModulusOperators<ValueSize3<T>, ValueSize3<T>, ValueSize3<T>>,
+        IModulusOperators2<IVector3<T>, ValueSize3<T>, IVector3<T>>
         where T : INumber<T>
     {
         #region Constructors
@@ -75,25 +83,29 @@ namespace GenericMathPlayground.Geometry
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public void Deconstruct(out T x, out T y) => (x, y) = this;
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        /// <param name="Depth"></param>
+        public void Deconstruct(out T Width, out T Height, out T Depth) => (Width, Height, Depth) = this;
         #endregion
 
         #region Properties
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T Width { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T Height { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T Depth { get; set; }
 
         /// <summary>
@@ -209,6 +221,14 @@ namespace GenericMathPlayground.Geometry
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static IVector3<T> operator +(IVector3<T> left, ValueSize3<T> right) => new ValuePoint3<T>(left.X + right.Width, left.Y + right.Height, left.Z + right.Depth);
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public static ValueSize3<T> operator --(ValueSize3<T> value) => new(--value.Width, --value.Height, --value.Depth);
@@ -234,7 +254,15 @@ namespace GenericMathPlayground.Geometry
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValuePoint3<T> operator *(ValueSize3<T> left, T right) => new(left.Width * right, left.Height * right, left.Depth * right);
+        public static IVector3<T> operator -(IVector3<T> left, ValueSize3<T> right) => new ValuePoint3<T>(left.X - right.Width, left.Y - right.Height, left.Z - right.Depth);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static ValueSize3<T> operator *(ValueSize3<T> left, T right) => new(left.Width * right, left.Height * right, left.Depth * right);
 
         /// <summary>
         /// 
@@ -258,7 +286,7 @@ namespace GenericMathPlayground.Geometry
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueSize3<T> operator *(IVector3<T> left, ValueSize3<T> right) => new(left.X * right.Width, left.Y * right.Height, left.Z * right.Depth);
+        public static IVector3<T> operator *(IVector3<T> left, ValueSize3<T> right) => new ValuePoint3<T>(left.X * right.Width, left.Y * right.Height, left.Z * right.Depth);
 
         /// <summary>
         /// 
@@ -266,7 +294,7 @@ namespace GenericMathPlayground.Geometry
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValuePoint3<T> operator /(ValueSize3<T> left, T right) => new(left.Width / right, left.Height / right, left.Depth / right);
+        public static ValueSize3<T> operator /(ValueSize3<T> left, T right) => new(left.Width / right, left.Height / right, left.Depth / right);
 
         /// <summary>
         /// 
@@ -290,7 +318,7 @@ namespace GenericMathPlayground.Geometry
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueSize3<T> operator /(IVector3<T> left, ValueSize3<T> right) => new(left.X / right.Width, left.Y / right.Height, left.Z / right.Depth);
+        public static IVector3<T> operator /(IVector3<T> left, ValueSize3<T> right) => new ValuePoint3<T>(left.X / right.Width, left.Y / right.Height, left.Z / right.Depth);
 
         /// <summary>
         /// 
@@ -307,6 +335,26 @@ namespace GenericMathPlayground.Geometry
         /// <param name="right"></param>
         /// <returns></returns>
         public static ValueSize3<T> operator %(ValueSize3<T> left, ValueSize3<T> right) => new(left.Width % right.Width, left.Height % right.Height, left.Depth % right.Depth);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static IVector3<T> operator %(IVector3<T> left, ValueSize3<T> right) => new ValuePoint3<T>(left.X % right.Width, left.Y % right.Height, left.Z % right.Depth);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ValueSize3<T>(ValueVector3<T> value) => new(value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ValueSize3<T>(ValuePoint3<T> value) => new(value);
         #endregion
 
         /// <summary>
@@ -347,14 +395,14 @@ namespace GenericMathPlayground.Geometry
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(ValueSize3<T> other) => Width == other.Width && Height == other.Height && Depth == other.Depth;
+        public bool Equals(ValueSize3<T> other) => Width.Equals(other.Width) && Height.Equals(other.Height) && Depth.Equals(other.Depth);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(IVector3<T>? other) => other is IVector3<T> size && Width == size.X && Height == size.Y && Depth == size.Z;
+        public bool Equals(IVector3<T>? other) => other is IVector3<T> size && Width.Equals(size.X) && Height.Equals(size.Y) && Depth.Equals(size.Z);
 
         /// <summary>
         /// 

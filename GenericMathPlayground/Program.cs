@@ -9,12 +9,13 @@
 // <remarks>
 // </remarks>
 
+using System;
 using System.Windows.Forms;
 
 namespace GenericMathPlayground
 {
     /// <summary>
-    /// 
+    ///  The main entry point class for the application.
     /// </summary>
     internal static class Program
     {
@@ -27,7 +28,8 @@ namespace GenericMathPlayground
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            using var mainForm = new Form1();
+            Application.Run(mainForm);
         }
     }
 }

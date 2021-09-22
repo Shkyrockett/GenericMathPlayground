@@ -9,6 +9,8 @@
 // <remarks>
 // </remarks>
 
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -19,6 +21,7 @@ namespace GenericMathPlayground.Mathematics
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public struct ValueVector2<T>
         : IVector2<T>,
@@ -42,41 +45,53 @@ namespace GenericMathPlayground.Mathematics
         /// 
         /// </summary>
         /// <param name="vector"></param>
-        public ValueVector2(IVector2<T> vector) => (X, Y) = vector;
+        public ValueVector2(IVector2<T> vector) => (I, J) = vector;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="tupple"></param>
-        public ValueVector2((T X, T Y) tupple) => (X, Y) = tupple;
+        public ValueVector2((T I, T J) tupple) => (I, J) = tupple;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public ValueVector2(T x, T y) => (X, Y) = (x, y);
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        public ValueVector2(T i, T j) => (I, J) = (i, j);
         #endregion
 
         #region Deconstructors
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="X"></param>
-        /// <param name="y"></param>
-        public void Deconstruct(out T X, out T y) => (X, y) = (this.X, this.Y);
+        /// <param name="I"></param>
+        /// <param name="J"></param>
+        public void Deconstruct(out T I, out T J) => (I, J) = (this.I, this.J);
         #endregion
 
         #region Properties
         /// <summary>
         /// 
         /// </summary>
-        public T X { get; set; }
+        [RefreshProperties(RefreshProperties.All)]
+        public T I { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public T Y { get; set; }
+        [RefreshProperties(RefreshProperties.All)]
+        public T J { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector2<T>.X { get { return I; } set { I = value; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector2<T>.Y { get { return J; } set { J = value; } }
 
         /// <summary>
         /// 
@@ -135,14 +150,14 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueVector2<T> operator +(ValueVector2<T> left, IVector2<T> right) => new(left.X + right.X, left.Y + right.Y);
+        public static ValueVector2<T> operator +(ValueVector2<T> left, IVector2<T> right) => new(left.I + right.X, left.J + right.Y);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static ValueVector2<T> operator -(ValueVector2<T> value) => new(-value.X, -value.Y);
+        public static ValueVector2<T> operator -(ValueVector2<T> value) => new(-value.I, -value.J);
 
         /// <summary>
         /// 
@@ -150,7 +165,7 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueVector2<T> operator -(ValueVector2<T> left, IVector2<T> right) => new(left.X - right.X, left.Y - right.Y);
+        public static ValueVector2<T> operator -(ValueVector2<T> left, IVector2<T> right) => new(left.I - right.X, left.J - right.Y);
 
         /// <summary>
         /// 
@@ -158,14 +173,14 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueVector2<T> operator *(ValueVector2<T> left, T right) => new(left.X * right, left.Y * right);
+        public static ValueVector2<T> operator *(ValueVector2<T> left, T right) => new(left.I * right, left.J * right);
         #endregion
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode() => HashCode.Combine(X, Y);
+        public override int GetHashCode() => HashCode.Combine(I, J);
 
         /// <summary>
         /// 
@@ -179,14 +194,14 @@ namespace GenericMathPlayground.Mathematics
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(IVector2<T>? other) => other is IVector2<T> vector && X == vector.X && Y == vector.Y;
+        public bool Equals(IVector2<T>? other) => other is IVector2<T> vector && I.Equals(vector.X) && J.Equals(vector.Y);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(ValueVector2<T> other) => X == other.X && Y == other.Y;
+        public bool Equals(ValueVector2<T> other) => I.Equals(other.I) && J.Equals(other.J);
 
         /// <summary>
         /// 
@@ -253,7 +268,7 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="format"></param>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueVector2<T>)}: ({nameof(X)}: {X.ToString(format, formatProvider)}, {nameof(Y)}: {Y.ToString(format, formatProvider)})";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueVector2<T>)}: ({nameof(I)}: {I.ToString(format, formatProvider)}, {nameof(J)}: {J.ToString(format, formatProvider)})";
 
         /// <summary>
         /// 

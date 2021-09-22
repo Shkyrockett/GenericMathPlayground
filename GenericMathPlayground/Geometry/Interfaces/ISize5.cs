@@ -1,4 +1,4 @@
-﻿// <copyright file="IVector3.cs" company="Shkyrockett" >
+﻿// <copyright file="ISize5.cs" company="Shkyrockett" >
 //     Copyright © 2021 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
@@ -9,27 +9,27 @@
 // <remarks>
 // </remarks>
 
-namespace GenericMathPlayground.Mathematics
+using GenericMathPlayground.Mathematics;
+using System;
+
+namespace GenericMathPlayground.Geometry
 {
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IVector3<T>
-        : IVector2<T>
+    public interface ISize5<T>
+        : ISize4<T>, IVector5<T>
         where T : INumber<T>
     {
         /// <summary>
         /// 
         /// </summary>
-        public T Z { get; set; }
+        public T Length { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        /// <param name="Z"></param>
-        public void Deconstruct(out T X, out T Y, out T Z) => (X, Y, Z) = (this.X, this.Y, this.Z);
+        T IVector5<T>.V { get { return Length; } set { Length = value; } }
     }
 }

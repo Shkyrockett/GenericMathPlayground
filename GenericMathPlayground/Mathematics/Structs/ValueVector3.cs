@@ -9,6 +9,8 @@
 // <remarks>
 // </remarks>
 
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -19,6 +21,7 @@ namespace GenericMathPlayground.Mathematics
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public struct ValueVector3<T>
         : IVector3<T>,
@@ -42,48 +45,66 @@ namespace GenericMathPlayground.Mathematics
         /// 
         /// </summary>
         /// <param name="vector"></param>
-        public ValueVector3(IVector3<T> vector) => (X, Y, Z) = vector;
+        public ValueVector3(IVector3<T> vector) => (I, J, K) = vector;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="tupple"></param>
-        public ValueVector3((T X, T Y, T Z) tupple) => (X, Y, Z) = tupple;
+        public ValueVector3((T I, T J, T K) tupple) => (I, J, K) = tupple;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        public ValueVector3(T x, T y, T z) => (X, Y, Z) = (x, y, z);
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="k"></param>
+        public ValueVector3(T i, T j, T k) => (I, J, K) = (i, j, k);
         #endregion
 
         #region Deconstructors
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        /// <param name="Z"></param>
-        public void Deconstruct(out T X, out T Y, out T Z) => (X, Y, Z) = (this.X, this.Y, this.Z);
+        /// <param name="I"></param>
+        /// <param name="J"></param>
+        /// <param name="K"></param>
+        public void Deconstruct(out T I, out T J, out T K) => (I, J, K) = (this.I, this.J, this.K);
         #endregion
 
         #region Properties
         /// <summary>
         /// 
         /// </summary>
-        public T X { get; set; }
+        [RefreshProperties(RefreshProperties.All)]
+        public T I { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public T Y { get; set; }
+        [RefreshProperties(RefreshProperties.All)]
+        public T J { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public T Z { get; set; }
+        [RefreshProperties(RefreshProperties.All)]
+        public T K { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector2<T>.X { get { return I; } set { I = value; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector2<T>.Y { get { return J; } set { J = value; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector3<T>.Z { get { return K; } set { K = value; } }
 
         /// <summary>
         /// 
@@ -142,14 +163,14 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueVector3<T> operator +(ValueVector3<T> left, IVector3<T> right) => new(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+        public static ValueVector3<T> operator +(ValueVector3<T> left, IVector3<T> right) => new(left.I + right.X, left.J + right.Y, left.K + right.Z);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static ValueVector3<T> operator -(ValueVector3<T> value) => new(-value.X, -value.Y, -value.Z);
+        public static ValueVector3<T> operator -(ValueVector3<T> value) => new(-value.I, -value.J, -value.K);
 
         /// <summary>
         /// 
@@ -157,7 +178,7 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueVector3<T> operator -(ValueVector3<T> left, IVector3<T> right) => new(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
+        public static ValueVector3<T> operator -(ValueVector3<T> left, IVector3<T> right) => new(left.I - right.X, left.J - right.Y, left.K - right.Z);
 
         /// <summary>
         /// 
@@ -165,14 +186,14 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueVector3<T> operator *(ValueVector3<T> left, T right) => new(left.X * right, left.Y * right, left.Z * right);
+        public static ValueVector3<T> operator *(ValueVector3<T> left, T right) => new(left.I * right, left.J * right, left.K * right);
         #endregion
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode() => HashCode.Combine(X, Y, Z);
+        public override int GetHashCode() => HashCode.Combine(I, J, K);
 
         /// <summary>
         /// 
@@ -186,14 +207,14 @@ namespace GenericMathPlayground.Mathematics
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(IVector3<T>? other) => other is IVector3<T> vector && X == vector.X && Y == vector.Y && Z == vector.Z;
+        public bool Equals(IVector3<T>? other) => other is IVector3<T> vector && I.Equals(vector.X) && J.Equals(vector.Y) && K.Equals(vector.Z);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(ValueVector3<T> other) => X == other.X && Y == other.Y && Z == other.Z;
+        public bool Equals(ValueVector3<T> other) => I.Equals(other.I) && J.Equals(other.J) && K.Equals(other.K);
 
         /// <summary>
         /// 
@@ -260,7 +281,7 @@ namespace GenericMathPlayground.Mathematics
         /// <param name="format"></param>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueVector3<T>)}: ({nameof(X)}: {X.ToString(format, formatProvider)}, {nameof(Y)}: {Y.ToString(format, formatProvider)}, {nameof(Z)}: {Z.ToString(format, formatProvider)})";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueVector3<T>)}: ({nameof(I)}: {I.ToString(format, formatProvider)}, {nameof(J)}: {J.ToString(format, formatProvider)}, {nameof(K)}: {K.ToString(format, formatProvider)})";
 
         /// <summary>
         /// 

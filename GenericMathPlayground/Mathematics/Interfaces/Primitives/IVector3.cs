@@ -1,4 +1,4 @@
-﻿// <copyright file="IVector2.cs" company="Shkyrockett" >
+﻿// <copyright file="IVector3.cs" company="Shkyrockett" >
 //     Copyright © 2021 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
@@ -9,31 +9,29 @@
 // <remarks>
 // </remarks>
 
+using System;
+
 namespace GenericMathPlayground.Mathematics
 {
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IVector2<T>
-        : IVector<T>
+    public interface IVector3<T>
+        : IVector2<T>
         where T : INumber<T>
     {
         /// <summary>
         /// 
         /// </summary>
-        public T X { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public T Y { get; set; }
+        public T Z { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="X"></param>
         /// <param name="Y"></param>
-        public void Deconstruct(out T X, out T Y) => (X, Y) = (this.X, this.Y);
+        /// <param name="Z"></param>
+        public void Deconstruct(out T X, out T Y, out T Z) => (X, Y, Z) = (this.X, this.Y, this.Z);
     }
 }

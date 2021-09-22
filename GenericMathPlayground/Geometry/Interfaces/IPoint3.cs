@@ -10,6 +10,7 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using System;
 
 namespace GenericMathPlayground.Geometry
 {

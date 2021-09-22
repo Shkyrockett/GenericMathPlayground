@@ -10,6 +10,9 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using GenericMathPlayground.Physics;
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -20,6 +23,8 @@ namespace GenericMathPlayground.Geometry
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    //[TypeConverter(typeof(StructConverter<ValuePoint2<MetersUnit>>))]
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public struct ValuePoint2<T>
         : IPoint2<T>,
@@ -81,11 +86,13 @@ namespace GenericMathPlayground.Geometry
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T X { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T Y { get; set; }
 
         /// <summary>
@@ -267,6 +274,12 @@ namespace GenericMathPlayground.Geometry
         /// <param name="right"></param>
         /// <returns></returns>
         public static ValuePoint2<T> operator %(ValuePoint2<T> left, ValueSize2<T> right) => new(left.X % right.Width, left.Y % right.Height);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ValuePoint2<T>(ValueVector2<T> value) => value;
         #endregion
 
         /// <summary>
@@ -307,14 +320,14 @@ namespace GenericMathPlayground.Geometry
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(ValuePoint2<T> other) => X == other.X && Y == other.Y;
+        public bool Equals(ValuePoint2<T> other) => X.Equals(other.X) && Y.Equals(other.Y);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(IVector2<T>? other) => other is IVector2<T> vector && X == vector.X && Y == vector.Y;
+        public bool Equals(IVector2<T>? other) => other is IVector2<T> vector && X.Equals(vector.X) && Y.Equals(vector.Y);
 
         /// <summary>
         /// 

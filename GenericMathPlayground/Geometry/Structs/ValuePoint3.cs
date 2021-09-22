@@ -10,6 +10,8 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -20,6 +22,7 @@ namespace GenericMathPlayground.Geometry
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public struct ValuePoint3<T>
         : IPoint3<T>,
@@ -83,16 +86,19 @@ namespace GenericMathPlayground.Geometry
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T X { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T Y { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T Z { get; set; }
 
         /// <summary>
@@ -274,6 +280,12 @@ namespace GenericMathPlayground.Geometry
         /// <param name="right"></param>
         /// <returns></returns>
         public static ValuePoint3<T> operator %(ValuePoint3<T> left, ValueSize3<T> right) => new(left.X % right.Width, left.Y % right.Height, left.Z % right.Depth);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ValuePoint3<T>(ValueVector3<T> value) => value;
         #endregion
 
         /// <summary>
@@ -314,14 +326,14 @@ namespace GenericMathPlayground.Geometry
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(ValuePoint3<T> other) => X == other.X && Y == other.Y && Z == other.Z;
+        public bool Equals(ValuePoint3<T> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(IVector3<T>? other) => other is IVector3<T> vector && X == vector.X && Y == vector.Y && Z == vector.Z;
+        public bool Equals(IVector3<T>? other) => other is IVector3<T> vector && X.Equals(vector.X) && Y.Equals(vector.Y) && Z.Equals(vector.Z);
 
         /// <summary>
         /// 

@@ -1,4 +1,4 @@
-﻿// <copyright file="IVector.cs" company="Shkyrockett" >
+﻿// <copyright file="IMatrix.cs" company="Shkyrockett" >
 //     Copyright © 2021 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
@@ -9,13 +9,15 @@
 // <remarks>
 // </remarks>
 
+using System;
+
 namespace GenericMathPlayground.Mathematics
 {
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IVector<T>
+    public interface IMatrix<T>
         where T : INumber<T>
     {
     }

@@ -10,6 +10,8 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -20,6 +22,7 @@ namespace GenericMathPlayground.Geometry
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public struct ValueSize2<T>
         : ISize2<T>,
@@ -36,17 +39,22 @@ namespace GenericMathPlayground.Geometry
         IIncrementOperators<ValueSize2<T>>,
         IUnaryPlusOperators<ValueSize2<T>, ValueSize2<T>>,
         IAdditionOperators<ValueSize2<T>, IVector2<T>, ValueSize2<T>>,
+        IAdditionOperators2<IVector2<T>, ValueSize2<T>, IVector2<T>>,
         IDecrementOperators<ValueSize2<T>>,
         IUnaryNegationOperators<ValueSize2<T>, ValueSize2<T>>,
         ISubtractionOperators<ValueSize2<T>, IVector2<T>, ValueSize2<T>>,
-        IMultiplyOperators<ValueSize2<T>, T, ValuePoint2<T>>,
+        ISubtractionOperators2<IVector2<T>, ValueSize2<T>, IVector2<T>>,
+        IMultiplyOperators<ValueSize2<T>, T, ValueSize2<T>>,
         IMultiplyOperators<ValueSize2<T>, ValueSize2<T>, ValueSize2<T>>,
         IMultiplyOperators<ValueSize2<T>, IVector2<T>, ValueSize2<T>>,
-        IDivisionOperators<ValueSize2<T>, T, ValuePoint2<T>>,
+        IMultiplyOperators2<IVector2<T>, ValueSize2<T>, IVector2<T>>,
+        IDivisionOperators<ValueSize2<T>, T, ValueSize2<T>>,
         IDivisionOperators<ValueSize2<T>, ValueSize2<T>, ValueSize2<T>>,
         IDivisionOperators<ValueSize2<T>, IVector2<T>, ValueSize2<T>>,
+        IDivisionOperators2<IVector2<T>, ValueSize2<T>, IVector2<T>>,
         IModulusOperators<ValueSize2<T>, T, ValueSize2<T>>,
-        IModulusOperators<ValueSize2<T>, ValueSize2<T>, ValueSize2<T>>
+        IModulusOperators<ValueSize2<T>, ValueSize2<T>, ValueSize2<T>>,
+        IModulusOperators2<IVector2<T>, ValueSize2<T>, IVector2<T>>
         where T : INumber<T>
     {
         #region Constructors
@@ -74,20 +82,22 @@ namespace GenericMathPlayground.Geometry
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public void Deconstruct(out T x, out T y) => (x, y) = this;
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        public void Deconstruct(out T Width, out T Height) => (Width, Height) = this;
         #endregion
 
         #region Properties
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T Width { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [RefreshProperties(RefreshProperties.All)]
         public T Height { get; set; }
 
         /// <summary>
@@ -203,6 +213,14 @@ namespace GenericMathPlayground.Geometry
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static IVector2<T> operator +(IVector2<T> left, ValueSize2<T> right) => new ValuePoint2<T>(left.X + right.Width, left.Y + right.Height);
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public static ValueSize2<T> operator --(ValueSize2<T> value) => new(--value.Width, --value.Height);
@@ -228,7 +246,15 @@ namespace GenericMathPlayground.Geometry
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValuePoint2<T> operator *(ValueSize2<T> left, T right) => new(left.Width * right, left.Height * right);
+        public static IVector2<T> operator -(IVector2<T> left, ValueSize2<T> right) => new ValuePoint2<T>(left.X - right.Width, left.Y - right.Height);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static ValueSize2<T> operator *(ValueSize2<T> left, T right) => new(left.Width * right, left.Height * right);
 
         /// <summary>
         /// 
@@ -252,7 +278,7 @@ namespace GenericMathPlayground.Geometry
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueSize2<T> operator *(IVector2<T> left, ValueSize2<T> right) => new(left.X * right.Width, left.Y * right.Height);
+        public static IVector2<T> operator *(IVector2<T> left, ValueSize2<T> right) => new ValuePoint2<T>(left.X * right.Width, left.Y * right.Height);
 
         /// <summary>
         /// 
@@ -260,7 +286,7 @@ namespace GenericMathPlayground.Geometry
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValuePoint2<T> operator /(ValueSize2<T> left, T right) => new(left.Width / right, left.Height / right);
+        public static ValueSize2<T> operator /(ValueSize2<T> left, T right) => new(left.Width / right, left.Height / right);
 
         /// <summary>
         /// 
@@ -284,7 +310,7 @@ namespace GenericMathPlayground.Geometry
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static ValueSize2<T> operator /(IVector2<T> left, ValueSize2<T> right) => new(left.X / right.Width, left.Y / right.Height);
+        public static IVector2<T> operator /(IVector2<T> left, ValueSize2<T> right) => new ValuePoint2<T>(left.X / right.Width, left.Y / right.Height);
 
         /// <summary>
         /// 
@@ -301,6 +327,26 @@ namespace GenericMathPlayground.Geometry
         /// <param name="right"></param>
         /// <returns></returns>
         public static ValueSize2<T> operator %(ValueSize2<T> left, ValueSize2<T> right) => new(left.Width % right.Width, left.Height % right.Height);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static IVector2<T> operator %(IVector2<T> left, ValueSize2<T> right) => new ValuePoint2<T>(left.X % right.Width, left.Y % right.Height);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ValueSize2<T>(ValueVector2<T> value) => new(value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ValueSize2<T>(ValuePoint2<T> value) => new(value);
         #endregion
 
         /// <summary>
@@ -341,14 +387,14 @@ namespace GenericMathPlayground.Geometry
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(ValueSize2<T> other) => Width == other.Width && Height == other.Height;
+        public bool Equals(ValueSize2<T> other) => Width.Equals(other.Width) && Height.Equals(other.Height);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(IVector2<T>? other) => other is IVector2<T> size && Width == size.X && Height == size.Y;
+        public bool Equals(IVector2<T>? other) => other is IVector2<T> size && Width.Equals(size.X) && Height.Equals(size.Y);
 
         /// <summary>
         /// 

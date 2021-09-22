@@ -9,6 +9,7 @@
 // <remarks>
 // </remarks>
 
+using System;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -83,6 +84,12 @@ namespace GenericMathPlayground.Chromatics
         /// <param name="right"></param>
         /// <returns></returns>
         public static bool operator !=(ARGB<T> left, ARGB<T> right) => !(left == right);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ARGB<T>(RGBA<T> value) => value;
         #endregion
 
         /// <summary>
@@ -97,10 +104,7 @@ namespace GenericMathPlayground.Chromatics
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(ARGB<T> other) => EqualityComparer<T>.Default.Equals(A, other.A) &&
-                   EqualityComparer<T>.Default.Equals(R, other.R) &&
-                   EqualityComparer<T>.Default.Equals(G, other.G) &&
-                   EqualityComparer<T>.Default.Equals(B, other.B);
+        public bool Equals(ARGB<T> other) => A.Equals(other.A) && R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B);
 
         /// <summary>
         /// 

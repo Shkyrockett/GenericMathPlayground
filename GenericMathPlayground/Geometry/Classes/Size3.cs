@@ -10,6 +10,7 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using System;
 
 namespace GenericMathPlayground.Geometry
 {
@@ -67,7 +68,8 @@ namespace GenericMathPlayground.Geometry
         /// </summary>
         /// <param name="Width"></param>
         /// <param name="Height"></param>
-        public void Deconstruct(out T Width, out T Height) => (Width, Height) = value;
+        /// <param name="Depth"></param>
+        public void Deconstruct(out T Width, out T Height, out T Depth) => (Width, Height, Depth) = value;
         #endregion
 
         #region Properties

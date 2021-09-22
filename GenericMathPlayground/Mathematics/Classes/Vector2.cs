@@ -10,8 +10,9 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
+using System;
 
-namespace GenericMathPlayground.Geometry
+namespace GenericMathPlayground.Mathematics
 {
     /// <summary>
     /// 
@@ -50,23 +51,23 @@ namespace GenericMathPlayground.Geometry
         /// 
         /// </summary>
         /// <param name="tuple"></param>
-        public Vector2((T X, T Y) tuple) => value = new(tuple);
+        public Vector2((T I, T J) tuple) => value = new(tuple);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public Vector2(T x, T y) => value = new(x, y);
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        public Vector2(T i, T j) => value = new(i, j);
         #endregion
 
         #region Deconstructors
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        public void Deconstruct(out T X, out T Y) => (X, Y) = value;
+        /// <param name="I"></param>
+        /// <param name="J"></param>
+        public void Deconstruct(out T I, out T J) => (I, J) = value;
         #endregion
 
         #region Properties
@@ -78,12 +79,22 @@ namespace GenericMathPlayground.Geometry
         /// <summary>
         /// 
         /// </summary>
-        public T X { get { return value.X; } set { this.value.X = value; } }
+        public T I { get { return value.I; } set { this.value.I = value; } }
 
         /// <summary>
         /// 
         /// </summary>
-        public T Y { get { return value.Y; } set { this.value.Y = value; } }
+        public T J { get { return value.J; } set { this.value.J = value; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector2<T>.X { get { return I; } set { I = value; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        T IVector2<T>.Y { get { return J; } set { J = value; } }
         #endregion
 
         #region Operators
