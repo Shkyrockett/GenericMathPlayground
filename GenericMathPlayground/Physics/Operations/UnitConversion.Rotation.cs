@@ -9,6 +9,9 @@
 // <remarks>
 // </remarks>
 
+using System;
+using System.Collections.Generic;
+
 namespace GenericMathPlayground.Physics;
 
 /// <summary>
@@ -16,4 +19,12 @@ namespace GenericMathPlayground.Physics;
 /// </summary>
 public static partial class UnitConversion
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public static readonly Dictionary<Type, double> RadianRotationUnitConversions = new()
+    {
+        //[typeof(DegreesUnit)] = 180d / Math.PI,
+        //[typeof(RadiansUnit)] = 1d,
+    };
 }

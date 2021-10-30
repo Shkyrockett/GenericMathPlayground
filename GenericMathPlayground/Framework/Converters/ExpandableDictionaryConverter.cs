@@ -13,65 +13,64 @@ using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace GenericMathPlayground.Framework
+namespace GenericMathPlayground.Framework;
+
+/// <summary>
+/// The expandable dictionary converter class.
+/// </summary>
+/// <seealso cref="CollectionConverter" />
+/// <acknowledgment>
+/// http://stackoverflow.com/questions/32582504/propertygrid-expandable-collection
+/// </acknowledgment>
+public class ExpandableDictionaryConverter
+    : CollectionConverter
 {
+    #region Methods
     /// <summary>
-    /// The expandable dictionary converter class.
+    /// Convert the to.
     /// </summary>
-    /// <seealso cref="CollectionConverter" />
-    /// <acknowledgment>
-    /// http://stackoverflow.com/questions/32582504/propertygrid-expandable-collection
-    /// </acknowledgment>
-    public class ExpandableDictionaryConverter
-        : CollectionConverter
+    /// <param name="context">The context.</param>
+    /// <param name="culture">The culture.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="destType">The destType.</param>
+    /// <returns>
+    /// The <see cref="object" />.
+    /// </returns>
+    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destType) => destType == typeof(string) ? "[Key, Value]" : base.ConvertTo(context, culture, value, destType);
+
+    /// <summary>
+    /// Get the properties supported.
+    /// </summary>
+    /// <param name="context">The context.</param>
+    /// <returns>
+    /// The <see cref="bool" />.
+    /// </returns>
+    public override bool GetPropertiesSupported(ITypeDescriptorContext? context) => true;
+
+    /// <summary>
+    /// Get the properties.
+    /// </summary>
+    /// <param name="context">The context.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="attributes">The attributes.</param>
+    /// <returns>
+    /// The <see cref="PropertyDescriptorCollection" />.
+    /// </returns>
+    public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext? context, object value, Attribute[]? attributes)
     {
-        #region Methods
-        /// <summary>
-        /// Convert the to.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="culture">The culture.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="destType">The destType.</param>
-        /// <returns>
-        /// The <see cref="object" />.
-        /// </returns>
-        public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destType) => destType == typeof(string) ? "[Key, Value]" : base.ConvertTo(context, culture, value, destType);
-
-        /// <summary>
-        /// Get the properties supported.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <returns>
-        /// The <see cref="bool" />.
-        /// </returns>
-        public override bool GetPropertiesSupported(ITypeDescriptorContext? context) => true;
-
-        /// <summary>
-        /// Get the properties.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="attributes">The attributes.</param>
-        /// <returns>
-        /// The <see cref="PropertyDescriptorCollection" />.
-        /// </returns>
-        public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext? context, object value, Attribute[]? attributes)
+        if (value is not IDictionary dictionary || dictionary.Count == 0)
         {
-            if (value is not IDictionary dictionary || dictionary.Count == 0)
-            {
-                return base.GetProperties(context, value, attributes);
-            }
-
-            var items = new PropertyDescriptorCollection(null);
-
-            foreach (var key in dictionary.Keys)
-            {
-                items.Add(new ExpandableDictionaryPropertyDescriptor(dictionary, key));
-            }
-
-            return items;
+            return base.GetProperties(context, value, attributes);
         }
-        #endregion Methods
+
+        var items = new PropertyDescriptorCollection(null);
+
+        foreach (var key in dictionary.Keys)
+        {
+            items.Add(new ExpandableDictionaryPropertyDescriptor(dictionary, key));
+        }
+
+        return items;
     }
+    #endregion Methods
 }

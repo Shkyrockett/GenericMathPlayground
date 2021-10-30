@@ -11,14 +11,13 @@
 
 using System;
 
-namespace GenericMathPlayground.Chromatics
+namespace GenericMathPlayground.Chromatics;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface IColor<T>
+    where T : INumber<T>
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IColor<T>
-        where T : INumber<T>
-    {
-    }
 }

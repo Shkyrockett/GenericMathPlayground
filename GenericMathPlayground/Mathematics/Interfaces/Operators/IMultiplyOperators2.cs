@@ -11,23 +11,22 @@
 
 using System.Runtime.Versioning;
 
-namespace GenericMathPlayground.Mathematics
+namespace GenericMathPlayground.Mathematics;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="TOther"></typeparam>
+/// <typeparam name="TSelf"></typeparam>
+/// <typeparam name="TResult"></typeparam>
+[RequiresPreviewFeatures]
+public interface IMultiplyOperators2<TOther, TSelf, TResult> where TSelf : IMultiplyOperators2<TOther, TSelf, TResult>
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TOther"></typeparam>
-    /// <typeparam name="TSelf"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    [RequiresPreviewFeatures]
-    public interface IMultiplyOperators2<TOther, TSelf, TResult> where TSelf : IMultiplyOperators2<TOther, TSelf, TResult>
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        static abstract TResult operator *(TOther left, TSelf right);
-    }
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    static abstract TResult operator *(TOther left, TSelf right);
 }

@@ -12,66 +12,65 @@
 using System;
 using System.Reflection;
 
-namespace GenericMathPlayground.Framework
+namespace GenericMathPlayground.Framework;
+
+/// <summary>
+/// The instance constructor attribute class.
+/// </summary>
+/// <seealso cref="Attribute" />
+[AttributeUsage(AttributeTargets.Constructor, Inherited = false, AllowMultiple = false)]
+public sealed class InstanceConstructorAttribute
+    : Attribute
 {
     /// <summary>
-    /// The instance constructor attribute class.
+    /// Initializes a new instance of the <see cref="InstanceConstructorAttribute" /> class.
     /// </summary>
-    /// <seealso cref="Attribute" />
-    [AttributeUsage(AttributeTargets.Constructor, Inherited = false, AllowMultiple = false)]
-    public sealed class InstanceConstructorAttribute
-        : Attribute
+    /// <param name="parameterNames">The parameterNames.</param>
+    public InstanceConstructorAttribute(string parameterNames)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InstanceConstructorAttribute" /> class.
-        /// </summary>
-        /// <param name="parameterNames">The parameterNames.</param>
-        public InstanceConstructorAttribute(string parameterNames)
-        {
-            ParameterNames = parameterNames?.Split(',') ?? Array.Empty<string>();
-        }
+        ParameterNames = parameterNames?.Split(',') ?? Array.Empty<string>();
+    }
 
-        /// <summary>
-        /// Gets the parameter names.
-        /// </summary>
-        /// <value>
-        /// The parameter names.
-        /// </value>
-        public string[] ParameterNames { get; }
+    /// <summary>
+    /// Gets the parameter names.
+    /// </summary>
+    /// <value>
+    /// The parameter names.
+    /// </value>
+    public string[] ParameterNames { get; }
 
-        /// <summary>
-        /// Get the constructor.
-        /// </summary>
-        /// <param name="t">The t.</param>
-        /// <param name="paramNames">The paramNames.</param>
-        /// <returns>
-        /// The <see cref="ConstructorInfo" />.
-        /// </returns>
-        public static ConstructorInfo? GetConstructor(Type t, out string[]? paramNames)
+    /// <summary>
+    /// Get the constructor.
+    /// </summary>
+    /// <param name="t">The t.</param>
+    /// <param name="paramNames">The paramNames.</param>
+    /// <returns>
+    /// The <see cref="ConstructorInfo" />.
+    /// </returns>
+    public static ConstructorInfo? GetConstructor(Type t, out string[]? paramNames)
+    {
+        if (t is not null)
         {
-            if (t is not null)
+            foreach (var method in t.GetConstructors())
             {
-                foreach (var method in t.GetConstructors())
+                if (method is not null)
                 {
-                    if (method is not null)
-                    {
-                        var atts = method?.GetCustomAttributes(typeof(InstanceConstructorAttribute), true);
+                    var atts = method?.GetCustomAttributes(typeof(InstanceConstructorAttribute), true);
 
-                        if (atts is not null && atts.Length > 0)
+                    if (atts is not null && atts.Length > 0)
+                    {
+                        var att = (InstanceConstructorAttribute)atts[0];
+                        if (method?.GetParameters().Length == att.ParameterNames.Length)
                         {
-                            var att = (InstanceConstructorAttribute)atts[0];
-                            if (method?.GetParameters().Length == att.ParameterNames.Length)
-                            {
-                                paramNames = att.ParameterNames;
-                                return method;
-                            }
+                            paramNames = att.ParameterNames;
+                            return method;
                         }
                     }
                 }
             }
-
-            paramNames = null;
-            return null;
         }
+
+        paramNames = null;
+        return null;
     }
 }

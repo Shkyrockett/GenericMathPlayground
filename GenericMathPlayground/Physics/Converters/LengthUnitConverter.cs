@@ -9,106 +9,105 @@
 // <remarks>
 // </remarks>
 
-using GenericMathPlayground.Physics;
 using GenericMathPlayground.Text;
 using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace GenericMathPlayground.Physics
+namespace GenericMathPlayground.Physics;
+
+/// <summary>
+/// Provides a type converter to convert double-precision, floating point number objects
+/// to and from various other representations.
+/// </summary>
+public class LengthUnitConverter<TType>
+    : TypeConverter
+    where TType : IParseable<TType>, IFloatingPoint<TType>
 {
+    #region Constructors
     /// <summary>
-    /// Provides a type converter to convert double-precision, floating point number objects
-    /// to and from various other representations.
+    /// 
     /// </summary>
-    public class LengthUnitConverter<TType>
-        : TypeConverter
-        where TType : IParseable<TType>, IFloatingPoint<TType>
+    public LengthUnitConverter()
+    { }
+    #endregion
+
+    #region Overrides
+    /// <summary>
+    /// Gets a value indicating whether this converter can convert an object in the
+    /// given source type to the TargetType object using the specified context.
+    /// </summary>
+    public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType) => sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+
+    /// <summary>
+    /// Converts the given value object to an object of Type TargetType.
+    /// </summary>
+    public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
     {
-        #region Constructors
-        /// <summary>
-        /// 
-        /// </summary>
-        public LengthUnitConverter()
-        { }
-        #endregion
-
-        #region Overrides
-        /// <summary>
-        /// Gets a value indicating whether this converter can convert an object in the
-        /// given source type to the TargetType object using the specified context.
-        /// </summary>
-        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType) => sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-
-        /// <summary>
-        /// Converts the given value object to an object of Type TargetType.
-        /// </summary>
-        public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
+        if (value is string text)
         {
-            if (value is string text)
-            {
-                text = text.Trim();
+            text = text.Trim();
 
-                try
-                {
-                    culture ??= CultureInfo.CurrentCulture;
-                    var formatInfo = (NumberFormatInfo?)culture.GetFormat(typeof(NumberFormatInfo));
-                    return FromString(text, formatInfo);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+            try
+            {
+                culture ??= CultureInfo.CurrentCulture;
+                var formatInfo = (NumberFormatInfo?)culture.GetFormat(typeof(NumberFormatInfo));
+                return FromString(text, formatInfo);
             }
-
-            return base.ConvertFrom(context, culture, value);
-        }
-
-        /// <summary>
-        /// Converts the given value object to the destination type.
-        /// </summary>
-        public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
-        {
-            return destinationType switch
+            catch (Exception)
             {
-                null => throw new ArgumentNullException(nameof(destinationType)),
-                Type _ when destinationType == typeof(string) && value is not null && typeof(TType).IsInstanceOfType(value) => LengthUnitConverter<TType>.ToString(value, (NumberFormatInfo?)(culture ?? CultureInfo.CurrentCulture).GetFormat(typeof(NumberFormatInfo))),
-                Type d when d.IsPrimitive => Convert.ChangeType(value, d, culture),
-                Type t when typeof(ILengthUnit).IsAssignableFrom(t) && value is ILengthUnit v => t.GetConstructor(new[] { typeof(double) })?.Invoke(new object[] { UnitConversion.ConvertToUnit(v.Value, typeof(TType), t) }),
-                _ => base.ConvertTo(context, culture, value, destinationType),
-            };
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="destinationType"></param>
-        /// <returns></returns>
-        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
-        {
-            if (destinationType is not null && destinationType.IsPrimitive)
-            {
-                return true;
+                throw;
             }
-
-            return base.CanConvertTo(context, destinationType);
         }
-        #endregion
 
-        /// <summary>
-        /// Convert the given value from a string using the given formatInfo
-        /// </summary>
-        internal static string ToString(object value, NumberFormatInfo? formatInfo) => ((TType)value).ToString("R", formatInfo);
+        return base.ConvertFrom(context, culture, value);
+    }
 
-        /// <summary>
-        /// Convert the given value to a string using the given formatInfo
-        /// </summary>
-        internal static TType FromString(string value, NumberFormatInfo? formatInfo)
+    /// <summary>
+    /// Converts the given value object to the destination type.
+    /// </summary>
+    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType) => destinationType switch
+    {
+        null => throw new ArgumentNullException(nameof(destinationType)),
+        var _ when destinationType == typeof(string) && value is not null && typeof(TType).IsInstanceOfType(value) => LengthUnitConverter<TType>.ToString(value, (NumberFormatInfo?)(culture ?? CultureInfo.CurrentCulture).GetFormat(typeof(NumberFormatInfo))),
+        var d when d.IsPrimitive => Convert.ChangeType(value, d, culture),
+        var t when typeof(ILengthUnit).IsAssignableFrom(t) && value is ILengthUnit v => t.GetConstructor(new[] { typeof(double) })?.Invoke(new object[] { UnitConversion.ConvertToUnit(v.Value, typeof(TType), t) }),
+        _ => base.ConvertTo(context, culture, value, destinationType),
+    };
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="destinationType"></param>
+    /// <returns></returns>
+    public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
+    {
+        if (destinationType is not null && destinationType.IsPrimitive)
         {
-            var token = TextManipulation.GetFirstWord(value);
-            if (token is null) return TType.NaN;
-            return TType.Parse(token, formatInfo);
+            return true;
         }
+
+        return base.CanConvertTo(context, destinationType);
+    }
+    #endregion
+
+    /// <summary>
+    /// Convert the given value from a string using the given formatInfo
+    /// </summary>
+    internal static string ToString(object value, NumberFormatInfo? formatInfo) => ((TType)value).ToString("R", formatInfo);
+
+    /// <summary>
+    /// Convert the given value to a string using the given formatInfo
+    /// </summary>
+    internal static TType FromString(string value, NumberFormatInfo? formatInfo)
+    {
+        var token = TextManipulation.GetFirstWord(value);
+        if (token is null)
+        {
+            return TType.NaN;
+        }
+
+        return TType.Parse(token, formatInfo);
     }
 }

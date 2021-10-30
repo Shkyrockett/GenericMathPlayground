@@ -11,101 +11,114 @@
 
 using GenericMathPlayground.Mathematics;
 using System;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
-namespace GenericMathPlayground.Geometry
+namespace GenericMathPlayground.Geometry;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class Size3<T>
+    : ISize3<T>
+    where T : INumber<T>
 {
+    #region Fields
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class Size3<T>
-        : ISize3<T>
-        where T : INumber<T>
-    {
-        #region Fields
-        /// <summary>
-        /// 
-        /// </summary>
-        private ValueSize3<T> value;
-        #endregion
+    private ValueSize3<T> value;
+    #endregion
 
-        #region Constructors
-        /// <summary>
-        /// 
-        /// </summary>
-        public Size3() => value = new();
+    #region Constructors
+    /// <summary>
+    /// 
+    /// </summary>
+    public Size3() => value = new();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        public Size3(ValueSize3<T> value) => this.value = value;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    public Size3(ValueSize3<T> value) => this.value = value;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        public Size3(IVector3<T> value) => this.value = new(value);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    public Size3(IVector3<T> value) => this.value = new(value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tuple"></param>
-        public Size3((T Width, T Height, T Depth) tuple) => value = new(tuple);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="tuple"></param>
+    public Size3((T Width, T Height, T Depth) tuple) => value = new(tuple);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="depth"></param>
-        public Size3(T width, T height, T depth) => value = new(width, height, depth);
-        #endregion
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <param name="depth"></param>
+    public Size3(T width, T height, T depth) => value = new(width, height, depth);
+    #endregion
 
-        #region Deconstructors
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Width"></param>
-        /// <param name="Height"></param>
-        /// <param name="Depth"></param>
-        public void Deconstruct(out T Width, out T Height, out T Depth) => (Width, Height, Depth) = value;
-        #endregion
+    #region Deconstructors
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="Width"></param>
+    /// <param name="Height"></param>
+    /// <param name="Depth"></param>
+    public void Deconstruct(out T Width, out T Height, out T Depth) => (Width, Height, Depth) = value;
+    #endregion
 
-        #region Properties
-        /// <summary>
-        /// 
-        /// </summary>
-        public ValueSize3<T> Value { get { return value; } set { this.value = value; } }
+    #region Properties
+    /// <summary>
+    /// 
+    /// </summary>
+    public ValueSize3<T> Value { get { return value; } set { this.value = value; } }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public T Width { get { return value.Width; } set { this.value.Width = value; } }
+    /// <summary>
+    /// 
+    /// </summary>
+    public T Width { get { return value.Width; } set { this.value.Width = value; } }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public T Height { get { return value.Height; } set { this.value.Height = value; } }
+    /// <summary>
+    /// 
+    /// </summary>
+    public T Height { get { return value.Height; } set { this.value.Height = value; } }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public T Depth { get { return value.Depth; } set { this.value.Depth = value; } }
-        #endregion
+    /// <summary>
+    /// 
+    /// </summary>
+    public T Depth { get { return value.Depth; } set { this.value.Depth = value; } }
 
-        #region Operators
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        public static implicit operator ValueSize3<T>(Size3<T> value) => value;
+    /// <summary>
+    /// 
+    /// </summary>
+    [IgnoreDataMember, XmlIgnore, SoapIgnore]
+    public T[] Items { get { return new T[] { Width, Height, Depth }; } set { (Width, Height, Depth) = (value[0], value[1], value[2]); } }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        public static explicit operator Size3<T>(ValueSize3<T> value) => new(value);
-        #endregion
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    [IgnoreDataMember, XmlIgnore, SoapIgnore]
+    public int Count => value.Count;
+    #endregion
+
+    #region Operators
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    public static implicit operator ValueSize3<T>(Size3<T> value) => value;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    public static explicit operator Size3<T>(ValueSize3<T> value) => new(value);
+    #endregion
 }

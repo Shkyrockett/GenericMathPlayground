@@ -11,52 +11,51 @@
 
 using System;
 
-namespace GenericMathPlayground.Framework
+namespace GenericMathPlayground.Framework;
+
+/// <summary>
+/// The adv browsable order attribute class.
+/// </summary>
+/// <seealso cref="Attribute" />
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+public sealed class AdvBrowsableOrderAttribute
+    : Attribute
 {
     /// <summary>
-    /// The adv browsable order attribute class.
+    /// Initializes a new instance of the <see cref="AdvBrowsableOrderAttribute" /> class.
     /// </summary>
-    /// <seealso cref="Attribute" />
-    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public sealed class AdvBrowsableOrderAttribute
-        : Attribute
+    /// <param name="order">The order.</param>
+    public AdvBrowsableOrderAttribute(string order)
+        : this(order?.Split(',') ?? Array.Empty<string>())
+    { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AdvBrowsableOrderAttribute" /> class.
+    /// </summary>
+    /// <param name="order">The order.</param>
+    public AdvBrowsableOrderAttribute(params string[] order)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AdvBrowsableOrderAttribute" /> class.
-        /// </summary>
-        /// <param name="order">The order.</param>
-        public AdvBrowsableOrderAttribute(string order)
-            : this(order?.Split(',') ?? Array.Empty<string>())
-        { }
+        Order = order;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AdvBrowsableOrderAttribute" /> class.
-        /// </summary>
-        /// <param name="order">The order.</param>
-        public AdvBrowsableOrderAttribute(params string[] order)
-        {
-            Order = order;
-        }
+    /// <summary>
+    /// Gets the order.
+    /// </summary>
+    /// <value>
+    /// The order.
+    /// </value>
+    public string[] Order { get; }
 
-        /// <summary>
-        /// Gets the order.
-        /// </summary>
-        /// <value>
-        /// The order.
-        /// </value>
-        public string[] Order { get; }
-
-        /// <summary>
-        /// Get the order.
-        /// </summary>
-        /// <param name="t">The t.</param>
-        /// <returns>
-        /// The <see cref="Array" />.
-        /// </returns>
-        public static string[] GetOrder(Type t)
-        {
-            var arr = t?.GetCustomAttributes(typeof(AdvBrowsableOrderAttribute), false);
-            return arr?.Length > 0 ? ((AdvBrowsableOrderAttribute)arr[0]).Order : Array.Empty<string>();
-        }
+    /// <summary>
+    /// Get the order.
+    /// </summary>
+    /// <param name="t">The t.</param>
+    /// <returns>
+    /// The <see cref="Array" />.
+    /// </returns>
+    public static string[] GetOrder(Type t)
+    {
+        var arr = t?.GetCustomAttributes(typeof(AdvBrowsableOrderAttribute), false);
+        return arr?.Length > 0 ? ((AdvBrowsableOrderAttribute)arr[0]).Order : Array.Empty<string>();
     }
 }

@@ -12,15 +12,14 @@
 using GenericMathPlayground.Mathematics;
 using System;
 
-namespace GenericMathPlayground.Geometry
+namespace GenericMathPlayground.Geometry;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface IPoint3<T>
+    : IPoint<T>, IVector3<T>
+    where T : INumber<T>
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IPoint3<T>
-        : IPoint<T>, IVector3<T>
-        where T : INumber<T>
-    {
-    }
 }

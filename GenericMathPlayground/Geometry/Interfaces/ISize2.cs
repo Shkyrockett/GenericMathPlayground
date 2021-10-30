@@ -12,34 +12,33 @@
 using GenericMathPlayground.Mathematics;
 using System;
 
-namespace GenericMathPlayground.Geometry
+namespace GenericMathPlayground.Geometry;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface ISize2<T>
+    : ISize<T>, IVector2<T>
+    where T : INumber<T>
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface ISize2<T>
-        : ISize<T>, IVector2<T>
-        where T : INumber<T>
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public T Width { get; set; }
+    public T Width { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public T Height { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public T Height { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        T IVector2<T>.X { get { return Width; } set { Width = value; } }
+    /// <summary>
+    /// 
+    /// </summary>
+    T IVector2<T>.X { get { return Width; } set { Width = value; } }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        T IVector2<T>.Y { get { return Height; } set { Height = value; } }
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    T IVector2<T>.Y { get { return Height; } set { Height = value; } }
 }

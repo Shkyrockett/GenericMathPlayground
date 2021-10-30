@@ -9,16 +9,15 @@
 // <remarks>
 // </remarks>
 
-namespace GenericMathPlayground.Physics
+namespace GenericMathPlayground.Physics;
+
+/// <summary>
+/// 
+/// </summary>
+public interface IRotationalUnit
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IRotationalUnit
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        double Value { get; }
-    }
+    double Value { get; }
 }

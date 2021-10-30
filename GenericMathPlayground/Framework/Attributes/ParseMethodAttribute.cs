@@ -12,41 +12,40 @@
 using System;
 using System.Reflection;
 
-namespace GenericMathPlayground.Framework
+namespace GenericMathPlayground.Framework;
+
+/// <summary>
+/// The parse method attribute class.
+/// </summary>
+/// <seealso cref="Attribute" />
+[AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
+public sealed class ParseMethodAttribute
+    : Attribute
 {
     /// <summary>
-    /// The parse method attribute class.
+    /// Get the parse method.
     /// </summary>
-    /// <seealso cref="Attribute" />
-    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-    public sealed class ParseMethodAttribute
-        : Attribute
+    /// <param name="t">The t.</param>
+    /// <returns>
+    /// The <see cref="MethodInfo" />.
+    /// </returns>
+    public static MethodInfo? GetParseMethod(Type t)
     {
-        /// <summary>
-        /// Get the parse method.
-        /// </summary>
-        /// <param name="t">The t.</param>
-        /// <returns>
-        /// The <see cref="MethodInfo" />.
-        /// </returns>
-        public static MethodInfo? GetParseMethod(Type t)
+        if (t is not null)
         {
-            if (t is not null)
+            foreach (var method in t.GetMethods())
             {
-                foreach (var method in t.GetMethods())
+                if (method.IsStatic &&
+                    method.GetCustomAttributes(typeof(ParseMethodAttribute), true).Length > 0 &&
+                    method.GetParameters().Length == 1 &&
+                    method.GetParameters()[0].ParameterType == typeof(string) &&
+                    method.ReturnType == t)
                 {
-                    if (method.IsStatic &&
-                        method.GetCustomAttributes(typeof(ParseMethodAttribute), true).Length > 0 &&
-                        method.GetParameters().Length == 1 &&
-                        method.GetParameters()[0].ParameterType == typeof(string) &&
-                        method.ReturnType == t)
-                    {
-                        return method;
-                    }
+                    return method;
                 }
             }
-
-            return null;
         }
+
+        return null;
     }
 }

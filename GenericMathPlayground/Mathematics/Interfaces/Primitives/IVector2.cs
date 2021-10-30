@@ -11,31 +11,30 @@
 
 using System;
 
-namespace GenericMathPlayground.Mathematics
+namespace GenericMathPlayground.Mathematics;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface IVector2<T>
+    : IVector<T>
+    where T : INumber<T>
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IVector2<T>
-        : IVector<T>
-        where T : INumber<T>
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public T X { get; set; }
+    public T X { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public T Y { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public T Y { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        public void Deconstruct(out T X, out T Y) => (X, Y) = (this.X, this.Y);
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="X"></param>
+    /// <param name="Y"></param>
+    public void Deconstruct(out T X, out T Y) => (X, Y) = (this.X, this.Y);
 }

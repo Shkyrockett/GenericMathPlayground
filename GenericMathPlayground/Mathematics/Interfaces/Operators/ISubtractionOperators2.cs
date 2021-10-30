@@ -11,24 +11,23 @@
 
 using System.Runtime.Versioning;
 
-namespace GenericMathPlayground.Mathematics
+namespace GenericMathPlayground.Mathematics;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="TSelf"></typeparam>
+/// <typeparam name="TOther"></typeparam>
+/// <typeparam name="TResult"></typeparam>
+[RequiresPreviewFeatures]
+public interface ISubtractionOperators2<TOther, TSelf, TResult>
+    where TSelf : ISubtractionOperators2<TOther, TSelf, TResult>
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TSelf"></typeparam>
-    /// <typeparam name="TOther"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    [RequiresPreviewFeatures]
-    public interface ISubtractionOperators2<TOther, TSelf, TResult>
-        where TSelf : ISubtractionOperators2<TOther, TSelf, TResult>
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        static abstract TResult operator -(TOther left, TSelf right);
-    }
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    static abstract TResult operator -(TOther left, TSelf right);
 }

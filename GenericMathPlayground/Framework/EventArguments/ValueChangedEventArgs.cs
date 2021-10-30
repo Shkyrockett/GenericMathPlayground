@@ -10,26 +10,25 @@
 
 using System;
 
-namespace GenericMathPlayground.Framework
+namespace GenericMathPlayground.Framework;
+
+/// <summary>
+/// The value changed event args class.
+/// </summary>
+public class ValueChangedEventArgs
+    : EventArgs
 {
     /// <summary>
-    /// The value changed event args class.
+    /// Initializes a new instance of the <see cref="ValueChangedEventArgs"/> class.
     /// </summary>
-    public class ValueChangedEventArgs
-        : EventArgs
+    /// <param name="value">The value.</param>
+    public ValueChangedEventArgs(double value)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ValueChangedEventArgs"/> class.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        public ValueChangedEventArgs(double value)
-        {
-            Value = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        public double Value { get; set; }
+        Value = value;
     }
+
+    /// <summary>
+    /// Gets or sets the value.
+    /// </summary>
+    public double Value { get; set; }
 }

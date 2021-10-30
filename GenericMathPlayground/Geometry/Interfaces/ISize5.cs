@@ -12,24 +12,23 @@
 using GenericMathPlayground.Mathematics;
 using System;
 
-namespace GenericMathPlayground.Geometry
+namespace GenericMathPlayground.Geometry;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface ISize5<T>
+    : ISize4<T>, IVector5<T>
+    where T : INumber<T>
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface ISize5<T>
-        : ISize4<T>, IVector5<T>
-        where T : INumber<T>
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public T Length { get; set; }
+    public T Length { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        T IVector5<T>.V { get { return Length; } set { Length = value; } }
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    T IVector5<T>.V { get { return Length; } set { Length = value; } }
 }

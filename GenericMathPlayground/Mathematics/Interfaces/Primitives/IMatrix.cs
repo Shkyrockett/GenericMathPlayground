@@ -10,15 +10,44 @@
 // </remarks>
 
 using System;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
-namespace GenericMathPlayground.Mathematics
+namespace GenericMathPlayground.Mathematics;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface IMatrix<T>
+    where T : INumber<T>
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IMatrix<T>
-        where T : INumber<T>
-    {
-    }
+    T[,] Items { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [IgnoreDataMember, XmlIgnore, SoapIgnore]
+    int Rows { get; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [IgnoreDataMember, XmlIgnore, SoapIgnore]
+    int Columns { get; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [IgnoreDataMember, XmlIgnore, SoapIgnore]
+    public int Count => Rows * Columns;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [IgnoreDataMember, XmlIgnore, SoapIgnore]
+    T Determinant { get; }
 }

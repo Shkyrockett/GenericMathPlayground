@@ -9,37 +9,54 @@
 // <remarks>
 // </remarks>
 
-namespace GenericMathPlayground
+namespace GenericMathPlayground;
+
+/// <summary>
+/// 
+/// </summary>
+partial class Form1
 {
-    partial class Form1
+    /// <summary>
+    ///  Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private System.Windows.Forms.PropertyGrid propertyGrid1;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private System.Windows.Forms.SplitContainer splitContainer1;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private System.Windows.Forms.TextBox textBox1;
+
+    /// <summary>
+    ///  Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        if (disposing && (components is not null))
         {
-            if (disposing && (components is not null))
-            {
-                components.Dispose();
-            }
-
-            base.Dispose(disposing);
+            components.Dispose();
         }
 
-        #region Windows Form Designer generated code
+        base.Dispose(disposing);
+    }
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+    #region Windows Form Designer generated code
+    /// <summary>
+    ///  Required method for Designer support - do not modify
+    ///  the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -92,8 +109,9 @@ namespace GenericMathPlayground
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
+            this.DoubleBuffered = true;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Generic Math Playground";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -101,12 +119,21 @@ namespace GenericMathPlayground
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
-        }
+    }
+    #endregion
 
-        #endregion
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TextBox textBox1;
+    /// <summary>
+    /// Set an arbitrary control to double-buffer.
+    /// </summary>
+    /// <param name="control">The control to set as double buffered.</param>
+    /// <remarks>
+    /// Taxes: Remote Desktop Connection and painting: http://blogs.msdn.com/oldnewthing/archive/2006/01/03/508694.aspx
+    /// </remarks>
+    private static void SetDoubleBuffered(System.Windows.Forms.Control control)
+    {
+        if (System.Windows.Forms.SystemInformation.TerminalServerSession) return;
+        System.Reflection.PropertyInfo aProp = typeof(System.Windows.Forms.Control).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        aProp.SetValue(control, true, null);
     }
 }
 

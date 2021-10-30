@@ -9,21 +9,20 @@
 // <remarks>
 // </remarks>
 
-namespace GenericMathPlayground.Physics
+namespace GenericMathPlayground.Physics;
+
+/// <summary>
+/// 
+/// </summary>
+public interface ILengthUnit
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface ILengthUnit
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        double Value { get; }
+    double Value { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        static abstract double InMeters {  get; }
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    static abstract double InMeters { get; }
 }

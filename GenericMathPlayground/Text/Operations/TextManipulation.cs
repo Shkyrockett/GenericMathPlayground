@@ -25,7 +25,7 @@ public static partial class TextManipulation
     {
         text = text.Trim();
         int length = text.IndexOf(' ') is int l ? l == -1 ? text.Length : l : 0;
-        return text.Substring(0, length);
+        return text[..length];
     }
 
     /// <summary>
@@ -37,7 +37,11 @@ public static partial class TextManipulation
     {
         text = text.Trim();
         int firstIndex = text.IndexOf(' ');
-        if (firstIndex == -1) return null;
+        if (firstIndex == -1)
+        {
+            return null;
+        }
+
         int secondIndex = text.IndexOf(' ', firstIndex) is int l ? l == -1 ? text.Length : l : 0;
         return text.Substring(firstIndex, secondIndex);
     }

@@ -13,99 +13,98 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace GenericMathPlayground.Framework
+namespace GenericMathPlayground.Framework;
+
+/// <summary>
+/// The adv browsable attribute class.
+/// </summary>
+/// <seealso cref="Attribute" />
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+public sealed class AdvBrowsableAttribute
+    : Attribute
 {
     /// <summary>
-    /// The adv browsable attribute class.
+    /// Initializes a new instance of the <see cref="AdvBrowsableAttribute" /> class.
     /// </summary>
-    /// <seealso cref="Attribute" />
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    public sealed class AdvBrowsableAttribute
-        : Attribute
+    public AdvBrowsableAttribute()
+        : this(string.Empty)
+    { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AdvBrowsableAttribute" /> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public AdvBrowsableAttribute(string name)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AdvBrowsableAttribute" /> class.
-        /// </summary>
-        public AdvBrowsableAttribute()
-            : this(string.Empty)
-        { }
+        Name = name;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AdvBrowsableAttribute" /> class.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        public AdvBrowsableAttribute(string name)
+    /// <summary>
+    /// Gets the name.
+    /// </summary>
+    /// <value>
+    /// The name.
+    /// </value>
+    public string Name { get; }
+
+    /// <summary>
+    /// Get the disp members.
+    /// </summary>
+    /// <param name="t">The t.</param>
+    /// <returns>
+    /// The <see cref="PropertyDescriptorCollection" />.
+    /// </returns>
+    public static PropertyDescriptorCollection? GetDispMembers(Type t)
+    {
+        var order = AdvBrowsableOrderAttribute.GetOrder(t);
+        var rv = new List<PropertyDescriptor>();
+        object[] atts;
+        if (t is not null)
         {
-            Name = name;
-        }
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public string Name { get; }
-
-        /// <summary>
-        /// Get the disp members.
-        /// </summary>
-        /// <param name="t">The t.</param>
-        /// <returns>
-        /// The <see cref="PropertyDescriptorCollection" />.
-        /// </returns>
-        public static PropertyDescriptorCollection? GetDispMembers(Type t)
-        {
-            var order = AdvBrowsableOrderAttribute.GetOrder(t);
-            var rv = new List<PropertyDescriptor>();
-            object[] atts;
-            if (t is not null)
+            foreach (var info in t.GetProperties())
             {
-                foreach (var info in t.GetProperties())
+                atts = info.GetCustomAttributes(typeof(AdvBrowsableAttribute), true);
+                if (atts.Length > 0)
                 {
-                    atts = info.GetCustomAttributes(typeof(AdvBrowsableAttribute), true);
+                    var att = (AdvBrowsableAttribute)atts[0];
+                    AdvPropertyDescriptor descriptor;
+                    descriptor = (att.Name is not null) ? new AdvPropertyDescriptor(att.Name, info) : new AdvPropertyDescriptor(info);
+                    atts = info.GetCustomAttributes(typeof(DescriptionAttribute), true);
                     if (atts.Length > 0)
                     {
-                        var att = (AdvBrowsableAttribute)atts[0];
-                        AdvPropertyDescriptor descriptor;
-                        descriptor = (att.Name is not null) ? new AdvPropertyDescriptor(att.Name, info) : new AdvPropertyDescriptor(info);
-                        atts = info.GetCustomAttributes(typeof(DescriptionAttribute), true);
-                        if (atts.Length > 0)
-                        {
-                            var att2 = (DescriptionAttribute)atts[0];
-                            descriptor.SetDescription(att2.Description);
-                        }
-                        rv.Add(descriptor);
+                        var att2 = (DescriptionAttribute)atts[0];
+                        descriptor.SetDescription(att2.Description);
                     }
-                }
-
-                foreach (var info in t.GetFields())
-                {
-                    atts = info.GetCustomAttributes(typeof(AdvBrowsableAttribute), true);
-                    if (atts.Length > 0)
-                    {
-                        var att = (AdvBrowsableAttribute)atts[0];
-                        AdvPropertyDescriptor descriptor;
-                        descriptor = (att.Name is not null) ? new AdvPropertyDescriptor(att.Name, info) : new AdvPropertyDescriptor(info);
-                        atts = info.GetCustomAttributes(typeof(DescriptionAttribute), true);
-                        if (atts.Length > 0)
-                        {
-                            var att2 = (DescriptionAttribute)atts[0];
-                            descriptor.SetDescription(att2.Description);
-                        }
-                        rv.Add(descriptor);
-                    }
+                    rv.Add(descriptor);
                 }
             }
 
-            if (rv.Count == 0)
+            foreach (var info in t.GetFields())
             {
-                return null;
+                atts = info.GetCustomAttributes(typeof(AdvBrowsableAttribute), true);
+                if (atts.Length > 0)
+                {
+                    var att = (AdvBrowsableAttribute)atts[0];
+                    AdvPropertyDescriptor descriptor;
+                    descriptor = (att.Name is not null) ? new AdvPropertyDescriptor(att.Name, info) : new AdvPropertyDescriptor(info);
+                    atts = info.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                    if (atts.Length > 0)
+                    {
+                        var att2 = (DescriptionAttribute)atts[0];
+                        descriptor.SetDescription(att2.Description);
+                    }
+                    rv.Add(descriptor);
+                }
             }
-
-            return order is not null
-                ? new PropertyDescriptorCollection(rv.ToArray()).Sort(order)
-                : new PropertyDescriptorCollection(rv.ToArray());
         }
+
+        if (rv.Count == 0)
+        {
+            return null;
+        }
+
+        return order is not null
+            ? new PropertyDescriptorCollection(rv.ToArray()).Sort(order)
+            : new PropertyDescriptorCollection(rv.ToArray());
     }
 }

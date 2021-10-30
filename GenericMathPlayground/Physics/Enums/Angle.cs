@@ -8,36 +8,35 @@
 // <summary></summary>
 // <remarks></remarks>
 
-namespace GenericMathPlayground.Physics
+namespace GenericMathPlayground.Physics;
+
+/// <summary>
+/// The angles enum.
+/// </summary>
+public enum Angle
 {
     /// <summary>
-    /// The angles enum.
+    /// The Degree.
     /// </summary>
-    public enum Angle
-    {
-        /// <summary>
-        /// The Degree.
-        /// </summary>
-        Degree,
+    Degree,
 
-        /// <summary>
-        /// The Radian.
-        /// </summary>
-        Radian,
+    /// <summary>
+    /// The Radian.
+    /// </summary>
+    Radian,
 
-        /// <summary>
-        /// The Gradian.
-        /// </summary>
-        Gradian,
+    /// <summary>
+    /// The Gradian.
+    /// </summary>
+    Gradian,
 
-        /// <summary>
-        /// The ArcMinute.
-        /// </summary>
-        ArcMinute,
+    /// <summary>
+    /// The ArcMinute.
+    /// </summary>
+    ArcMinute,
 
-        /// <summary>
-        /// The ArcSecond.
-        /// </summary>
-        ArcSecond
-    }
+    /// <summary>
+    /// The ArcSecond.
+    /// </summary>
+    ArcSecond
 }

@@ -10,15 +10,30 @@
 // </remarks>
 
 using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
-namespace GenericMathPlayground.Mathematics
+namespace GenericMathPlayground.Mathematics;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface IVector<T>
+    where T : INumber<T>
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IVector<T>
-        where T : INumber<T>
-    {
-    }
+    [Browsable(false)]
+    [IgnoreDataMember, XmlIgnore, SoapIgnore]
+    public abstract T[] Items { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Browsable(false)]
+    [IgnoreDataMember, XmlIgnore, SoapIgnore]
+    int Count { get; }
 }
