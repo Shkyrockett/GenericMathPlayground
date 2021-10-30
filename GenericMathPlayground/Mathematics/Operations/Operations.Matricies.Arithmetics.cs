@@ -255,7 +255,7 @@ public static partial class Operations
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] Add<T, TResult>(Span2D<T> augend, Span2D<T> addend)
         where T : INumber<T>
-        where TResult : struct, INumber<TResult>
+        where TResult : INumber<TResult>
     {
         if (augend == null)
         {
