@@ -15,6 +15,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 
 namespace GenericMathPlayground.Physics;
@@ -156,8 +157,20 @@ public readonly struct MetersUnit
     /// <summary>
     /// 
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public MetersUnit() : this(0d) { }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="v"></param>
-    public MetersUnit(double v) : this() => Value = v;
+    public MetersUnit(double v) => Value = v;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="v"></param>
+    public MetersUnit(MetersUnit v) => Value = v.Value;
     #endregion
 
     #region Properties

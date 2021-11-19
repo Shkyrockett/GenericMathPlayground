@@ -14,6 +14,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 
 namespace GenericMathPlayground.Physics;
@@ -155,8 +156,20 @@ public readonly struct FeetUnit
     /// <summary>
     /// 
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public FeetUnit() : this(0d) { }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="v"></param>
-    public FeetUnit(double v) : this() => Value = v;
+    public FeetUnit(double v) => Value = v;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="v"></param>
+    public FeetUnit(FeetUnit v) => Value = v.Value;
     #endregion
 
     #region Properties

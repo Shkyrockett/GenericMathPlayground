@@ -14,6 +14,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 
 namespace GenericMathPlayground.Physics;
@@ -184,6 +185,12 @@ public readonly struct Unit
     #endregion
 
     #region Constructors
+    /// <summary>
+    /// 
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public Unit() : this(0d) { }
+
     /// <summary>
     /// 
     /// </summary>

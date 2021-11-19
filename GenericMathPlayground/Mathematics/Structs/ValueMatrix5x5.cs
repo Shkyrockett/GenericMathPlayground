@@ -49,6 +49,18 @@ public struct ValueMatrix5x5<T>
     /// <summary>
     /// 
     /// </summary>
+    public ValueMatrix5x5() : this(
+        T.One, T.Zero, T.Zero, T.Zero, T.Zero,
+        T.Zero, T.One, T.Zero, T.Zero, T.Zero,
+        T.Zero, T.Zero, T.One, T.Zero, T.Zero,
+        T.Zero, T.Zero, T.Zero, T.One, T.Zero,
+        T.Zero, T.Zero, T.Zero, T.Zero, T.One
+        )
+    { }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="vector1"></param>
     /// <param name="vector2"></param>
     /// <param name="vector3"></param>

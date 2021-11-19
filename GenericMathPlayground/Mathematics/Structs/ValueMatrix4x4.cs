@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -46,6 +47,18 @@ public struct ValueMatrix4x4<T>
     where T : INumber<T>
 {
     #region Constructors
+    /// <summary>
+    /// 
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public ValueMatrix4x4() : this(
+        T.One, T.Zero, T.Zero, T.Zero,
+        T.Zero, T.One, T.Zero, T.Zero,
+        T.Zero, T.Zero, T.One, T.Zero,
+        T.Zero, T.Zero, T.Zero, T.One
+        )
+    { }
+
     /// <summary>
     /// 
     /// </summary>

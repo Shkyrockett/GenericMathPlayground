@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Chromatics;
 
@@ -25,6 +26,12 @@ public struct RGBA<T>
     where T : INumber<T>
 {
     #region Constructors
+    /// <summary>
+    /// 
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public RGBA() : this(T.Zero, T.Zero, T.Zero, T.One) { }
+
     /// <summary>
     /// 
     /// </summary>

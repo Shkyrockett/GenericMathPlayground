@@ -10,11 +10,11 @@
 // </remarks>
 
 using GenericMathPlayground.Framework;
-using GenericMathPlayground.Physics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
 
@@ -28,6 +28,12 @@ public struct ValueVectorList<T>
     where T : INumber<T>
 {
     #region Constructors
+    /// <summary>
+    /// 
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public ValueVectorList() : this(Array.Empty<IVector<T>>()) { }
+
     /// <summary>
     /// 
     /// </summary>

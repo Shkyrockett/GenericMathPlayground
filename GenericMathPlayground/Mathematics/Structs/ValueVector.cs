@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -46,6 +47,12 @@ public struct ValueVector<T>
     where T : INumber<T>
 {
     #region Constructors
+    /// <summary>
+    /// 
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public ValueVector() : this(Array.Empty<T>()) { }
+
     /// <summary>
     /// 
     /// </summary>

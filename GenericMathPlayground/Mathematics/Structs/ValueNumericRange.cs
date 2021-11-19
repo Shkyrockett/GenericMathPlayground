@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -31,6 +32,14 @@ namespace GenericMathPlayground.Mathematics
         where T : INumber<T>
     {
         #region Constructors
+        /// <summary>
+        /// 
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+        public NumericRange()
+            : this(T.Zero, T.One, T.Zero, T.One, T.Create(1 / 10), Overflow.Clamp)
+        { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NumericRange{T}" /> struct;
         /// </summary>
