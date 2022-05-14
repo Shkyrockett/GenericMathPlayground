@@ -1,5 +1,5 @@
 ﻿// <copyright file="UnitConversion.Rotation.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,13 +9,10 @@
 // <remarks>
 // </remarks>
 
-using System;
-using System.Collections.Generic;
-
 namespace GenericMathPlayground.Physics;
 
 /// <summary>
-/// 
+/// The unit conversion.
 /// </summary>
 public static partial class UnitConversion
 {

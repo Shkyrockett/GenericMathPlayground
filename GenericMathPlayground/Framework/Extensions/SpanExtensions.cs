@@ -11,9 +11,7 @@
 // </remarks>
 
 using Microsoft.Toolkit.HighPerformance;
-using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground;
@@ -234,16 +232,11 @@ public static class SpanExtensions
     /// https://github.com/jackmott/LinqFaster/blob/master/LinqFaster/Select.cs#L167
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult[] Select<TSource, TResult>(this Span<TSource> source, Func<TSource, TResult> selector)
+    public static TResult[] Select<TSource, TResult>(this Span<TSource> source, Func<TSource, TResult> selector!!)
     {
         if (source == null)
         {
             throw new ArgumentNullException(nameof(source));
-        }
-
-        if (selector == null)
-        {
-            throw new ArgumentNullException(nameof(selector));
         }
 
         var result = new TResult[source.Length];
@@ -265,16 +258,11 @@ public static class SpanExtensions
     /// https://github.com/jackmott/LinqFaster/blob/master/LinqFaster/Select.cs#L167
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult[] Select<TSource, TResult>(this Span<TSource> source, Func<TSource, int, TResult> selector)
+    public static TResult[] Select<TSource, TResult>(this Span<TSource> source, Func<TSource, int, TResult> selector!!)
     {
         if (source == null)
         {
             throw new ArgumentNullException(nameof(source));
-        }
-
-        if (selector == null)
-        {
-            throw new ArgumentNullException(nameof(selector));
         }
 
         var result = new TResult[source.Length];
@@ -296,18 +284,8 @@ public static class SpanExtensions
     /// https://github.com/jackmott/LinqFaster/blob/master/LinqFaster/Select.cs#L167
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult[] Select<TSource, TResult>(this TSource[,] source, Func<TSource, TResult> selector)
+    public static TResult[] Select<TSource, TResult>(this TSource[,] source!!, Func<TSource, TResult> selector!!)
     {
-        if (source == null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-
-        if (selector == null)
-        {
-            throw new ArgumentNullException(nameof(selector));
-        }
-
         var index = 0;
         var result = new TResult[source.Length];
         for (int i = 0; i < source.GetLength(0); i++)
@@ -331,16 +309,11 @@ public static class SpanExtensions
     /// https://github.com/jackmott/LinqFaster/blob/master/LinqFaster/Select.cs#L167
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult[] Select<TSource, TResult>(this Span2D<TSource> source, Func<TSource, TResult> selector)
+    public static TResult[] Select<TSource, TResult>(this Span2D<TSource> source, Func<TSource, TResult> selector!!)
     {
         if (source == null)
         {
             throw new ArgumentNullException(nameof(source));
-        }
-
-        if (selector == null)
-        {
-            throw new ArgumentNullException(nameof(selector));
         }
 
         var index = 0;
@@ -366,18 +339,8 @@ public static class SpanExtensions
     /// https://github.com/jackmott/LinqFaster/blob/master/LinqFaster/Select.cs#L167
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult[] Select<TSource, TResult>(this TSource[,] source, Func<TSource, int, int, TResult> selector)
+    public static TResult[] Select<TSource, TResult>(this TSource[,] source!!, Func<TSource, int, int, TResult> selector!!)
     {
-        if (source == null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-
-        if (selector == null)
-        {
-            throw new ArgumentNullException(nameof(selector));
-        }
-
         var index = 0;
         var result = new TResult[source.Length];
         for (int i = 0; i < source.GetLength(0); i++)
@@ -401,16 +364,11 @@ public static class SpanExtensions
     /// https://github.com/jackmott/LinqFaster/blob/master/LinqFaster/Select.cs#L167
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult[] Select<TSource, TResult>(this Span2D<TSource> source, Func<TSource, int, int, TResult> selector)
+    public static TResult[] Select<TSource, TResult>(this Span2D<TSource> source, Func<TSource, int, int, TResult> selector!!)
     {
         if (source == null)
         {
             throw new ArgumentNullException(nameof(source));
-        }
-
-        if (selector == null)
-        {
-            throw new ArgumentNullException(nameof(selector));
         }
 
         var index = 0;

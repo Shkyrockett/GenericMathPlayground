@@ -1,5 +1,5 @@
 ﻿// <copyright file="UnitConverter.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,9 +10,9 @@
 // </remarks>
 
 using GenericMathPlayground.Text;
-using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Numerics;
 
 namespace GenericMathPlayground.Physics;
 
@@ -22,11 +22,11 @@ namespace GenericMathPlayground.Physics;
 /// </summary>
 public class LengthUnitConverter<TType>
     : TypeConverter
-    where TType : IParseable<TType>, IFloatingPoint<TType>
+    where TType : IParsable<TType>, IFloatingPointIeee754<TType>
 {
     #region Constructors
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="LengthUnitConverter{TType}"/> class.
     /// </summary>
     public LengthUnitConverter()
     { }
@@ -76,11 +76,11 @@ public class LengthUnitConverter<TType>
     };
 
     /// <summary>
-    /// 
+    /// Cans the convert to.
     /// </summary>
-    /// <param name="context"></param>
-    /// <param name="destinationType"></param>
-    /// <returns></returns>
+    /// <param name="context">The context.</param>
+    /// <param name="destinationType">The destination type.</param>
+    /// <returns>A bool.</returns>
     public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
     {
         if (destinationType is not null && destinationType.IsPrimitive)

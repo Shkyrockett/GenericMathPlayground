@@ -1,5 +1,5 @@
 ﻿// <copyright file="Operations.Polynomials.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,15 +9,13 @@
 // <remarks>
 // </remarks>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The operations.
 /// </summary>
 public static partial class Operations
 {
@@ -47,7 +45,7 @@ public static partial class Operations
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static R[] Roots<T, R>(Span<T> polynomial)
-        where T : INumber<T> where R : IFloatingPoint<R>
+        where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         var coefficients = polynomial.TrimStart(T.Zero);
         var polynomialDegree = RealDegreeOrder(coefficients);
@@ -55,7 +53,7 @@ public static partial class Operations
         return polynomialDegree switch
         {
             PolynomialDegree.Empty => Array.Empty<R>(),
-            PolynomialDegree.Constant => Array.ConvertAll(coefficients.ToArray(), new Converter<T, R>(R.Create)),
+            PolynomialDegree.Constant => Array.ConvertAll(coefficients.ToArray(), new Converter<T, R>(R.CreateChecked)),
             PolynomialDegree.Linear => LinearRoots<T, R>(coefficients[0], coefficients[1]),
             PolynomialDegree.Quadratic => QuadraticRoots<T, R>(coefficients[0], coefficients[1], coefficients[2]),
             PolynomialDegree.Cubic => CubicRoots<T, R>(coefficients[0], coefficients[1], coefficients[2], coefficients[3]),
@@ -80,7 +78,7 @@ public static partial class Operations
     /// <param name="b">The b coefficient.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static R[] LinearRoots<T, R>(T a, T b) where T : INumber<T> where R : IFloatingPoint<R> => a == T.Zero ? b == T.Zero ? Array.Empty<R>() : new R[] { R.Create(b) } : new R[] { -R.Create(b) / R.Create(a) };
+    public static R[] LinearRoots<T, R>(T a, T b) where T : INumber<T> where R : IFloatingPointIeee754<R> => a == T.Zero ? b == T.Zero ? Array.Empty<R>() : new R[] { R.CreateChecked(b) } : new R[] { -R.CreateChecked(b) / R.CreateChecked(a) };
     #endregion
 
     #region Quadratic Roots
@@ -93,29 +91,29 @@ public static partial class Operations
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static R[] QuadraticRoots<T, R>(T a, T b, T c)
-        where T : INumber<T> where R : IFloatingPoint<R>
+        where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         if (a == T.Zero)
         {
             return LinearRoots<T, R>(b, c);
         }
 
-        var ba = R.Create(b) / R.Create(a);
-        var ca = R.Create(c) / R.Create(a);
+        var ba = R.CreateChecked(b) / R.CreateChecked(a);
+        var ca = R.CreateChecked(c) / R.CreateChecked(a);
 
-        switch (R.Create(ba * ba) - (R.Create(4) * R.Create(ca)))
+        switch (R.CreateChecked(ba * ba) - (R.CreateChecked(4) * R.CreateChecked(ca)))
         {
             case var discriminant when discriminant == R.Zero:
-                return new R[] { -ba / R.Create(2) };
+                return new R[] { -ba / R.CreateChecked(2) };
             case var discriminant when discriminant > R.Zero:
                 {
                     var e = R.Sqrt(discriminant);
-                    return new R[] { (-ba + e) / R.Create(2), (-ba - e) / R.Create(2) };
+                    return new R[] { (-ba + e) / R.CreateChecked(2), (-ba - e) / R.CreateChecked(2) };
                 }
             case var discriminant when discriminant < R.Zero:
                 {
                     var e = -R.Sqrt(-discriminant);
-                    return new R[] { (-ba + e) / R.Create(2), (-ba - e) / R.Create(2) };
+                    return new R[] { (-ba + e) / R.CreateChecked(2), (-ba - e) / R.CreateChecked(2) };
                 }
             default:
                 return Array.Empty<R>();
@@ -134,23 +132,23 @@ public static partial class Operations
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static R[] CubicRoots<T, R>(T a, T b, T c, T d)
-        where T : INumber<T> where R : IFloatingPoint<R>
+        where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         if (a == T.Zero)
         {
             return QuadraticRoots<T, R>(b, c, d);
         }
 
-        var ba = R.Create(b) / R.Create(a);
-        var ca = R.Create(c) / R.Create(a);
-        var da = R.Create(d) / R.Create(a);
+        var ba = R.CreateChecked(b) / R.CreateChecked(a);
+        var ca = R.CreateChecked(c) / R.CreateChecked(a);
+        var da = R.CreateChecked(d) / R.CreateChecked(a);
 
-        var q = ((R.Create(3) * ca) - (ba * ba)) / R.Create(3);
-        var r = ((R.Create(2) * ba * ba * ba) - (R.Create(9) * ba * ca) + (R.Create(27) * da)) / R.Create(27);
+        var q = ((R.CreateChecked(3) * ca) - (ba * ba)) / R.CreateChecked(3);
+        var r = ((R.CreateChecked(2) * ba * ba * ba) - (R.CreateChecked(9) * ba * ca) + (R.CreateChecked(27) * da)) / R.CreateChecked(27);
 
-        var offset = ba / R.Create(3);
-        var discriminant = (r * r / R.Create(4)) + (q * q * q / R.Create(27));
-        var halfB = r / R.Create(2);
+        var offset = ba / R.CreateChecked(3);
+        var discriminant = (r * r / R.CreateChecked(4)) + (q * q * q / R.CreateChecked(27));
+        var halfB = r / R.CreateChecked(2);
 
         if (R.Abs(discriminant) <= R.Epsilon)
         {
@@ -162,7 +160,7 @@ public static partial class Operations
             case var v when v == R.Zero:
                 {
                     var f = halfB >= R.Zero ? -R.Cbrt(halfB) : R.Cbrt(-halfB);
-                    return new R[] { (R.Create(2) * f) - offset, -f - offset };
+                    return new R[] { (R.CreateChecked(2) * f) - offset, -f - offset };
                 }
             case var v when v > R.Zero:
                 {
@@ -183,13 +181,13 @@ public static partial class Operations
                 }
             case var v when v < R.Zero:
                 {
-                    var distance = R.Sqrt(-q / R.Create(3));
-                    var angle = R.Atan2(R.Sqrt(-discriminant), -halfB) / R.Create(3);
+                    var distance = R.Sqrt(-q / R.CreateChecked(3));
+                    var angle = R.Atan2(R.Sqrt(-discriminant), -halfB) / R.CreateChecked(3);
                     var cos = R.Cos(angle);
                     var sin = R.Sin(angle);
-                    var sqrt3 = R.Sqrt(R.Create(3));
+                    var sqrt3 = R.Sqrt(R.CreateChecked(3));
                     return new R[] {
-                            (R.Create(2) * distance * cos) - offset,
+                            (R.CreateChecked(2) * distance * cos) - offset,
                             (-distance * (cos + (sqrt3 * sin))) - offset,
                             (-distance * (cos - (sqrt3 * sin))) - offset
                         };
@@ -212,26 +210,26 @@ public static partial class Operations
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static R[] QuarticRoots<T, R>(T a, T b, T c, T d, T e)
-        where T : INumber<T> where R : IFloatingPoint<R>
+        where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         if (a == T.Zero)
         {
             return CubicRoots<T, R>(b, c, d, e);
         }
 
-        var ba = R.Create(b) / R.Create(a);
-        var ca = R.Create(c) / R.Create(a);
-        var da = R.Create(d) / R.Create(a);
-        var ea = R.Create(e) / R.Create(a);
+        var ba = R.CreateChecked(b) / R.CreateChecked(a);
+        var ca = R.CreateChecked(c) / R.CreateChecked(a);
+        var da = R.CreateChecked(d) / R.CreateChecked(a);
+        var ea = R.CreateChecked(e) / R.CreateChecked(a);
 
         var resolveRoots = CubicRoots<R, R>(
             R.One,
             -ca,
-            (ba * da) - (R.Create(4) * ea),
-            (-ba * ba * ea) + (R.Create(4) * ca * ea) - (da * da));
+            (ba * da) - (R.CreateChecked(4) * ea),
+            (-ba * ba * ea) + (R.CreateChecked(4) * ca * ea) - (da * da));
 
         var y = resolveRoots[0];
-        var discriminant = (ba * ba / R.Create(4)) - ca + y;
+        var discriminant = (ba * ba / R.CreateChecked(4)) - ca + y;
 
         var results = new HashSet<R>();
 
@@ -239,7 +237,7 @@ public static partial class Operations
         {
             case var v when v == R.Zero:
                 {
-                    var t2 = (y * y) - (R.Create(4) * ea);
+                    var t2 = (y * y) - (R.CreateChecked(4) * ea);
                     if (t2 >= R.NegativeZero)
                     {
                         if (t2 < R.Zero)
@@ -247,19 +245,19 @@ public static partial class Operations
                             t2 = R.Zero;
                         }
 
-                        t2 = R.Create(2) * R.Sqrt(t2);
-                        var t1 = (R.Create(3) * ba * ba / R.Create(4)) - (R.Create(2) * ca);
+                        t2 = R.CreateChecked(2) * R.Sqrt(t2);
+                        var t1 = (R.CreateChecked(3) * ba * ba / R.CreateChecked(4)) - (R.CreateChecked(2) * ca);
                         if (t1 + t2 >= R.Zero)
                         {
                             var d0 = R.Sqrt(t1 + t2);
-                            results.Add((-ba / R.Create(4)) + (d0 / R.Create(2)));
-                            results.Add((-ba / R.Create(4)) - (d0 / R.Create(2)));
+                            results.Add((-ba / R.CreateChecked(4)) + (d0 / R.CreateChecked(2)));
+                            results.Add((-ba / R.CreateChecked(4)) - (d0 / R.CreateChecked(2)));
                         }
                         if (t1 - t2 >= R.Zero)
                         {
                             var d1 = R.Sqrt(t1 - t2);
-                            results.Add((-ba / R.Create(4)) + (d1 / R.Create(2)));
-                            results.Add((-ba / R.Create(4)) - (d1 / R.Create(2)));
+                            results.Add((-ba / R.CreateChecked(4)) + (d1 / R.CreateChecked(2)));
+                            results.Add((-ba / R.CreateChecked(4)) - (d1 / R.CreateChecked(2)));
                         }
                     }
                     return results.ToArray();
@@ -267,22 +265,22 @@ public static partial class Operations
             case var v when v > R.Zero:
                 {
                     var ee = R.Sqrt(discriminant);
-                    var t1 = (R.Create(3) * ba * ba / R.Create(4)) - (ee * ee) - (R.Create(2) * ca);
-                    var t2 = ((R.Create(4) * ba * ca) - (R.Create(8) * da) - (ba * ba * ba)) / (R.Create(4) * ee);
+                    var t1 = (R.CreateChecked(3) * ba * ba / R.CreateChecked(4)) - (ee * ee) - (R.CreateChecked(2) * ca);
+                    var t2 = ((R.CreateChecked(4) * ba * ca) - (R.CreateChecked(8) * da) - (ba * ba * ba)) / (R.CreateChecked(4) * ee);
                     var plus = t1 + t2;
                     var minus = t1 - t2;
 
                     if (plus >= R.Zero)
                     {
                         var f = R.Sqrt(plus);
-                        results.Add((-ba / R.Create(4)) + ((ee + f) / R.Create(2)));
-                        results.Add((-ba / R.Create(4)) + ((ee - f) / R.Create(2)));
+                        results.Add((-ba / R.CreateChecked(4)) + ((ee + f) / R.CreateChecked(2)));
+                        results.Add((-ba / R.CreateChecked(4)) + ((ee - f) / R.CreateChecked(2)));
                     }
                     if (minus >= R.Zero)
                     {
                         var f = R.Sqrt(minus);
-                        results.Add((-ba / R.Create(4)) + ((f - ee) / R.Create(2)));
-                        results.Add((-ba / R.Create(4)) - ((f + ee) / R.Create(2)));
+                        results.Add((-ba / R.CreateChecked(4)) + ((f - ee) / R.CreateChecked(2)));
+                        results.Add((-ba / R.CreateChecked(4)) - ((f + ee) / R.CreateChecked(2)));
                     }
                     return results.ToArray();
                 }
@@ -310,7 +308,7 @@ public static partial class Operations
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static R[] QuinticRoots<T, R>(T a, T b, T c, T d, T e, T f)
-        where T : INumber<T> where R : IFloatingPoint<R>
+        where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         // Is the coefficient of the highest term zero?
         if (a == T.Zero)
@@ -324,7 +322,7 @@ public static partial class Operations
         var n1 = 5; // 6;
         var n2 = 6; // 7;
 
-        var a_ = new R[] { R.Create(f), R.Create(e), R.Create(d), R.Create(c), R.Create(b), R.Create(a) };
+        var a_ = new R[] { R.CreateChecked(f), R.CreateChecked(e), R.CreateChecked(d), R.CreateChecked(c), R.CreateChecked(b), R.CreateChecked(a) };
         var b_ = new R[] { R.Zero, R.Zero, R.Zero, R.Zero, R.Zero, R.Zero };
         //var c_ = new R[] { R.Zero, R.Zero, R.Zero, R.Zero, R.Zero, R.Zero };
         var d_ = new R[] { R.Zero, R.Zero, R.Zero, R.Zero, R.Zero, R.Zero };
@@ -339,9 +337,9 @@ public static partial class Operations
         {
             // Initialize the counter and guesses for the coefficients of quadratic factor: p(x) = x^2 + alfa1*x + beta1
             // ToDo: The random alphas make this method non-deterministic. Need a better guess method.
-            var alfa1 = Random(R.Create(0.5), R.One);
-            var beta1 = Random(R.Create(0.5), R.One);
-            var limit = R.Create(1000);
+            var alfa1 = Random(R.CreateChecked(0.5), R.One);
+            var beta1 = Random(R.CreateChecked(0.5), R.One);
+            var limit = R.CreateChecked(1000);
 
             R delta1;
             do
@@ -385,14 +383,14 @@ public static partial class Operations
             }
             while (true);
 
-            delta1 = (alfa1 * alfa1) - (R.Create(4) * beta1);
+            delta1 = (alfa1 * alfa1) - (R.CreateChecked(4) * beta1);
 
             R delta2;
             // Imaginary roots
             if (delta1 < R.Zero)
             {
-                delta2 = R.Sqrt(R.Abs(delta1)) / R.Create(2);
-                var delta3 = -alfa1 / R.Create(2);
+                delta2 = R.Sqrt(R.Abs(delta1)) / R.CreateChecked(2);
+                var delta3 = -alfa1 / R.CreateChecked(2);
 
                 real[count] = delta3;
                 imag[count] = delta2;
@@ -406,10 +404,10 @@ public static partial class Operations
                 // Roots are real
                 delta2 = R.Sqrt(delta1);
 
-                real[count] = (delta2 - alfa1) / R.Create(2);
+                real[count] = (delta2 - alfa1) / R.CreateChecked(2);
                 imag[count] = R.Zero;
 
-                real[count + 1] = (delta2 + alfa1) / R.Create(2);
+                real[count + 1] = (delta2 + alfa1) / R.CreateChecked(2);
                 imag[count + 1] = R.Zero;
             }
 
@@ -462,7 +460,7 @@ public static partial class Operations
     /// <param name="g">The g coefficient.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static R[] SexticRoots<T, R>(T a, T b, T c, T d, T e, T f, T g) where T : INumber<T> where R : IFloatingPoint<R>
+    public static R[] SexticRoots<T, R>(T a, T b, T c, T d, T e, T f, T g) where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         _ = a;
         _ = b;
@@ -489,7 +487,7 @@ public static partial class Operations
     /// <param name="h">The h coefficient.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static R[] SepticRoots<T, R>(T a, T b, T c, T d, T e, T f, T g, T h) where T : INumber<T> where R : IFloatingPoint<R>
+    public static R[] SepticRoots<T, R>(T a, T b, T c, T d, T e, T f, T g, T h) where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         _ = a;
         _ = b;
@@ -518,7 +516,7 @@ public static partial class Operations
     /// <param name="i">The i coefficient.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static R[] OcticRoots<T, R>(T a, T b, T c, T d, T e, T f, T g, T h, T i) where T : INumber<T> where R : IFloatingPoint<R>
+    public static R[] OcticRoots<T, R>(T a, T b, T c, T d, T e, T f, T g, T h, T i) where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         _ = a;
         _ = b;
@@ -549,7 +547,7 @@ public static partial class Operations
     /// <param name="j">The j coefficient.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static R[] NonicRoots<T, R>(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j) where T : INumber<T> where R : IFloatingPoint<R>
+    public static R[] NonicRoots<T, R>(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j) where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         _ = a;
         _ = b;
@@ -582,7 +580,7 @@ public static partial class Operations
     /// <param name="k">The k coefficient.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static R[] DecicRoots<T, R>(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j, T k) where T : INumber<T> where R : IFloatingPoint<R>
+    public static R[] DecicRoots<T, R>(T a, T b, T c, T d, T e, T f, T g, T h, T i, T j, T k) where T : INumber<T> where R : IFloatingPointIeee754<R>
     {
         _ = a;
         _ = b;

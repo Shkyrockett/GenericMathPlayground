@@ -1,5 +1,5 @@
 ﻿// <copyright file="Form1.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -13,18 +13,17 @@ using GenericMathPlayground.Geometry;
 using GenericMathPlayground.Mathematics;
 using GenericMathPlayground.Physics;
 using System.Text;
-using System.Windows.Forms;
 
 namespace GenericMathPlayground;
 
 /// <summary>
-/// 
+/// The form1.
 /// </summary>
 public partial class Form1
     : Form
 {
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Form1"/> class.
     /// </summary>
     public Form1()
     {

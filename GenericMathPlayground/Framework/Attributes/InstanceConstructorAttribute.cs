@@ -9,7 +9,6 @@
 // <summary></summary>
 // <remarks></remarks>
 
-using System;
 using System.Reflection;
 
 namespace GenericMathPlayground.Framework;

@@ -1,5 +1,5 @@
 ﻿// <copyright file="Operations.Matricies.Arithmetics.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,8 +10,8 @@
 // </remarks>
 
 using Microsoft.Toolkit.HighPerformance;
-using System;
 using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
@@ -283,7 +283,7 @@ public static partial class Operations
         {
             for (var j = 0; j < columnsAugend; j++)
             {
-                sum[i, j] = TResult.Create(augend[i, j] + addend[i, j]);
+                sum[i, j] = TResult.CreateChecked(augend[i, j] + addend[i, j]);
             }
         }
 
@@ -303,7 +303,7 @@ public static partial class Operations
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] Add<T, TResult>(Span2D<T> augend, Span2D<T> addend, int accuracy)
         where T : INumber<T>
-        where TResult : struct, IFloatingPoint<TResult>
+        where TResult : struct, IFloatingPointIeee754<TResult>
     {
         if (augend == null)
         {
@@ -331,7 +331,7 @@ public static partial class Operations
         {
             for (var j = 0; j < columnsAugend; j++)
             {
-                sum[i, j] = TResult.Create(augend[i, j] + addend[i, j]);
+                sum[i, j] = TResult.CreateChecked(augend[i, j] + addend[i, j]);
             }
         }
 
@@ -400,7 +400,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Add<T>(Span2D<T> augend, Span2D<T> addend, int rows, int columns, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (augend == null)
         {
@@ -1005,7 +1005,7 @@ public static partial class Operations
         {
             for (var j = 0; j < columnsMinuend; j++)
             {
-                difference[i, j] = TResult.Create(minuend[i, j] - subtrahend[i, j]);
+                difference[i, j] = TResult.CreateChecked(minuend[i, j] - subtrahend[i, j]);
             }
         }
 
@@ -1073,7 +1073,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Subtract<T>(Span2D<T> minuend, Span2D<T> subtrahend, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (minuend == null)
         {
@@ -1170,7 +1170,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Subtract<T>(Span2D<T> minuend, Span2D<T> subtrahend, int rows, int columns, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (minuend == null)
         {
@@ -1497,7 +1497,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Scale<T>(T multiplicand, Span2D<T> multiplier, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (multiplicand == null)
         {
@@ -1585,7 +1585,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Scale<T>(T multiplicand, Span2D<T> multiplier, int rows, int columns, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (multiplicand == null)
         {
@@ -1889,7 +1889,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Scale<T>(Span2D<T> multiplicand, T multiplier, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (multiplicand == null)
         {
@@ -1932,7 +1932,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Scale<T>(Span2D<T> multiplicand, T multiplier, int rows, int columns, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (multiplicand == null)
         {
@@ -2446,15 +2446,15 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the matrix vector.
     /// </summary>
-    /// <param name="multiplicand1x1">The multiplicand M1X1.</param>
-    /// <param name="multiplicand1x2">The multiplicand M1X2.</param>
-    /// <param name="multiplicand2x1">The multiplicand M2X1.</param>
-    /// <param name="multiplicand2x2">The multiplicand M2X2.</param>
-    /// <param name="multiplierX">The multiplier M1X1.</param>
-    /// <param name="multiplierY">The multiplier M1X2.</param>
-    /// <returns></returns>
+    /// <param name="multiplicand1x1">The multiplicand1x1.</param>
+    /// <param name="multiplicand1x2">The multiplicand1x2.</param>
+    /// <param name="multiplicand2x1">The multiplicand2x1.</param>
+    /// <param name="multiplicand2x2">The multiplicand2x2.</param>
+    /// <param name="multiplierX">The multiplier x.</param>
+    /// <param name="multiplierY">The multiplier y.</param>
+    /// <returns>A (T X, T Y) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) MultiplyMatrixVector<T>(
         T multiplicand1x1, T multiplicand1x2,
@@ -2469,17 +2469,17 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the matrix vector.
     /// </summary>
-    /// <param name="multiplicand1x1">The multiplicand M1X1.</param>
-    /// <param name="multiplicand1x2">The multiplicand M1X2.</param>
-    /// <param name="multiplicand2x1">The multiplicand M2X1.</param>
-    /// <param name="multiplicand2x2">The multiplicand M2X2.</param>
-    /// <param name="multiplicand3x1">The multiplicand M3X1.</param>
-    /// <param name="multiplicand3x2">The multiplicand M3X2.</param>
-    /// <param name="multiplierX">The multiplier M1X1.</param>
-    /// <param name="multiplierY">The multiplier M1X2.</param>
-    /// <returns></returns>
+    /// <param name="multiplicand1x1">The multiplicand1x1.</param>
+    /// <param name="multiplicand1x2">The multiplicand1x2.</param>
+    /// <param name="multiplicand2x1">The multiplicand2x1.</param>
+    /// <param name="multiplicand2x2">The multiplicand2x2.</param>
+    /// <param name="multiplicand3x1">The multiplicand3x1.</param>
+    /// <param name="multiplicand3x2">The multiplicand3x2.</param>
+    /// <param name="multiplierX">The multiplier x.</param>
+    /// <param name="multiplierY">The multiplier y.</param>
+    /// <returns>A (T X, T Y, T Z) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z) MultiplyMatrixVector<T>(
         T multiplicand1x1, T multiplicand1x2,
@@ -2496,21 +2496,21 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the matrix vector.
     /// </summary>
-    /// <param name="multiplicand1x1">The multiplicand M1X1.</param>
-    /// <param name="multiplicand1x2">The multiplicand M1X2.</param>
-    /// <param name="multiplicand1x3">The multiplicand M1X3.</param>
-    /// <param name="multiplicand2x1">The multiplicand M2X1.</param>
-    /// <param name="multiplicand2x2">The multiplicand M2X2.</param>
-    /// <param name="multiplicand2x3">The multiplicand M2X3.</param>
-    /// <param name="multiplicand3x1">The multiplicand M3X1.</param>
-    /// <param name="multiplicand3x2">The multiplicand M3X2.</param>
-    /// <param name="multiplicand3x3">The multiplicand M3X3.</param>
-    /// <param name="multiplierX">The multiplier M1X1.</param>
-    /// <param name="multiplierY">The multiplier M1X2.</param>
-    /// <param name="multiplierZ">The multiplier M1X3.</param>
-    /// <returns></returns>
+    /// <param name="multiplicand1x1">The multiplicand1x1.</param>
+    /// <param name="multiplicand1x2">The multiplicand1x2.</param>
+    /// <param name="multiplicand1x3">The multiplicand1x3.</param>
+    /// <param name="multiplicand2x1">The multiplicand2x1.</param>
+    /// <param name="multiplicand2x2">The multiplicand2x2.</param>
+    /// <param name="multiplicand2x3">The multiplicand2x3.</param>
+    /// <param name="multiplicand3x1">The multiplicand3x1.</param>
+    /// <param name="multiplicand3x2">The multiplicand3x2.</param>
+    /// <param name="multiplicand3x3">The multiplicand3x3.</param>
+    /// <param name="multiplierX">The multiplier x.</param>
+    /// <param name="multiplierY">The multiplier y.</param>
+    /// <param name="multiplierZ">The multiplier z.</param>
+    /// <returns>A (T X, T Y, T Z) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z) MultiplyMatrixVector<T>(
         T multiplicand1x1, T multiplicand1x2, T multiplicand1x3,
@@ -2527,29 +2527,29 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the matrix vector.
     /// </summary>
-    /// <param name="multiplicand1x1">The multiplicand M1X1.</param>
-    /// <param name="multiplicand1x2">The multiplicand M1X2.</param>
-    /// <param name="multiplicand1x3">The multiplicand M1X3.</param>
-    /// <param name="multiplicand1x4">The multiplicand M1X4.</param>
-    /// <param name="multiplicand2x1">The multiplicand M2X1.</param>
-    /// <param name="multiplicand2x2">The multiplicand M2X2.</param>
-    /// <param name="multiplicand2x3">The multiplicand M2X3.</param>
-    /// <param name="multiplicand2x4">The multiplicand M2X4.</param>
-    /// <param name="multiplicand3x1">The multiplicand M3X1.</param>
-    /// <param name="multiplicand3x2">The multiplicand M3X2.</param>
-    /// <param name="multiplicand3x3">The multiplicand M3X3.</param>
-    /// <param name="multiplicand3x4">The multiplicand M3X4.</param>
-    /// <param name="multiplicand4x1">The multiplicand M4X1.</param>
-    /// <param name="multiplicand4x2">The multiplicand M4X2.</param>
-    /// <param name="multiplicand4x3">The multiplicand M4X3.</param>
-    /// <param name="multiplicand4x4">The multiplicand M4X4.</param>
-    /// <param name="multiplierX">The multiplier M1X1.</param>
-    /// <param name="multiplierY">The multiplier M1X2.</param>
-    /// <param name="multiplierZ">The multiplier M1X3.</param>
-    /// <param name="multiplierW">The multiplier M1X4.</param>
-    /// <returns></returns>
+    /// <param name="multiplicand1x1">The multiplicand1x1.</param>
+    /// <param name="multiplicand1x2">The multiplicand1x2.</param>
+    /// <param name="multiplicand1x3">The multiplicand1x3.</param>
+    /// <param name="multiplicand1x4">The multiplicand1x4.</param>
+    /// <param name="multiplicand2x1">The multiplicand2x1.</param>
+    /// <param name="multiplicand2x2">The multiplicand2x2.</param>
+    /// <param name="multiplicand2x3">The multiplicand2x3.</param>
+    /// <param name="multiplicand2x4">The multiplicand2x4.</param>
+    /// <param name="multiplicand3x1">The multiplicand3x1.</param>
+    /// <param name="multiplicand3x2">The multiplicand3x2.</param>
+    /// <param name="multiplicand3x3">The multiplicand3x3.</param>
+    /// <param name="multiplicand3x4">The multiplicand3x4.</param>
+    /// <param name="multiplicand4x1">The multiplicand4x1.</param>
+    /// <param name="multiplicand4x2">The multiplicand4x2.</param>
+    /// <param name="multiplicand4x3">The multiplicand4x3.</param>
+    /// <param name="multiplicand4x4">The multiplicand4x4.</param>
+    /// <param name="multiplierX">The multiplier x.</param>
+    /// <param name="multiplierY">The multiplier y.</param>
+    /// <param name="multiplierZ">The multiplier z.</param>
+    /// <param name="multiplierW">The multiplier w.</param>
+    /// <returns>A (T X, T Y, T Z, T W) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z, T W) MultiplyMatrixVector<T>(
         T multiplicand1x1, T multiplicand1x2, T multiplicand1x3, T multiplicand1x4,
@@ -2568,39 +2568,39 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the matrix vector.
     /// </summary>
-    /// <param name="multiplicand1x1">The multiplicand M1X1.</param>
-    /// <param name="multiplicand1x2">The multiplicand M1X2.</param>
-    /// <param name="multiplicand1x3">The multiplicand M1X3.</param>
-    /// <param name="multiplicand1x4">The multiplicand M1X4.</param>
-    /// <param name="multiplicand1x5">The multiplicand M1X5.</param>
-    /// <param name="multiplicand2x1">The multiplicand M2X1.</param>
-    /// <param name="multiplicand2x2">The multiplicand M2X2.</param>
-    /// <param name="multiplicand2x3">The multiplicand M2X3.</param>
-    /// <param name="multiplicand2x4">The multiplicand M2X4.</param>
-    /// <param name="multiplicand2x5">The multiplicand M2X5.</param>
-    /// <param name="multiplicand3x1">The multiplicand M3X1.</param>
-    /// <param name="multiplicand3x2">The multiplicand M3X2.</param>
-    /// <param name="multiplicand3x3">The multiplicand M3X3.</param>
-    /// <param name="multiplicand3x4">The multiplicand M3X4.</param>
-    /// <param name="multiplicand3x5">The multiplicand M3X5.</param>
-    /// <param name="multiplicand4x1">The multiplicand M4X1.</param>
-    /// <param name="multiplicand4x2">The multiplicand M4X2.</param>
-    /// <param name="multiplicand4x3">The multiplicand M4X3.</param>
-    /// <param name="multiplicand4x4">The multiplicand M4X4.</param>
-    /// <param name="multiplicand4x5">The multiplicand M4X5.</param>
-    /// <param name="multiplicand5x1">The multiplicand M5X1.</param>
-    /// <param name="multiplicand5x2">The multiplicand M5X2.</param>
-    /// <param name="multiplicand5x3">The multiplicand M5X3.</param>
-    /// <param name="multiplicand5x4">The multiplicand M5X4.</param>
-    /// <param name="multiplicand5x5">The multiplicand M5X5.</param>
-    /// <param name="multiplierX">The multiplier M1X1.</param>
-    /// <param name="multiplierY">The multiplier M2X1.</param>
-    /// <param name="multiplierZ">The multiplier M3X1.</param>
-    /// <param name="multiplierW">The multiplier M4X1.</param>
-    /// <param name="multiplierV">The multiplier M5X1.</param>
-    /// <returns></returns>
+    /// <param name="multiplicand1x1">The multiplicand1x1.</param>
+    /// <param name="multiplicand1x2">The multiplicand1x2.</param>
+    /// <param name="multiplicand1x3">The multiplicand1x3.</param>
+    /// <param name="multiplicand1x4">The multiplicand1x4.</param>
+    /// <param name="multiplicand1x5">The multiplicand1x5.</param>
+    /// <param name="multiplicand2x1">The multiplicand2x1.</param>
+    /// <param name="multiplicand2x2">The multiplicand2x2.</param>
+    /// <param name="multiplicand2x3">The multiplicand2x3.</param>
+    /// <param name="multiplicand2x4">The multiplicand2x4.</param>
+    /// <param name="multiplicand2x5">The multiplicand2x5.</param>
+    /// <param name="multiplicand3x1">The multiplicand3x1.</param>
+    /// <param name="multiplicand3x2">The multiplicand3x2.</param>
+    /// <param name="multiplicand3x3">The multiplicand3x3.</param>
+    /// <param name="multiplicand3x4">The multiplicand3x4.</param>
+    /// <param name="multiplicand3x5">The multiplicand3x5.</param>
+    /// <param name="multiplicand4x1">The multiplicand4x1.</param>
+    /// <param name="multiplicand4x2">The multiplicand4x2.</param>
+    /// <param name="multiplicand4x3">The multiplicand4x3.</param>
+    /// <param name="multiplicand4x4">The multiplicand4x4.</param>
+    /// <param name="multiplicand4x5">The multiplicand4x5.</param>
+    /// <param name="multiplicand5x1">The multiplicand5x1.</param>
+    /// <param name="multiplicand5x2">The multiplicand5x2.</param>
+    /// <param name="multiplicand5x3">The multiplicand5x3.</param>
+    /// <param name="multiplicand5x4">The multiplicand5x4.</param>
+    /// <param name="multiplicand5x5">The multiplicand5x5.</param>
+    /// <param name="multiplierX">The multiplier x.</param>
+    /// <param name="multiplierY">The multiplier y.</param>
+    /// <param name="multiplierZ">The multiplier z.</param>
+    /// <param name="multiplierW">The multiplier w.</param>
+    /// <param name="multiplierV">The multiplier v.</param>
+    /// <returns>A (T X, T Y, T Z, T W, T V) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z, T W, T V) MultiplyMatrixVector<T>(
         T multiplicand1x1, T multiplicand1x2, T multiplicand1x3, T multiplicand1x4, T multiplicand1x5,
@@ -2671,15 +2671,15 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the vector matrix.
     /// </summary>
-    /// <param name="multiplicandX">The multiplicand M1X1.</param>
-    /// <param name="multiplicandY">The multiplicand M1X2.</param>
-    /// <param name="multiplier1x1">The multiplier M1X1.</param>
-    /// <param name="multiplier1x2">The multiplier M1X2.</param>
-    /// <param name="multiplier2x1">The multiplier M2X1.</param>
-    /// <param name="multiplier2x2">The multiplier M2X2.</param>
-    /// <returns></returns>
+    /// <param name="multiplicandX">The multiplicand x.</param>
+    /// <param name="multiplicandY">The multiplicand y.</param>
+    /// <param name="multiplier1x1">The multiplier1x1.</param>
+    /// <param name="multiplier1x2">The multiplier1x2.</param>
+    /// <param name="multiplier2x1">The multiplier2x1.</param>
+    /// <param name="multiplier2x2">The multiplier2x2.</param>
+    /// <returns>A (T X, T Y) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) MultiplyVectorMatrix<T>(
         T multiplicandX, T multiplicandY,
@@ -2694,18 +2694,18 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the vector matrix.
     /// </summary>
-    /// <param name="multiplicandX">The multiplicand M1X1.</param>
-    /// <param name="multiplicandY">The multiplicand M1X2.</param>
-    /// <param name="multiplicandZ">The multiplicand M1X3.</param>
-    /// <param name="multiplier1x1">The multiplier M1X1.</param>
-    /// <param name="multiplier1x2">The multiplier M1X2.</param>
-    /// <param name="multiplier2x1">The multiplier M2X1.</param>
-    /// <param name="multiplier2x2">The multiplier M2X2.</param>
-    /// <param name="multiplier3x1">The multiplier M3X1.</param>
-    /// <param name="multiplier3x2">The multiplier M3X2.</param>
-    /// <returns></returns>
+    /// <param name="multiplicandX">The multiplicand x.</param>
+    /// <param name="multiplicandY">The multiplicand y.</param>
+    /// <param name="multiplicandZ">The multiplicand z.</param>
+    /// <param name="multiplier1x1">The multiplier1x1.</param>
+    /// <param name="multiplier1x2">The multiplier1x2.</param>
+    /// <param name="multiplier2x1">The multiplier2x1.</param>
+    /// <param name="multiplier2x2">The multiplier2x2.</param>
+    /// <param name="multiplier3x1">The multiplier3x1.</param>
+    /// <param name="multiplier3x2">The multiplier3x2.</param>
+    /// <returns>A (T X, T Y) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) MultiplyVectorMatrix<T>(
         T multiplicandX, T multiplicandY, T multiplicandZ,
@@ -2721,21 +2721,21 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the vector matrix.
     /// </summary>
-    /// <param name="multiplicandX">The multiplicand M1X1.</param>
-    /// <param name="multiplicandY">The multiplicand M1X2.</param>
-    /// <param name="multiplicandZ">The multiplicand M1X3.</param>
-    /// <param name="multiplier1x1">The multiplier M1X1.</param>
-    /// <param name="multiplier1x2">The multiplier M1X2.</param>
-    /// <param name="multiplier1x3">The multiplier M1X3.</param>
-    /// <param name="multiplier2x1">The multiplier M2X1.</param>
-    /// <param name="multiplier2x2">The multiplier M2X2.</param>
-    /// <param name="multiplier2x3">The multiplier M2X3.</param>
-    /// <param name="multiplier3x1">The multiplier M3X1.</param>
-    /// <param name="multiplier3x2">The multiplier M3X2.</param>
-    /// <param name="multiplier3x3">The multiplier M3X3.</param>
-    /// <returns></returns>
+    /// <param name="multiplicandX">The multiplicand x.</param>
+    /// <param name="multiplicandY">The multiplicand y.</param>
+    /// <param name="multiplicandZ">The multiplicand z.</param>
+    /// <param name="multiplier1x1">The multiplier1x1.</param>
+    /// <param name="multiplier1x2">The multiplier1x2.</param>
+    /// <param name="multiplier1x3">The multiplier1x3.</param>
+    /// <param name="multiplier2x1">The multiplier2x1.</param>
+    /// <param name="multiplier2x2">The multiplier2x2.</param>
+    /// <param name="multiplier2x3">The multiplier2x3.</param>
+    /// <param name="multiplier3x1">The multiplier3x1.</param>
+    /// <param name="multiplier3x2">The multiplier3x2.</param>
+    /// <param name="multiplier3x3">The multiplier3x3.</param>
+    /// <returns>A (T X, T Y, T Z) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z) MultiplyVectorMatrix<T>(
         T multiplicandX, T multiplicandY, T multiplicandZ,
@@ -2752,29 +2752,29 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the vector matrix.
     /// </summary>
-    /// <param name="multiplicandX">The multiplicand M1X1.</param>
-    /// <param name="multiplicandY">The multiplicand M1X2.</param>
-    /// <param name="multiplicandZ">The multiplicand M1X3.</param>
-    /// <param name="multiplicandW">The multiplicand M1X4.</param>
-    /// <param name="multiplier1x1">The multiplier M1X1.</param>
-    /// <param name="multiplier1x2">The multiplier M1X2.</param>
-    /// <param name="multiplier1x3">The multiplier M1X3.</param>
-    /// <param name="multiplier1x4">The multiplier M1X4.</param>
-    /// <param name="multiplier2x1">The multiplier M2X1.</param>
-    /// <param name="multiplier2x2">The multiplier M2X2.</param>
-    /// <param name="multiplier2x3">The multiplier M2X3.</param>
-    /// <param name="multiplier2x4">The multiplier M2X4.</param>
-    /// <param name="multiplier3x1">The multiplier M3X1.</param>
-    /// <param name="multiplier3x2">The multiplier M3X2.</param>
-    /// <param name="multiplier3x3">The multiplier M3X3.</param>
-    /// <param name="multiplier3x4">The multiplier M3X4.</param>
-    /// <param name="multiplier4x1">The multiplier M4X1.</param>
-    /// <param name="multiplier4x2">The multiplier M4X2.</param>
-    /// <param name="multiplier4x3">The multiplier M4X3.</param>
-    /// <param name="multiplier4x4">The multiplier M4X4.</param>
-    /// <returns></returns>
+    /// <param name="multiplicandX">The multiplicand x.</param>
+    /// <param name="multiplicandY">The multiplicand y.</param>
+    /// <param name="multiplicandZ">The multiplicand z.</param>
+    /// <param name="multiplicandW">The multiplicand w.</param>
+    /// <param name="multiplier1x1">The multiplier1x1.</param>
+    /// <param name="multiplier1x2">The multiplier1x2.</param>
+    /// <param name="multiplier1x3">The multiplier1x3.</param>
+    /// <param name="multiplier1x4">The multiplier1x4.</param>
+    /// <param name="multiplier2x1">The multiplier2x1.</param>
+    /// <param name="multiplier2x2">The multiplier2x2.</param>
+    /// <param name="multiplier2x3">The multiplier2x3.</param>
+    /// <param name="multiplier2x4">The multiplier2x4.</param>
+    /// <param name="multiplier3x1">The multiplier3x1.</param>
+    /// <param name="multiplier3x2">The multiplier3x2.</param>
+    /// <param name="multiplier3x3">The multiplier3x3.</param>
+    /// <param name="multiplier3x4">The multiplier3x4.</param>
+    /// <param name="multiplier4x1">The multiplier4x1.</param>
+    /// <param name="multiplier4x2">The multiplier4x2.</param>
+    /// <param name="multiplier4x3">The multiplier4x3.</param>
+    /// <param name="multiplier4x4">The multiplier4x4.</param>
+    /// <returns>A (T X, T Y, T Z, T W) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z, T W) MultiplyVectorMatrix<T>(
         T multiplicandX, T multiplicandY, T multiplicandZ, T multiplicandW,
@@ -2793,39 +2793,39 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Multiplies the vector matrix.
     /// </summary>
-    /// <param name="multiplicandX">The multiplicand M1X1.</param>
-    /// <param name="multiplicandY">The multiplicand M1X2.</param>
-    /// <param name="multiplicandZ">The multiplicand M1X3.</param>
-    /// <param name="multiplicandW">The multiplicand M1X4.</param>
-    /// <param name="multiplicandV">The multiplicand M1X5.</param>
-    /// <param name="multiplier1x1">The multiplier M1X1.</param>
-    /// <param name="multiplier1x2">The multiplier M1X2.</param>
-    /// <param name="multiplier1x3">The multiplier M1X3.</param>
-    /// <param name="multiplier1x4">The multiplier M1X4.</param>
-    /// <param name="multiplier1x5">The multiplier M1X5.</param>
-    /// <param name="multiplier2x1">The multiplier M2X1.</param>
-    /// <param name="multiplier2x2">The multiplier M2X2.</param>
-    /// <param name="multiplier2x3">The multiplier M2X3.</param>
-    /// <param name="multiplier2x4">The multiplier M2X4.</param>
-    /// <param name="multiplier2x5">The multiplier M2X5.</param>
-    /// <param name="multiplier3x1">The multiplier M3X1.</param>
-    /// <param name="multiplier3x2">The multiplier M3X2.</param>
-    /// <param name="multiplier3x3">The multiplier M3X3.</param>
-    /// <param name="multiplier3x4">The multiplier M3X4.</param>
-    /// <param name="multiplier3x5">The multiplier M3X5.</param>
-    /// <param name="multiplier4x1">The multiplier M4X1.</param>
-    /// <param name="multiplier4x2">The multiplier M4X2.</param>
-    /// <param name="multiplier4x3">The multiplier M4X3.</param>
-    /// <param name="multiplier4x4">The multiplier M4X4.</param>
-    /// <param name="multiplier4x5">The multiplier M4X5.</param>
-    /// <param name="multiplier5x1">The multiplier M5X1.</param>
-    /// <param name="multiplier5x2">The multiplier M5X2.</param>
-    /// <param name="multiplier5x3">The multiplier M5X3.</param>
-    /// <param name="multiplier5x4">The multiplier M5X4.</param>
-    /// <param name="multiplier5x5">The multiplier M5X5.</param>
-    /// <returns></returns>
+    /// <param name="multiplicandX">The multiplicand x.</param>
+    /// <param name="multiplicandY">The multiplicand y.</param>
+    /// <param name="multiplicandZ">The multiplicand z.</param>
+    /// <param name="multiplicandW">The multiplicand w.</param>
+    /// <param name="multiplicandV">The multiplicand v.</param>
+    /// <param name="multiplier1x1">The multiplier1x1.</param>
+    /// <param name="multiplier1x2">The multiplier1x2.</param>
+    /// <param name="multiplier1x3">The multiplier1x3.</param>
+    /// <param name="multiplier1x4">The multiplier1x4.</param>
+    /// <param name="multiplier1x5">The multiplier1x5.</param>
+    /// <param name="multiplier2x1">The multiplier2x1.</param>
+    /// <param name="multiplier2x2">The multiplier2x2.</param>
+    /// <param name="multiplier2x3">The multiplier2x3.</param>
+    /// <param name="multiplier2x4">The multiplier2x4.</param>
+    /// <param name="multiplier2x5">The multiplier2x5.</param>
+    /// <param name="multiplier3x1">The multiplier3x1.</param>
+    /// <param name="multiplier3x2">The multiplier3x2.</param>
+    /// <param name="multiplier3x3">The multiplier3x3.</param>
+    /// <param name="multiplier3x4">The multiplier3x4.</param>
+    /// <param name="multiplier3x5">The multiplier3x5.</param>
+    /// <param name="multiplier4x1">The multiplier4x1.</param>
+    /// <param name="multiplier4x2">The multiplier4x2.</param>
+    /// <param name="multiplier4x3">The multiplier4x3.</param>
+    /// <param name="multiplier4x4">The multiplier4x4.</param>
+    /// <param name="multiplier4x5">The multiplier4x5.</param>
+    /// <param name="multiplier5x1">The multiplier5x1.</param>
+    /// <param name="multiplier5x2">The multiplier5x2.</param>
+    /// <param name="multiplier5x3">The multiplier5x3.</param>
+    /// <param name="multiplier5x4">The multiplier5x4.</param>
+    /// <param name="multiplier5x5">The multiplier5x5.</param>
+    /// <returns>A (T X, T Y, T Z, T W, T V) .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z, T W, T V) MultiplyVectorMatrix<T>(
         T multiplicandX, T multiplicandY, T multiplicandZ, T multiplicandW, T multiplicandV,
@@ -2848,14 +2848,11 @@ public static partial class Operations
 
     #region Matrix Multiplication
     /// <summary>
-    /// 
+    /// Multiplies the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="multiplicand"></param>
-    /// <param name="multiplier"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
+    /// <param name="multiplicand">The multiplicand.</param>
+    /// <param name="multiplier">The multiplier.</param>
+    /// <returns>An array of TResults.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] Multiply<T, TResult>(Span2D<T> multiplicand, Span2D<T> multiplier)
         where T : INumber<T>
@@ -2892,7 +2889,7 @@ public static partial class Operations
 
                 for (int k = 0; k < columnsMultiplicand; k++)
                 {
-                    dotProduct += TResult.Create(multiplicand[i, k] * multiplier[k, j]);
+                    dotProduct += TResult.CreateChecked(multiplicand[i, k] * multiplier[k, j]);
                 }
 
                 product[i, j] = dotProduct;
@@ -3065,7 +3062,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] MatrixMatrixScalarMultiplication<T>(Span2D<T> multiplicand, Span2D<T> multiplier, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (multiplicand == null)
         {
@@ -3263,7 +3260,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] MatrixMatrixScalarMultiplication<T>(Span2D<T> multiplicand, int multiplicandRows, int multiplicandColumns, Span2D<T> multiplier, int multiplierRows, int multiplierColumns, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         if (multiplicand == null)
         {
@@ -3624,7 +3621,7 @@ public static partial class Operations
         {
             for (var j = 0; j < ColumnsMultiplier; j++)
             {
-                product[i, j] = TResult.Create(colummnVectorMultiplicand[i] * rowVectorMultiplier[j]);
+                product[i, j] = TResult.CreateChecked(colummnVectorMultiplicand[i] * rowVectorMultiplier[j]);
             }
         }
 

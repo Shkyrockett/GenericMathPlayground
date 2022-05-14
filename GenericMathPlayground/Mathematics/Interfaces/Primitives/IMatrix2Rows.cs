@@ -1,5 +1,5 @@
 ﻿// <copyright file="IMatrix2Rows.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,12 +9,12 @@
 // <remarks>
 // </remarks>
 
-using System;
+using System.Numerics;
 
 namespace GenericMathPlayground.Mathematics
 {
     /// <summary>
-    /// 
+    /// The matrix2 rows.
     /// </summary>
     public interface IMatrix2Rows<T, TVector>
         : IMatrix<T>
@@ -22,12 +22,12 @@ namespace GenericMathPlayground.Mathematics
         where TVector : IVector<T>
     {
         /// <summary>
-        /// 
+        /// Gets or sets the row x.
         /// </summary>
         TVector RowX { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets the row y.
         /// </summary>
         TVector RowY { get; set; }
     }

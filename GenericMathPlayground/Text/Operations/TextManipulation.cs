@@ -1,5 +1,5 @@
 ﻿// <copyright file="TextManipulation.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -12,7 +12,7 @@
 namespace GenericMathPlayground.Text;
 
 /// <summary>
-/// 
+/// The text manipulation.
 /// </summary>
 public static partial class TextManipulation
 {

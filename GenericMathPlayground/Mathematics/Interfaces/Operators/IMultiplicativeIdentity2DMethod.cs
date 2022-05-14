@@ -1,5 +1,5 @@
 ﻿// <copyright file="IMultiplicativeIdentity2DMethod.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -14,7 +14,7 @@ using System.Runtime.Versioning;
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The multiplicative identity2 d method.
 /// </summary>
 /// <typeparam name="TSelf"></typeparam>
 /// <typeparam name="TResult"></typeparam>

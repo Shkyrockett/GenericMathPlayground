@@ -1,5 +1,5 @@
 ﻿// <copyright file="ISubtractionOperators2.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -14,7 +14,7 @@ using System.Runtime.Versioning;
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The subtraction operators2.
 /// </summary>
 /// <typeparam name="TSelf"></typeparam>
 /// <typeparam name="TOther"></typeparam>
@@ -23,6 +23,14 @@ namespace GenericMathPlayground.Mathematics;
 public interface ISubtractionOperators2<TOther, TSelf, TResult>
     where TSelf : ISubtractionOperators2<TOther, TSelf, TResult>
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    static abstract TResult operator checked -(TOther left, TSelf right);
+
     /// <summary>
     /// 
     /// </summary>

@@ -1,5 +1,5 @@
 // <copyright file="Program.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -8,9 +8,6 @@
 // <summary></summary>
 // <remarks>
 // </remarks>
-
-using System;
-using System.Windows.Forms;
 
 namespace GenericMathPlayground;
 
@@ -25,6 +22,8 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
+        // To customize application configuration such as set high DPI settings or default font,
+        // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
         using var mainForm = new Form1();
         Application.Run(mainForm);

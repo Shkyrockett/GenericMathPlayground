@@ -1,5 +1,5 @@
 ﻿// <copyright file="Point2.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,14 +10,14 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
-using System;
+using System.Numerics;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace GenericMathPlayground.Geometry;
 
 /// <summary>
-/// 
+/// The point2.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class Point2<T>

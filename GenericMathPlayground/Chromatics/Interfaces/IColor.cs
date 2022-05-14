@@ -1,5 +1,5 @@
 ﻿// <copyright file="IColor.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,14 +9,13 @@
 // <remarks>
 // </remarks>
 
-using System;
+using System.Numerics;
 
 namespace GenericMathPlayground.Chromatics;
 
 /// <summary>
-/// 
+/// The color interface.
 /// </summary>
-/// <typeparam name="T"></typeparam>
 public interface IColor<T>
     where T : INumber<T>
 {

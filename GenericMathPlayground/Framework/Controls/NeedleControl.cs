@@ -1,5 +1,5 @@
 ﻿// <copyright file="NeedleControl.cs" company="Shkyrockett" >
-//     Copyright © 2016 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2016 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,12 +10,9 @@
 
 using GenericMathPlayground.Framework;
 using GenericMathPlayground.Mathematics;
-using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
 
 namespace GenericMathPlayground;
 

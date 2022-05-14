@@ -1,5 +1,5 @@
 ﻿// <copyright file="IModulusOperators2.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -14,7 +14,7 @@ using System.Runtime.Versioning;
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The modulus operators2.
 /// </summary>
 /// <typeparam name="TOther"></typeparam>
 /// <typeparam name="TSelf"></typeparam>

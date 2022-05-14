@@ -1,5 +1,5 @@
 ﻿// <copyright file="Size4.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,14 +10,14 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
-using System;
+using System.Numerics;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace GenericMathPlayground.Geometry;
 
 /// <summary>
-/// 
+/// The size4.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class Size4<T>
@@ -33,83 +33,83 @@ public class Size4<T>
 
     #region Constructors
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size4{T}"/> class.
     /// </summary>
     public Size4() => value = new();
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size4{T}"/> class.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">The value.</param>
     public Size4(ValueSize4<T> value) => this.value = value;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size4{T}"/> class.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">The value.</param>
     public Size4(IVector4<T> value) => this.value = new(value);
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size4{T}"/> class.
     /// </summary>
-    /// <param name="tuple"></param>
+    /// <param name="tuple">The tuple.</param>
     public Size4((T Width, T Height, T Depth, T Breadth) tuple) => value = new(tuple);
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size4{T}"/> class.
     /// </summary>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    /// <param name="depth"></param>
-    /// <param name="breadth"></param>
+    /// <param name="width">The width.</param>
+    /// <param name="height">The height.</param>
+    /// <param name="depth">The depth.</param>
+    /// <param name="breadth">The breadth.</param>
     public Size4(T width, T height, T depth, T breadth) => value = new(width, height, depth, breadth);
     #endregion
 
     #region Deconstructors
     /// <summary>
-    /// 
+    /// Deconstructs the.
     /// </summary>
-    /// <param name="Width"></param>
-    /// <param name="Height"></param>
-    /// <param name="Depth"></param>
-    /// <param name="Breadth"></param>
+    /// <param name="Width">The width.</param>
+    /// <param name="Height">The height.</param>
+    /// <param name="Depth">The depth.</param>
+    /// <param name="Breadth">The breadth.</param>
     public void Deconstruct(out T Width, out T Height, out T Depth, out T Breadth) => (Width, Height, Depth, Breadth) = value;
     #endregion
 
     #region Properties
     /// <summary>
-    /// 
+    /// Gets or sets the value.
     /// </summary>
     public ValueSize4<T> Value { get { return value; } set { this.value = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the width.
     /// </summary>
     public T Width { get { return value.Width; } set { this.value.Width = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the height.
     /// </summary>
     public T Height { get { return value.Height; } set { this.value.Height = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the depth.
     /// </summary>
     public T Depth { get { return value.Depth; } set { this.value.Depth = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the breadth.
     /// </summary>
     public T Breadth { get { return value.Breadth; } set { this.value.Breadth = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the items.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public T[] Items { get { return new T[] { Width, Height, Depth, Breadth }; } set { (Width, Height, Depth, Breadth) = (value[0], value[1], value[2], value[3]); } }
 
     /// <summary>
-    /// 
+    /// Gets the count.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public int Count => value.Count;

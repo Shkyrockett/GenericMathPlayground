@@ -1,5 +1,5 @@
 ﻿// <copyright file="IMatrix5Rows.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,12 +9,12 @@
 // <remarks>
 // </remarks>
 
-using System;
+using System.Numerics;
 
 namespace GenericMathPlayground.Mathematics
 {
     /// <summary>
-    /// 
+    /// The matrix5 rows.
     /// </summary>
     public interface IMatrix5Rows<T, TVector>
         : IMatrix4Rows<T, TVector>
@@ -22,7 +22,7 @@ namespace GenericMathPlayground.Mathematics
         where TVector : IVector<T>
     {
         /// <summary>
-        /// 
+        /// Gets or sets the row v.
         /// </summary>
         TVector RowV { get; set; }
     }

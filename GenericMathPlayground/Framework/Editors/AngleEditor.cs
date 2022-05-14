@@ -1,5 +1,5 @@
 ﻿// <copyright file="AngleEditor.cs" company="Shkyrockett" >
-//     Copyright © 2005 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2005 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -8,7 +8,6 @@
 // <summary></summary>
 // <remarks></remarks>
 
-using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
@@ -36,7 +35,7 @@ public class AngleEditor
     /// </summary>
     /// <param name="context">The context.</param>
     /// <returns>The <see cref="UITypeEditorEditStyle"/>.</returns>
-    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) => UITypeEditorEditStyle.DropDown;
+    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext? context) => UITypeEditorEditStyle.DropDown;
 
     /// <summary>
     /// The edit value.
@@ -45,7 +44,7 @@ public class AngleEditor
     /// <param name="formatProvider">The provider.</param>
     /// <param name="value">The value.</param>
     /// <returns>The <see cref="object"/>.</returns>
-    public override object EditValue(ITypeDescriptorContext context, IServiceProvider formatProvider, object value)
+    public override object EditValue(ITypeDescriptorContext? context, IServiceProvider? formatProvider, object? value)
     {
         // ----- Prompt the user using a drop-down editor.
         IWindowsFormsEditorService? useService;
@@ -58,7 +57,7 @@ public class AngleEditor
         }
 
         uiDisplay.EditorService = useService;
-        uiDisplay.Angle = (double)value;
+        uiDisplay.Angle = (double)(value ?? 0d);
 
         // ----- Display the drop-down portion.
         useService?.DropDownControl(uiDisplay);

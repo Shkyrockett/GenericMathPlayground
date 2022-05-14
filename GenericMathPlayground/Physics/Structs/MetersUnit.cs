@@ -1,5 +1,5 @@
 // <copyright file="MetersUnit.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -11,10 +11,10 @@
 
 using GenericMathPlayground.Mathematics;
 using Microsoft.Toolkit.HighPerformance;
-using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 
@@ -32,7 +32,7 @@ public readonly struct MetersUnit
     IEquatable<MetersUnit>,
     ISpanFormattable,
     IFormattable,
-    IBinaryFloatingPoint<MetersUnit>,
+    IBinaryFloatingPointIeee754<MetersUnit>,
     IBinaryNumber<MetersUnit>,
     IBitwiseOperators<MetersUnit, MetersUnit, MetersUnit>,
     INumber<MetersUnit>,
@@ -46,24 +46,24 @@ public readonly struct MetersUnit
     IModulusOperators<MetersUnit, MetersUnit, MetersUnit>,
     IMultiplicativeIdentity<MetersUnit, MetersUnit>,
     IMultiplyOperators<MetersUnit, MetersUnit, MetersUnit>,
-    IParseable<MetersUnit>,
-    ISpanParseable<MetersUnit>,
+    IParsable<MetersUnit>,
+    ISpanParsable<MetersUnit>,
     ISubtractionOperators<MetersUnit, MetersUnit, MetersUnit>,
     IUnaryNegationOperators<MetersUnit, MetersUnit>,
     IUnaryPlusOperators<MetersUnit, MetersUnit>,
-    IFloatingPoint<MetersUnit>,
+    IFloatingPointIeee754<MetersUnit>,
     ISignedNumber<MetersUnit>,
     IMinMaxValue<MetersUnit>
 {
     #region Abstract Properties
     /// <summary>
-    /// 
+    /// Gets the additive identity.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit AdditiveIdentity => Zero;
 
     /// <summary>
-    /// 
+    /// Gets the e.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit E => Math.E;
@@ -87,13 +87,13 @@ public readonly struct MetersUnit
     public static MetersUnit NegativeInfinity => double.NegativeInfinity;
 
     /// <summary>
-    /// 
+    /// Gets the negative zero.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit NegativeZero => -0d;
 
     /// <summary>
-    /// 
+    /// Gets the pi.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit Pi => Math.PI;
@@ -105,7 +105,7 @@ public readonly struct MetersUnit
     public static MetersUnit PositiveInfinity => double.PositiveInfinity;
 
     /// <summary>
-    /// 
+    /// Gets the tau.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit Tau => Math.Tau;
@@ -123,31 +123,31 @@ public readonly struct MetersUnit
     public static MetersUnit MaxValue => double.MaxValue;
 
     /// <summary>
-    /// 
+    /// Gets the one.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit One => 1d;
 
     /// <summary>
-    /// 
+    /// Gets the zero.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit Zero => 0d;
 
     /// <summary>
-    /// 
+    /// Gets the multiplicative identity.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit MultiplicativeIdentity => One;
 
     /// <summary>
-    /// 
+    /// Gets the negative one.
     /// </summary>
     [RequiresPreviewFeatures]
     public static MetersUnit NegativeOne => -1d;
 
     /// <summary>
-    /// 
+    /// Gets the in meters.
     /// </summary>
     [RequiresPreviewFeatures]
     public static double InMeters => 1d;
@@ -155,27 +155,27 @@ public readonly struct MetersUnit
 
     #region Constructors
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="MetersUnit"/> class.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public MetersUnit() : this(0d) { }
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="MetersUnit"/> class.
     /// </summary>
-    /// <param name="v"></param>
+    /// <param name="v">The v.</param>
     public MetersUnit(double v) => Value = v;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="MetersUnit"/> class.
     /// </summary>
-    /// <param name="v"></param>
+    /// <param name="v">The v.</param>
     public MetersUnit(MetersUnit v) => Value = v.Value;
     #endregion
 
     #region Properties
     /// <summary>
-    /// 
+    /// Gets the value.
     /// </summary>
     public double Value { get; }
     #endregion
@@ -296,7 +296,21 @@ public readonly struct MetersUnit
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
+    public static MetersUnit operator checked -(MetersUnit value) => new(-value.Value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static MetersUnit operator --(MetersUnit value) => new(value.Value - One.Value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static MetersUnit operator checked --(MetersUnit value) => new(value.Value - One.Value);
 
     /// <summary>
     /// 
@@ -305,6 +319,14 @@ public readonly struct MetersUnit
     /// <param name="right"></param>
     /// <returns></returns>
     public static MetersUnit operator -(MetersUnit left, MetersUnit right) => new(left.Value - right.Value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static MetersUnit operator checked -(MetersUnit left, MetersUnit right) => new(left.Value - right.Value);
 
     /// <summary>
     /// 
@@ -323,6 +345,13 @@ public readonly struct MetersUnit
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static MetersUnit operator checked ++(MetersUnit value) => new(value.Value + One.Value);
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
@@ -334,7 +363,23 @@ public readonly struct MetersUnit
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
+    public static MetersUnit operator checked +(MetersUnit left, MetersUnit right) => new(left.Value + right.Value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static MetersUnit operator /(MetersUnit left, MetersUnit right) => new(left.Value / right.Value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static MetersUnit operator checked /(MetersUnit left, MetersUnit right) => new(left.Value / right.Value);
 
     /// <summary>
     /// 
@@ -351,6 +396,14 @@ public readonly struct MetersUnit
     /// <param name="right"></param>
     /// <returns></returns>
     public static MetersUnit operator *(MetersUnit left, MetersUnit right) => new(left.Value * right.Value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static MetersUnit operator checked *(MetersUnit left, MetersUnit right) => new(left.Value * right.Value);
 
     /// <summary>
     /// 
@@ -765,11 +818,11 @@ public readonly struct MetersUnit
     }
 
     /// <summary>
-    /// 
+    /// Parses the.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <returns>A MetersUnit.</returns>
     public static MetersUnit Parse(ReadOnlySpan<char> s, IFormatProvider? provider) => double.Parse(s.ToString(), provider);
 
     /// <summary>
@@ -783,12 +836,12 @@ public readonly struct MetersUnit
     public static bool TryParse(ReadOnlySpan<char> s, out double result) => double.TryParse(s, out result);
 
     /// <summary>
-    /// 
+    /// Tries the parse.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
     public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out MetersUnit result)
     {
         if (double.TryParse(s, NumberStyles.Float, provider, out var r))
@@ -801,12 +854,12 @@ public readonly struct MetersUnit
     }
 
     /// <summary>
-    /// 
+    /// Tries the parse.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
     public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out MetersUnit result)
     {
         if (double.TryParse(s, NumberStyles.Float, provider, out var r))
@@ -884,396 +937,391 @@ public readonly struct MetersUnit
     }
 
     /// <summary>
-    /// 
+    /// Are the pow2.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A bool.</returns>
     [RequiresPreviewFeatures]
     public static bool IsPow2(MetersUnit value) => value.Value == Math.Pow(2d, Math.Log(value.Value, 2d));
 
     /// <summary>
-    /// 
+    /// Acos the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Acos(MetersUnit x) => Math.Acos(x.Value);
 
     /// <summary>
-    /// 
+    /// Acoshes the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Acosh(MetersUnit x) => Math.Acosh(x.Value);
 
     /// <summary>
-    /// 
+    /// Asins the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Asin(MetersUnit x) => Math.Asin(x.Value);
 
     /// <summary>
-    /// 
+    /// Asinhs the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Asinh(MetersUnit x) => Math.Asinh(x.Value);
 
     /// <summary>
-    /// 
+    /// Atans the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Atan(MetersUnit x) => Math.Atan(x.Value);
 
     /// <summary>
-    /// 
+    /// Atan2S the.
     /// </summary>
-    /// <param name="y"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="y">The y.</param>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Atan2(MetersUnit y, MetersUnit x) => Math.Atan2(y.Value, x.Value);
 
     /// <summary>
-    /// 
+    /// Atanhs the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Atanh(MetersUnit x) => Math.Atanh(x.Value);
 
     /// <summary>
-    /// 
+    /// Bits the increment.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit BitIncrement(MetersUnit x) => Math.BitIncrement(x.Value);
 
     /// <summary>
-    /// 
+    /// Bits the decrement.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit BitDecrement(MetersUnit x) => Math.BitDecrement(x.Value);
 
     /// <summary>
-    /// 
+    /// Cbrts the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Cbrt(MetersUnit x) => Math.Cbrt(x.Value);
 
     /// <summary>
-    /// 
+    /// Ceilings the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Ceiling(MetersUnit x) => Math.Ceiling(x.Value);
 
     /// <summary>
-    /// 
+    /// Copies the sign.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit CopySign(MetersUnit x, MetersUnit y) => Math.CopySign(x.Value, y.Value);
 
     /// <summary>
-    /// 
+    /// Cos the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Cos(MetersUnit x) => Math.Cos(x.Value);
 
     /// <summary>
-    /// 
+    /// Coshes the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Cosh(MetersUnit x) => Math.Cosh(x.Value);
 
     /// <summary>
-    /// 
+    /// Exps the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Exp(MetersUnit x) => Math.Exp(x.Value);
 
     /// <summary>
-    /// 
+    /// Floors the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Floor(MetersUnit x) => Math.Floor(x.Value);
 
     /// <summary>
-    /// 
+    /// Fuseds the multiply add.
     /// </summary>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <param name="addend"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <param name="addend">The addend.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit FusedMultiplyAdd(MetersUnit left, MetersUnit right, MetersUnit addend) => Math.FusedMultiplyAdd(left.Value, right.Value, addend.Value);
 
     /// <summary>
-    /// 
+    /// IS the e e e remainder.
     /// </summary>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit IEEERemainder(MetersUnit left, MetersUnit right) => Math.IEEERemainder(left.Value, right.Value);
 
     /// <summary>
-    /// 
+    /// Logs the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Log(MetersUnit x) => Math.Log(x.Value);
 
     /// <summary>
-    /// 
+    /// Logs the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="newBase"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="newBase">The new base.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Log(MetersUnit x, MetersUnit newBase) => Math.Log(x.Value, newBase.Value);
 
     /// <summary>
-    /// 
+    /// Log2S the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Log2(MetersUnit x) => Math.Log2(x.Value);
 
     /// <summary>
-    /// 
+    /// Log10S the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Log10(MetersUnit x) => Math.Log10(x.Value);
 
     /// <summary>
-    /// 
+    /// Maxes the magnitude.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit MaxMagnitude(MetersUnit x, MetersUnit y) => new(Math.MaxMagnitude(x.Value, y.Value));
 
     /// <summary>
-    /// 
+    /// Mins the magnitude.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit MinMagnitude(MetersUnit x, MetersUnit y) => new(Math.MinMagnitude(x.Value, y.Value));
 
     /// <summary>
-    /// 
+    /// Pows the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Pow(MetersUnit x, MetersUnit y) => Math.Pow(x.Value, y.Value);
 
     /// <summary>
-    /// 
+    /// Rounds the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Round(MetersUnit x) => Math.Round(x.Value);
 
     /// <summary>
-    /// 
+    /// Rounds the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="mode"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="mode">The mode.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Round(MetersUnit x, MidpointRounding mode) => Math.Round(x.Value, mode);
 
     /// <summary>
-    /// 
+    /// Sins the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Sin(MetersUnit x) => Math.Sin(x.Value);
 
     /// <summary>
-    /// 
+    /// Sinhs the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Sinh(MetersUnit x) => Math.Sinh(x.Value);
 
     /// <summary>
-    /// 
+    /// Sqrts the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Sqrt(MetersUnit x) => Math.Sqrt(x.Value);
 
     /// <summary>
-    /// 
+    /// Tans the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Tan(MetersUnit x) => Math.Tan(x.Value);
 
     /// <summary>
-    /// 
+    /// Tanhs the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Tanh(MetersUnit x) => Math.Tanh(x.Value);
 
     /// <summary>
-    /// 
+    /// Truncates the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Truncate(MetersUnit x) => Math.Truncate(x.Value);
 
     /// <summary>
-    /// 
+    /// Abs the.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Abs(MetersUnit value) => Math.Abs(value.Value);
 
     /// <summary>
-    /// 
+    /// Clamps the.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="min"></param>
-    /// <param name="max"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <param name="min">The min.</param>
+    /// <param name="max">The max.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Clamp(MetersUnit value, MetersUnit min, MetersUnit max) => Math.Clamp(value.Value, min.Value, max.Value);
 
     /// <summary>
-    /// 
+    /// Creates the.
     /// </summary>
-    /// <typeparam name="TOther"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Create<TOther>(TOther value) where TOther : INumber<TOther> => new(Operations.Cast<TOther, double>(value));
 
     /// <summary>
-    /// 
+    /// Creates the saturating.
     /// </summary>
-    /// <typeparam name="TOther"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit CreateSaturating<TOther>(TOther value) where TOther : INumber<TOther> => new(Operations.CastSaturating<TOther, double>(value));
 
     /// <summary>
-    /// 
+    /// Creates the truncating.
     /// </summary>
-    /// <typeparam name="TOther"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit CreateTruncating<TOther>(TOther value) where TOther : INumber<TOther> => new(Operations.CastTruncating<TOther, double>(value));
 
     /// <summary>
-    /// 
+    /// Divs the rem.
     /// </summary>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A (MetersUnit Quotient, MetersUnit Remainder) .</returns>
     [RequiresPreviewFeatures]
     public static (MetersUnit Quotient, MetersUnit Remainder) DivRem(MetersUnit left, MetersUnit right) => DivRem(left.Value, right.Value);
 
     /// <summary>
-    /// 
+    /// Maxes the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Max(MetersUnit x, MetersUnit y) => Math.Max(x.Value, y.Value);
 
     /// <summary>
-    /// 
+    /// Mins the.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Min(MetersUnit x, MetersUnit y) => Math.Min(x.Value, y.Value);
 
     /// <summary>
-    /// 
+    /// Signs the.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A MetersUnit.</returns>
     [RequiresPreviewFeatures]
     public static MetersUnit Sign(MetersUnit value) => Math.Sign(value.Value);
 
     /// <summary>
-    /// 
+    /// Compares the to.
     /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
+    /// <param name="other">The other.</param>
+    /// <returns>An int.</returns>
     public int CompareTo(MetersUnit other) => Value.CompareTo(other.Value);
 
     /// <summary>
-    /// 
+    /// Equals the.
     /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
+    /// <param name="other">The other.</param>
+    /// <returns>A bool.</returns>
     public bool Equals(MetersUnit other) => Value.Equals(other.Value);
 
     /// <summary>
-    /// 
+    /// IS the log b.
     /// </summary>
-    /// <typeparam name="TInteger"></typeparam>
-    /// <param name="x"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <returns>A TInteger.</returns>
     public static TInteger ILogB<TInteger>(MetersUnit x) where TInteger : IBinaryInteger<TInteger> => Operations.Cast<int, TInteger>(Math.ILogB(x.Value)) ?? TInteger.Zero;
 
     /// <summary>
-    /// 
+    /// Tries the create.
     /// </summary>
-    /// <typeparam name="TOther"></typeparam>
-    /// <param name="value"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
     public static bool TryCreate<TOther>(TOther value, out MetersUnit result) where TOther : INumber<TOther>
     {
         result = new(Operations.Cast<TOther, double>(value));
@@ -1281,30 +1329,160 @@ public readonly struct MetersUnit
     }
 
     /// <summary>
-    /// 
+    /// Rounds the.
     /// </summary>
-    /// <typeparam name="TInteger"></typeparam>
-    /// <param name="x"></param>
-    /// <param name="digits"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="digits">The digits.</param>
+    /// <returns>A MetersUnit.</returns>
     public static MetersUnit Round<TInteger>(MetersUnit x, TInteger digits) where TInteger : IBinaryInteger<TInteger> => Math.Round(x.Value, Operations.Cast<TInteger, int>(digits));
 
     /// <summary>
-    /// 
+    /// Rounds the.
     /// </summary>
-    /// <typeparam name="TInteger"></typeparam>
-    /// <param name="x"></param>
-    /// <param name="digits"></param>
-    /// <param name="mode"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="digits">The digits.</param>
+    /// <param name="mode">The mode.</param>
+    /// <returns>A MetersUnit.</returns>
     public static MetersUnit Round<TInteger>(MetersUnit x, TInteger digits, MidpointRounding mode) where TInteger : IBinaryInteger<TInteger> => Math.Round(x.Value, Operations.Cast<TInteger, int>(digits), mode);
 
     /// <summary>
-    /// 
+    /// Scales the b.
     /// </summary>
-    /// <typeparam name="TInteger"></typeparam>
-    /// <param name="x"></param>
-    /// <param name="n"></param>
-    /// <returns></returns>
+    /// <param name="x">The x.</param>
+    /// <param name="n">The n.</param>
+    /// <returns>A MetersUnit.</returns>
     public static MetersUnit ScaleB<TInteger>(MetersUnit x, TInteger n) where TInteger : IBinaryInteger<TInteger> => Math.ScaleB(x.Value, Operations.Cast<TInteger, int>(n));
+
+    /// <summary>
+    /// Ieee754S the remainder.
+    /// </summary>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit Ieee754Remainder(MetersUnit left, MetersUnit right) => Math.IEEERemainder(left.Value, right.Value);
+
+    /// <summary>
+    /// IS the log b.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>An int.</returns>
+    public static int ILogB(MetersUnit x) => Math.ILogB(x.Value);
+
+    /// <summary>
+    /// Reciprocals the estimate.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit ReciprocalEstimate(MetersUnit x) => Math.ReciprocalEstimate(x.Value);
+
+    /// <summary>
+    /// Reciprocals the sqrt estimate.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit ReciprocalSqrtEstimate(MetersUnit x) => Math.ReciprocalSqrtEstimate(x.Value);
+
+    /// <summary>
+    /// Scales the b.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="n">The n.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit ScaleB(MetersUnit x, int n) => Math.ScaleB(x.Value, n);
+
+    /// <summary>
+    /// Gets the exponent byte count.
+    /// </summary>
+    /// <returns>An int.</returns>
+    public int GetExponentByteCount()
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Gets the exponent shortest bit length.
+    /// </summary>
+    /// <returns>A long.</returns>
+    public long GetExponentShortestBitLength()
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Gets the significand byte count.
+    /// </summary>
+    /// <returns>An int.</returns>
+    public int GetSignificandByteCount()
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Gets the significand bit length.
+    /// </summary>
+    /// <returns>A long.</returns>
+    public long GetSignificandBitLength()
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Rounds the.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="digits">The digits.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit Round(MetersUnit x, int digits) => Math.Round(x.Value, digits);
+
+    /// <summary>
+    /// Rounds the.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="digits">The digits.</param>
+    /// <param name="mode">The mode.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit Round(MetersUnit x, int digits, MidpointRounding mode) => Math.Round(x.Value, digits, mode);
+
+    /// <summary>
+    /// Tries the write exponent little endian.
+    /// </summary>
+    /// <param name="destination">The destination.</param>
+    /// <param name="bytesWritten">The bytes written.</param>
+    /// <returns>A bool.</returns>
+    public bool TryWriteExponentLittleEndian(Span<byte> destination, out int bytesWritten)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Tries the write significand little endian.
+    /// </summary>
+    /// <param name="destination">The destination.</param>
+    /// <param name="bytesWritten">The bytes written.</param>
+    /// <returns>A bool.</returns>
+    public bool TryWriteSignificandLittleEndian(Span<byte> destination, out int bytesWritten)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Creates the checked.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit CreateChecked<TOther>(TOther value) where TOther : INumber<TOther> => new(Operations.Cast<TOther, double>(value));
+
+    /// <summary>
+    /// Signs the.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>An int.</returns>
+    static int INumber<MetersUnit>.Sign(MetersUnit value) => Math.Sign(value.Value);
+
+    /// <summary>
+    /// Sins the cos.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A (MetersUnit Sin, MetersUnit Cos) .</returns>
+    public static (MetersUnit Sin, MetersUnit Cos) SinCos(MetersUnit x) => Math.SinCos(x.Value);
 }

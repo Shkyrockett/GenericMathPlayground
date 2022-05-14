@@ -1,5 +1,5 @@
 ﻿// <copyright file="NumericRange.cs" company="Shkyrockett" >
-//     Copyright © 2016 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2016 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -8,12 +8,11 @@
 // <summary></summary>
 // <remarks></remarks>
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -33,11 +32,11 @@ namespace GenericMathPlayground.Mathematics
     {
         #region Constructors
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="NumericRange{T}"/> class.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
         public NumericRange()
-            : this(T.Zero, T.One, T.Zero, T.One, T.Create(1 / 10), Overflow.Clamp)
+            : this(T.Zero, T.One, T.Zero, T.One, T.CreateChecked(1 / 10), Overflow.Clamp)
         { }
 
         /// <summary>
@@ -176,7 +175,7 @@ namespace GenericMathPlayground.Mathematics
         /// <returns>
         /// A new <see cref="NumericRange{T}" /> struct set up for iteration from the start for a designated length.
         /// </returns>
-        public static NumericRange<T> StartLengthCountRange(T start, T length, int count) => new(start, start + length, start, start + length, length / T.Create(count), Overflow.Clamp);
+        public static NumericRange<T> StartLengthCountRange(T start, T length, int count) => new(start, start + length, start, start + length, length / T.CreateChecked(count), Overflow.Clamp);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NumericRange{T}" /> struct for iteration in Radians.
@@ -187,7 +186,7 @@ namespace GenericMathPlayground.Mathematics
         /// <returns>
         /// A new <see cref="NumericRange{T}" /> struct set up for iterating radians.
         /// </returns>
-        public static NumericRange<R> RadiansRange<R>(R start, R end, int count) where R : IFloatingPoint<R> => new(start, end, -R.Pi, R.Pi, (end - start) / R.Create(count), Overflow.Wrap);
+        public static NumericRange<R> RadiansRange<R>(R start, R end, int count) where R : IFloatingPointIeee754<R> => new(start, end, -R.Pi, R.Pi, (end - start) / R.CreateChecked(count), Overflow.Wrap);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NumericRange{T}" /> struct for iteration in Degrees.
@@ -197,7 +196,7 @@ namespace GenericMathPlayground.Mathematics
         /// <returns>
         /// A new <see cref="NumericRange{T}" /> struct set up for iterating degrees.
         /// </returns>
-        public static NumericRange<R> DegreesRange<R>(R start, R end) where R : IFloatingPoint<R> => new(start, end, R.Zero, R.Create(360), R.One, Overflow.Wrap);
+        public static NumericRange<R> DegreesRange<R>(R start, R end) where R : IFloatingPointIeee754<R> => new(start, end, R.Zero, R.CreateChecked(360), R.One, Overflow.Wrap);
         #endregion
 
         #region Standard Methods
@@ -256,9 +255,9 @@ namespace GenericMathPlayground.Mathematics
         public bool Equals([AllowNull] NumericRange<T> other) => Min == other.Min && Max == other.Max && UnitMin == other.UnitMin && UnitMax == other.UnitMax && Step == other.Step && Overflow == other.Overflow;
 
         /// <summary>
-        /// 
+        /// Gets the debugger display.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A string? .</returns>
         private string? GetDebuggerDisplay() => ToString();
         #endregion
     }

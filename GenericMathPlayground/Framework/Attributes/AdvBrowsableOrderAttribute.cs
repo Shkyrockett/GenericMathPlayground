@@ -9,8 +9,6 @@
 // <summary></summary>
 // <remarks></remarks>
 
-using System;
-
 namespace GenericMathPlayground.Framework;
 
 /// <summary>

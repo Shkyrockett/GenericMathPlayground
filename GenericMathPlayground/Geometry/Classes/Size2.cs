@@ -1,5 +1,5 @@
 ﻿// <copyright file="Size2.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,14 +10,14 @@
 // </remarks>
 
 using GenericMathPlayground.Mathematics;
-using System;
+using System.Numerics;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace GenericMathPlayground.Geometry;
 
 /// <summary>
-/// 
+/// The size2.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class Size2<T>
@@ -33,79 +33,79 @@ public class Size2<T>
 
     #region Constructors
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size2{T}"/> class.
     /// </summary>
     public Size2() => value = new();
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size2{T}"/> class.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">The value.</param>
     public Size2(ValueSize2<T> value) => this.value = value;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size2{T}"/> class.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">The value.</param>
     public Size2(IVector2<T> value) => this.value = new(value);
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size2{T}"/> class.
     /// </summary>
-    /// <param name="tuple"></param>
+    /// <param name="tuple">The tuple.</param>
     public Size2((T Width, T Height) tuple) => value = new(tuple);
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Size2{T}"/> class.
     /// </summary>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
+    /// <param name="width">The width.</param>
+    /// <param name="height">The height.</param>
     public Size2(T width, T height) => value = new(width, height);
     #endregion
 
     #region Deconstructors
     /// <summary>
-    /// 
+    /// Deconstructs the.
     /// </summary>
-    /// <param name="Width"></param>
-    /// <param name="Height"></param>
+    /// <param name="Width">The width.</param>
+    /// <param name="Height">The height.</param>
     public void Deconstruct(out T Width, out T Height) => (Width, Height) = value;
     #endregion
 
     #region Properties
     /// <summary>
-    /// 
+    /// Gets or sets the value.
     /// </summary>
     public ValueSize2<T> Value { get { return value; } set { this.value = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the width.
     /// </summary>
     public T Width { get { return value.Width; } set { this.value.Width = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the height.
     /// </summary>
     public T Height { get { return value.Height; } set { this.value.Height = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the x.
     /// </summary>
     T IVector2<T>.X { get { return value.Width; } set { this.value.Width = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the y.
     /// </summary>
     T IVector2<T>.Y { get { return value.Height; } set { this.value.Height = value; } }
 
     /// <summary>
-    /// 
+    /// Gets or sets the items.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public T[] Items { get { return new T[] { Width, Height }; } set { (Width, Height) = (value[0], value[1]); } }
 
     /// <summary>
-    /// 
+    /// Gets the count.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public int Count => value.Count;

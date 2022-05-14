@@ -1,5 +1,5 @@
 ﻿// <copyright file="ExpandableCollectionConverter.cs" company="Shkyrockett" >
-//     Copyright © 2005 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2005 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -8,7 +8,6 @@
 // <summary></summary>
 // <remarks></remarks>
 
-using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
@@ -38,13 +37,8 @@ public class ExpandableCollectionConverter
     /// The <see cref="object" />.
     /// </returns>
     /// <exception cref="ArgumentNullException">destinationType</exception>
-    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
+    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType!!)
     {
-        if (destinationType is null)
-        {
-            throw new ArgumentNullException(nameof(destinationType));
-        }
-
         return destinationType == typeof(string) ? "(Collection)" : base.ConvertTo(context, culture, value, destinationType);
     }
 

@@ -1,5 +1,5 @@
 ﻿// <copyright file="UnitConversion.Length.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,13 +9,13 @@
 // <remarks>
 // </remarks>
 
-using System;
-using System.Collections.Generic;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Physics;
 
 /// <summary>
-/// 
+/// The unit conversion.
 /// </summary>
 public static partial class UnitConversion
 {
@@ -30,20 +30,20 @@ public static partial class UnitConversion
     };
 
     /// <summary>
-    /// 
+    /// Converts the to unit.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="sourceType"></param>
-    /// <param name="destType"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <param name="sourceType">The source type.</param>
+    /// <param name="destType">The dest type.</param>
+    /// <returns>A double.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static double ConvertToUnit(double value, Type sourceType, Type destType) => value * (MetricLengthUnitConversions[sourceType] / MetricLengthUnitConversions[destType]);
 
     /// <summary>
-    /// 
+    /// Converts the to.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="R"></typeparam>
-    /// <param name="value"></param>
-    /// <param name="result"></param>
-    public static void ConvertTo<T, R>(this T value, out R result) where T : INumber<T>, ILengthUnit where R : INumber<R>, ILengthUnit => result = R.Create(value.Value * (T.InMeters * (1d / R.InMeters)));
+    /// <param name="value">The value.</param>
+    /// <param name="result">The result.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static void ConvertTo<T, R>(this T value, out R result) where T : INumber<T>, ILengthUnit where R : INumber<R>, ILengthUnit => result = R.CreateChecked(value.Value * (T.InMeters * (1d / R.InMeters)));
 }

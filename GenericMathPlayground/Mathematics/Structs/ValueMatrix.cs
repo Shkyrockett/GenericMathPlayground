@@ -1,5 +1,5 @@
 ﻿// <copyright file="ValueMatrix.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,12 +9,11 @@
 // <remarks>
 // </remarks>
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -22,7 +21,7 @@ using System.Xml.Serialization;
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The value matrix.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -30,8 +29,8 @@ namespace GenericMathPlayground.Mathematics;
 public struct ValueMatrix<T>
     : IMatrix<T>,
     IFormattable,
-    IParseable<ValueMatrix<T>>,
-    ISpanParseable<ValueMatrix<T>>,
+    IParsable<ValueMatrix<T>>,
+    ISpanParsable<ValueMatrix<T>>,
     IEquatable<ValueMatrix<T>>,
     IAdditiveIdentityMethod<ValueMatrix<T>, ValueMatrix<T>>,
     IAdditiveIdentity2DMethod<ValueMatrix<T>, ValueMatrix<T>>,
@@ -51,59 +50,59 @@ public struct ValueMatrix<T>
 {
     #region Constructors
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix{T}"/> class.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public ValueMatrix() : this(new T[,] { }) { }
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix{T}"/> class.
     /// </summary>
-    /// <param name="vectors"></param>
+    /// <param name="vectors">The vectors.</param>
     public ValueMatrix(IVector<T>[] vectors) => Items = Factories.MatrixFromVectorRows(vectors);
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix{T}"/> class.
     /// </summary>
-    /// <param name="matrix"></param>
+    /// <param name="matrix">The matrix.</param>
     public ValueMatrix(IMatrix<T> matrix) => Items = matrix.Items;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix{T}"/> class.
     /// </summary>
-    /// <param name="matrix"></param>
+    /// <param name="matrix">The matrix.</param>
     public ValueMatrix(T[,] matrix) => Items = matrix;
     #endregion
 
     #region Deconstructors
     /// <summary>
-    /// 
+    /// Deconstructs the.
     /// </summary>
-    /// <param name="vectors"></param>
+    /// <param name="vectors">The vectors.</param>
     public void Deconstruct(out ValueVector<T>[] vectors) => vectors = Factories.MatrixVectorRows<T>(Items);
 
     /// <summary>
-    /// 
+    /// Deconstructs the.
     /// </summary>
-    /// <param name="vectors"></param>
+    /// <param name="vectors">The vectors.</param>
     public void Deconstruct(out T[][] vectors) => vectors = Factories.MatrixRows<T>(Items);
     #endregion
 
     #region Properties
     /// <summary>
-    /// 
+    /// Gets or sets the items.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T[,] Items { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets the rows.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public int Rows => Items.GetLength(0);
 
     /// <summary>
-    /// 
+    /// Gets the columns.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public int Columns => Items.GetLength(1);
@@ -118,43 +117,43 @@ public struct ValueMatrix<T>
     public T Determinant => Operations.Determinant<T>(Items);
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether is scaler.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public bool IsScaler => Operations.IsScaler<T>(Items);
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether is vector.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public bool IsVector => Operations.IsVector<T>(Items);
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether square is matrix.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public bool IsSquareMatrix => Operations.IsSquareMatrix<T>(Items);
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether additive is identity.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public bool IsAdditiveIdentity => Operations.IsAdditiveIdentity<T>(Items);
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether multiplicative is identity.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public bool IsMultiplicativeIdentity => Operations.IsMultiplicativeIdentity<T>(Items);
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether lower is matrix.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public bool IsLowerMatrix => Operations.IsLowerMatrix<T>(Items);
 
     /// <summary>
-    /// 
+    /// Gets a value indicating whether upper is matrix.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public bool IsUpperMatrix => Operations.IsUpperMatrix<T>(Items);
@@ -195,9 +194,24 @@ public struct ValueMatrix<T>
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static ValueMatrix<T> operator checked +(ValueMatrix<T> left, ValueMatrix<T> right) => new(Operations.Add<T>(left.Items, right.Items));
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     public static ValueMatrix<T> operator -(ValueMatrix<T> value) => new(Operations.Negate<T>(value.Items));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static ValueMatrix<T> operator checked -(ValueMatrix<T> value) => new(Operations.Negate<T>(value.Items));
 
     /// <summary>
     /// 
@@ -213,7 +227,23 @@ public struct ValueMatrix<T>
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
+    public static ValueMatrix<T> operator checked -(ValueMatrix<T> left, ValueMatrix<T> right) => new(Operations.Subtract<T>(left.Items, right.Items));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static ValueMatrix<T> operator *(ValueMatrix<T> left, ValueMatrix<T> right) => new(Operations.Multiply<T>(left.Items, right.Items));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static ValueMatrix<T> operator checked *(ValueMatrix<T> left, ValueMatrix<T> right) => new(Operations.Multiply<T>(left.Items, right.Items));
 
     /// <summary>
     /// 
@@ -229,7 +259,23 @@ public struct ValueMatrix<T>
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
+    public static ValueVector<T> operator checked *(IVector<T> left, ValueMatrix<T> right) => new(Operations.Multiply<T>(left.Items, right.Items));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static ValueVector<T> operator *(ValueMatrix<T> left, IVector<T> right) => new(Operations.Multiply<T>(left.Items, right.Items));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static ValueVector<T> operator checked *(ValueMatrix<T> left, IVector<T> right) => new(Operations.Multiply<T>(left.Items, right.Items));
 
     /// <summary>
     /// 
@@ -245,152 +291,168 @@ public struct ValueMatrix<T>
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
+    public static ValueMatrix<T> operator checked *(ValueMatrix<T> left, T right) => new(Operations.Scale(left.Items, right));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static ValueMatrix<T> operator *(T left, ValueMatrix<T> right) => new(Operations.Scale(left, right.Items));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static ValueMatrix<T> operator checked *(T left, ValueMatrix<T> right) => new(Operations.Scale(left, right.Items));
     #endregion
 
     #region Factories
     /// <summary>
-    /// 
+    /// Additives the identity.
     /// </summary>
-    /// <param name="size"></param>
-    /// <returns></returns>
+    /// <param name="size">The size.</param>
+    /// <returns>A ValueMatrix.</returns>
     public static ValueMatrix<T> AdditiveIdentity(int size) => new(Factories.AdditiveIdentity<T>(size, size));
 
     /// <summary>
-    /// 
+    /// Additives the identity.
     /// </summary>
-    /// <param name="collumns"></param>
-    /// <param name="rows"></param>
-    /// <returns></returns>
+    /// <param name="collumns">The collumns.</param>
+    /// <param name="rows">The rows.</param>
+    /// <returns>A ValueMatrix.</returns>
     public static ValueMatrix<T> AdditiveIdentity(int collumns, int rows) => new(Factories.AdditiveIdentity<T>(collumns, rows));
 
     /// <summary>
-    /// 
+    /// Multiplicatives the identity.
     /// </summary>
-    /// <param name="size"></param>
-    /// <returns></returns>
+    /// <param name="size">The size.</param>
+    /// <returns>A ValueMatrix.</returns>
     public static ValueMatrix<T> MultiplicativeIdentity(int size) => new(Factories.MultiplicativeIdentity<T>(size, size));
 
     /// <summary>
-    /// 
+    /// Multiplicatives the identity.
     /// </summary>
-    /// <param name="collumns"></param>
-    /// <param name="rows"></param>
-    /// <returns></returns>
+    /// <param name="collumns">The collumns.</param>
+    /// <param name="rows">The rows.</param>
+    /// <returns>A ValueMatrix.</returns>
     public static ValueMatrix<T> MultiplicativeIdentity(int collumns, int rows) => new(Factories.MultiplicativeIdentity<T>(collumns, rows));
     #endregion
 
     /// <summary>
-    /// 
+    /// Transposes the.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A ValueMatrix.</returns>
     public ValueMatrix<T> Transpose() => new(Operations.Transpose<T>(Items));
 
     /// <summary>
-    /// 
+    /// Rotates the clockwise.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A ValueMatrix.</returns>
     public ValueMatrix<T> RotateClockwise() => new(Operations.RotateMatrixClockwise<T>(Items));
 
     /// <summary>
-    /// 
+    /// Rotates the counter clockwise.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A ValueMatrix.</returns>
     public ValueMatrix<T> RotateCounterClockwise() => new(Operations.RotateMatrixCounterClockwise<T>(Items));
 
     /// <summary>
-    /// 
+    /// Gets the hash code.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>An int.</returns>
     public override int GetHashCode() => Items.GetHashCode();
 
     /// <summary>
-    /// 
+    /// Equals the.
     /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
+    /// <param name="obj">The obj.</param>
+    /// <returns>A bool.</returns>
     public override bool Equals(object? obj) => obj is ValueMatrix<T> matrix && Equals(matrix);
 
     /// <summary>
-    /// 
+    /// Equals the.
     /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
+    /// <param name="other">The other.</param>
+    /// <returns>A bool.</returns>
     public bool Equals(ValueMatrix<T> other) => Items is T[] vector1
             && other.Items is T[] vector2
             && vector1.Rank == vector2.Rank
             && Enumerable.Range(0, vector1.Rank).All(dimension => vector1.GetLength(dimension) == vector2.GetLength(dimension)) && vector1.Cast<T>().SequenceEqual(vector2.Cast<T>());
 
     /// <summary>
-    /// 
+    /// Parses the.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <returns>A ValueMatrix.</returns>
     public static ValueMatrix<T> Parse(string s, IFormatProvider? provider)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// 
+    /// Tries the parse.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
     public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out ValueMatrix<T> result)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// 
+    /// Parses the.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <returns>A ValueMatrix.</returns>
     public static ValueMatrix<T> Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// 
+    /// Tries the parse.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
     public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ValueMatrix<T> result)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// 
+    /// Tos the string.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A string? .</returns>
     public override string? ToString() => ToString("R", CultureInfo.InvariantCulture);
 
     /// <summary>
-    /// 
+    /// Tos the string.
     /// </summary>
-    /// <param name="formatProvider"></param>
-    /// <returns></returns>
+    /// <param name="formatProvider">The format provider.</param>
+    /// <returns>A string.</returns>
     public string ToString(IFormatProvider formatProvider) => ToString("R", formatProvider);
 
     /// <summary>
-    /// 
+    /// Tos the string.
     /// </summary>
-    /// <param name="format"></param>
-    /// <param name="formatProvider"></param>
-    /// <returns></returns>
+    /// <param name="format">The format.</param>
+    /// <param name="formatProvider">The format provider.</param>
+    /// <returns>A string.</returns>
     public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueMatrix<T>)}: ({string.Join(", ", Items.Select((v, i, j) => $"{Operations.MatrixComponentNames[(i, j)]}: {v}").ToArray())})";
 
     /// <summary>
-    /// 
+    /// Gets the debugger display.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A string? .</returns>
     private string? GetDebuggerDisplay() => ToString();
 }

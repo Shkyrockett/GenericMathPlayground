@@ -1,5 +1,5 @@
 ﻿// <copyright file="Operations.Matricies.Algebratics.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,7 +10,7 @@
 // </remarks>
 
 using Microsoft.Toolkit.HighPerformance;
-using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
@@ -1845,7 +1845,7 @@ public static partial class Operations
     /// <acknowledgment>
     /// https://github.com/GeorgiSGeorgiev/ExtendedMatrixCalculator
     /// </acknowledgment>
-    public static T[,] DiagonalizeMatrix<T>(Span2D<T> originalMatrix, int accuracy) where T : IFloatingPoint<T> => MatrixMatrixScalarMultiplication(Transpose(originalMatrix, accuracy), originalMatrix, accuracy);
+    public static T[,] DiagonalizeMatrix<T>(Span2D<T> originalMatrix, int accuracy) where T : IFloatingPointIeee754<T> => MatrixMatrixScalarMultiplication(Transpose(originalMatrix, accuracy), originalMatrix, accuracy);
 
     /// <summary>
     /// Diagonalizes the matrix.
@@ -1859,7 +1859,7 @@ public static partial class Operations
     /// <acknowledgment>
     /// https://github.com/GeorgiSGeorgiev/ExtendedMatrixCalculator
     /// </acknowledgment>
-    public static T[,] DiagonalizeMatrix<T>(Span2D<T> originalMatrix, int rows, int columns, int accuracy) where T : IFloatingPoint<T> => MatrixMatrixScalarMultiplication(Transpose(originalMatrix, rows, columns, accuracy), columns, rows, originalMatrix, rows, columns, accuracy);
+    public static T[,] DiagonalizeMatrix<T>(Span2D<T> originalMatrix, int rows, int columns, int accuracy) where T : IFloatingPointIeee754<T> => MatrixMatrixScalarMultiplication(Transpose(originalMatrix, rows, columns, accuracy), columns, rows, originalMatrix, rows, columns, accuracy);
     #endregion
 
     #region Decompose to Lower and Upper Matrices

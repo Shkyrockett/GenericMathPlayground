@@ -1,5 +1,5 @@
 ﻿// <copyright file="Operations.Matricies.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,8 +10,7 @@
 // </remarks>
 
 using Microsoft.Toolkit.HighPerformance;
-using System;
-using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
@@ -63,7 +62,7 @@ public static partial class Operations
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] Round<T, TResult>(this Span2D<T> matrix, int accuracy, MidpointRounding mode = MidpointRounding.ToEven)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
         where TResult : INumber<TResult>
     {
         var rows = matrix.Height;
@@ -75,7 +74,7 @@ public static partial class Operations
         {
             for (var j = 0; j < columns; j++)
             {
-                result[i, j] = TResult.Create(T.Round(matrix[i, j], accuracy, mode));
+                result[i, j] = TResult.CreateChecked(T.Round(matrix[i, j], accuracy, mode));
             }
         }
 
@@ -93,7 +92,7 @@ public static partial class Operations
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] Round<T, TResult>(this Span2D<T> matrix, int rows, int columns, int accuracy, MidpointRounding mode = MidpointRounding.ToEven)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
         where TResult : INumber<TResult>
     {
         if (rows > matrix.Height || columns > matrix.Width)
@@ -107,7 +106,7 @@ public static partial class Operations
         {
             for (var j = 0; j < columns; j++)
             {
-                result[i, j] = TResult.Create(T.Round(matrix[i, j], accuracy, mode));
+                result[i, j] = TResult.CreateChecked(T.Round(matrix[i, j], accuracy, mode));
             }
         }
 
@@ -117,12 +116,10 @@ public static partial class Operations
 
     #region Matrix Type Conversion
     /// <summary>
-    /// 
+    /// Casts the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>An array of TResults.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] Cast<T, TResult>(this Span2D<T> value)
         where T : INumber<T>
@@ -134,7 +131,7 @@ public static partial class Operations
         {
             for (int j = 0; j < value.Height; j++)
             {
-                result[i, j] = TResult.Create(value[i, j]);
+                result[i, j] = TResult.CreateChecked(value[i, j]);
             }
         }
 
@@ -142,14 +139,12 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Casts the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <param name="rows"></param>
-    /// <param name="columns"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <param name="rows">The rows.</param>
+    /// <param name="columns">The columns.</param>
+    /// <returns>An array of TResults.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] Cast<T, TResult>(this Span2D<T> value, int rows, int columns)
         where T : INumber<T>
@@ -166,7 +161,7 @@ public static partial class Operations
         {
             for (int j = 0; j < columns; j++)
             {
-                result[i, j] = TResult.Create(value[i, j]);
+                result[i, j] = TResult.CreateChecked(value[i, j]);
             }
         }
 
@@ -174,12 +169,10 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Casts the saturating.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>An array of TResults.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] CastSaturating<T, TResult>(this Span2D<T> value)
         where T : INumber<T>
@@ -199,14 +192,12 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Casts the saturating.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <param name="rows"></param>
-    /// <param name="columns"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <param name="rows">The rows.</param>
+    /// <param name="columns">The columns.</param>
+    /// <returns>An array of TResults.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] CastSaturating<T, TResult>(this Span2D<T> value, int rows, int columns)
         where T : INumber<T>
@@ -231,12 +222,10 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Casts the truncating.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>An array of TResults.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] CastTruncating<T, TResult>(this Span2D<T> value)
         where T : INumber<T>
@@ -256,14 +245,12 @@ public static partial class Operations
     }
 
     /// <summary>
-    /// 
+    /// Casts the truncating.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <param name="rows"></param>
-    /// <param name="columns"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <param name="rows">The rows.</param>
+    /// <param name="columns">The columns.</param>
+    /// <returns>An array of TResults.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult[,] CastTruncating<T, TResult>(this Span2D<T> value, int rows, int columns)
         where T : INumber<T>
@@ -468,10 +455,10 @@ public static partial class Operations
 
     #region Matrix Diagonal from Vector
     /// <summary>
-    /// 
+    /// Diagnals the from vector.
     /// </summary>
-    /// <param name="vector"></param>
-    /// <returns></returns>
+    /// <param name="vector">The vector.</param>
+    /// <returns>An array of TS.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] DiagnalFromVector<T>(Span<T> vector)
         where T : INumber<T>
@@ -703,7 +690,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Transpose<T>(Span2D<T> matrix, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         var rows = matrix.Height;
         var columns = matrix.Width;
@@ -734,7 +721,7 @@ public static partial class Operations
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T[,] Transpose<T>(Span2D<T> matrix, int rows, int columns, int accuracy)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         var result = new T[columns, rows];
         for (var i = 0; i < rows; i++)

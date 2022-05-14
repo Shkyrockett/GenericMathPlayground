@@ -1,5 +1,5 @@
 ﻿// <copyright file="IRotationalUnit.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -12,12 +12,12 @@
 namespace GenericMathPlayground.Physics;
 
 /// <summary>
-/// 
+/// The rotational unit.
 /// </summary>
 public interface IRotationalUnit
 {
     /// <summary>
-    /// 
+    /// Gets the value.
     /// </summary>
     double Value { get; }
 }

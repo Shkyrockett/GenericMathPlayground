@@ -1,5 +1,5 @@
 ﻿// <copyright file="IMatrix4Columns.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,12 +9,12 @@
 // <remarks>
 // </remarks>
 
-using System;
+using System.Numerics;
 
 namespace GenericMathPlayground.Mathematics
 {
     /// <summary>
-    /// 
+    /// The matrix4 columns.
     /// </summary>
     public interface IMatrix4Columns<T, TVector>
         : IMatrix3Columns<T, TVector>
@@ -22,7 +22,7 @@ namespace GenericMathPlayground.Mathematics
         where TVector : IVector<T>
     {
         /// <summary>
-        /// 
+        /// Gets or sets the column w.
         /// </summary>
         TVector ColumnW { get; set; }
     }

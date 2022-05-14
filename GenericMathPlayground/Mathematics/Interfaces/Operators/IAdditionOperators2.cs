@@ -1,5 +1,5 @@
 ﻿// <copyright file="IAdditionOperators2.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -14,7 +14,7 @@ using System.Runtime.Versioning;
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The addition operators2.
 /// </summary>
 /// <typeparam name="TOther"></typeparam>
 /// <typeparam name="TSelf"></typeparam>
@@ -23,6 +23,14 @@ namespace GenericMathPlayground.Mathematics;
 public interface IAdditionOperators2<TOther, TSelf, TResult>
     where TSelf : IAdditionOperators2<TOther, TSelf, TResult>
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    static abstract TResult operator checked +(TOther left, TSelf right);
+
     /// <summary>
     /// 
     /// </summary>

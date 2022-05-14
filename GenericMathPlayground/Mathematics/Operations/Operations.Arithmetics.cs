@@ -1,5 +1,5 @@
 ﻿// <copyright file="Operations.Arithmetics.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,7 +9,7 @@
 // <remarks>
 // </remarks>
 
-using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
@@ -21,149 +21,119 @@ public static partial class Operations
 {
     #region Scaler Equality
     /// <summary>
-    /// 
+    /// Equals the.
     /// </summary>
-    /// <typeparam name="TLeft"></typeparam>
-    /// <typeparam name="TRight"></typeparam>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static bool Equals<TLeft, TRight>(TLeft left, TRight right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> => left == TLeft.Create(right);
+    public static bool Equals<TLeft, TRight>(TLeft left, TRight right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> => left == TLeft.CreateChecked(right);
     #endregion
 
     #region Scaler Inequality
     /// <summary>
-    /// 
+    /// Nots the equals.
     /// </summary>
-    /// <typeparam name="TLeft"></typeparam>
-    /// <typeparam name="TRight"></typeparam>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static bool NotEquals<TLeft, TRight>(TLeft left, TRight right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> => !Equals(left, right);
     #endregion
 
     #region Scaler Plus
     /// <summary>
-    /// 
+    /// Pluses the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Plus<T, TResult>(T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.Create(+value);
+    public static TResult Plus<T, TResult>(T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.CreateChecked(+value);
     #endregion
 
     #region Scaler Addition
     /// <summary>
-    /// 
+    /// Adds the.
     /// </summary>
-    /// <typeparam name="TLeft"></typeparam>
-    /// <typeparam name="TRight"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
-    /// <acknowledgment>
-    /// https://devblogs.microsoft.com/dotnet/preview-features-in-net-6-generic-math/#trying-out-the-features
-    /// </acknowledgment>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Add<TLeft, TRight, TResult>(TLeft left, TRight right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.Create(left) + TResult.Create(right);
+    public static TResult Add<TLeft, TRight, TResult>(TLeft left, TRight right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.CreateChecked(left) + TResult.CreateChecked(right);
     #endregion
 
     #region Scaler Incrementation
     /// <summary>
-    /// 
+    /// Increments the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Increment<T, TResult>(T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.Create(value) + TResult.One;
+    public static TResult Increment<T, TResult>(T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.CreateChecked(value) + TResult.One;
     #endregion
 
     #region Scaler Negation
     /// <summary>
-    /// 
+    /// Negates the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Negate<T, TResult>(T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.Create(-value);
+    public static TResult Negate<T, TResult>(T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.CreateChecked(-value);
     #endregion
 
     #region Scaler Subtraction
     /// <summary>
-    /// 
+    /// Subtracts the.
     /// </summary>
-    /// <typeparam name="TLeft"></typeparam>
-    /// <typeparam name="TRight"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Subtract<TLeft, TRight, TResult>(TLeft left, TLeft right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.Create(left) - TResult.Create(right);
+    public static TResult Subtract<TLeft, TRight, TResult>(TLeft left, TLeft right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.CreateChecked(left) - TResult.CreateChecked(right);
     #endregion
 
     #region Scaler decrementation
     /// <summary>
-    /// 
+    /// Decrements the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Decrement<T, TResult>(T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.Create(value) - TResult.One;
+    public static TResult Decrement<T, TResult>(T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.CreateChecked(value) - TResult.One;
     #endregion
 
     #region Scaler Multiplication
     /// <summary>
-    /// 
+    /// Multiplies the.
     /// </summary>
-    /// <typeparam name="TLeft"></typeparam>
-    /// <typeparam name="TRight"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Multiply<TLeft, TRight, TResult>(TLeft left, TLeft right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.Create(left) * TResult.Create(right);
+    public static TResult Multiply<TLeft, TRight, TResult>(TLeft left, TLeft right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.CreateChecked(left) * TResult.CreateChecked(right);
     #endregion
 
     #region Scaler Division
     /// <summary>
-    /// 
+    /// Divides the.
     /// </summary>
-    /// <typeparam name="TLeft"></typeparam>
-    /// <typeparam name="TRight"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Divide<TLeft, TRight, TResult>(TLeft left, TLeft right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.Create(left) / TResult.Create(right);
+    public static TResult Divide<TLeft, TRight, TResult>(TLeft left, TLeft right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.CreateChecked(left) / TResult.CreateChecked(right);
     #endregion
 
     #region Scaler Modulus
     /// <summary>
-    /// 
+    /// Moduluses the.
     /// </summary>
-    /// <typeparam name="TLeft"></typeparam>
-    /// <typeparam name="TRight"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left.</param>
+    /// <param name="right">The right.</param>
+    /// <returns>A TResult.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Modulus<TLeft, TRight, TResult>(TLeft left, TLeft right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.Create(left) % TResult.Create(right);
+    public static TResult Modulus<TLeft, TRight, TResult>(TLeft left, TLeft right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult> => TResult.CreateChecked(left) % TResult.CreateChecked(right);
     #endregion
 
     #region Modulo
@@ -181,8 +151,8 @@ public static partial class Operations
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult Modulo<TLeft, TRight, TResult>(this TLeft left, TRight right) where TLeft : INumber<TLeft> where TRight : INumber<TRight> where TResult : INumber<TResult>
     {
-        var l = TResult.Create(left);
-        var r = TResult.Create(right);
+        var l = TResult.CreateChecked(left);
+        var r = TResult.CreateChecked(right);
         return ((l %= r) < TResult.Zero) ? l + r : l;
     }
     #endregion

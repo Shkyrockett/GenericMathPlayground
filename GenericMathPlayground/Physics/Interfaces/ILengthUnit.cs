@@ -1,5 +1,5 @@
 ﻿// <copyright file="ILengthUnit.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -12,17 +12,17 @@
 namespace GenericMathPlayground.Physics;
 
 /// <summary>
-/// 
+/// The length unit.
 /// </summary>
 public interface ILengthUnit
 {
     /// <summary>
-    /// 
+    /// Gets the value.
     /// </summary>
     double Value { get; }
 
     /// <summary>
-    /// 
+    /// Gets the in meters.
     /// </summary>
     static abstract double InMeters { get; }
 }

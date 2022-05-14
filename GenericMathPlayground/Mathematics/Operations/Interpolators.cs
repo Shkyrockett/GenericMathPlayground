@@ -1,5 +1,5 @@
 ﻿// <copyright file="Operations.Interpolations.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -11,15 +11,13 @@
 
 using GenericMathPlayground.Geometry;
 using Microsoft.Toolkit.HighPerformance;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The interpolators.
 /// </summary>
 public static partial class Interpolators
 {
@@ -42,7 +40,7 @@ public static partial class Interpolators
     /// <param name="func">The function.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static List<IPoint2<T>> Interpolate<T>(int count, int min, int max, Func<T, IPoint2<T>> func) where T : INumber<T> => (from i in Enumerable.Range(min, count) select func(T.Create(max) / T.Create(count * i))).ToList();
+    public static List<IPoint2<T>> Interpolate<T>(int count, int min, int max, Func<T, IPoint2<T>> func) where T : INumber<T> => (from i in Enumerable.Range(min, count) select func(T.CreateChecked(max) / T.CreateChecked(count * i))).ToList();
     #endregion
 
     #region Linear Interpolation
@@ -328,7 +326,7 @@ public static partial class Interpolators
     /// https://keithmaggio.wordpress.com/2011/02/15/math-magician-lerp-slerp-and-nlerp/
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Nlerp<T, TResult>(T t, T aV, T bV) where T : INumber<T> where TResult : IFloatingPoint<TResult> => Operations.Normalize<T, TResult>(Linear(t, aV, bV));
+    public static TResult Nlerp<T, TResult>(T t, T aV, T bV) where T : INumber<T> where TResult : IFloatingPointIeee754<TResult> => Operations.Normalize<T, TResult>(Linear(t, aV, bV));
 
     /// <summary>
     /// The nlerp.
@@ -345,7 +343,7 @@ public static partial class Interpolators
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (TResult X, TResult Y) Nlerp<T, TResult>(T t, T aX, T aY, T bX, T bY)
         where T : INumber<T>
-        where TResult : IFloatingPoint<TResult>
+        where TResult : IFloatingPointIeee754<TResult>
     {
         var (X, Y) = Linear(t, aX, aY, bX, bY);
         return Operations.Normalize<T, TResult>(X, Y);
@@ -368,7 +366,7 @@ public static partial class Interpolators
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (TResult X, TResult Y, TResult Z) Nlerp<T, TResult>(T t, T aX, T aY, T aZ, T bX, T bY, T bZ)
         where T : INumber<T>
-        where TResult : IFloatingPoint<TResult>
+        where TResult : IFloatingPointIeee754<TResult>
     {
         var (X, Y, Z) = Linear(t, aX, aY, aZ, bX, bY, bZ);
         return Operations.Normalize<T, TResult>(X, Y, Z);
@@ -385,7 +383,7 @@ public static partial class Interpolators
     /// https://keithmaggio.wordpress.com/2011/02/15/math-magician-lerp-slerp-and-nlerp/
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (TResult X, TResult Y) Nlerp<T, TResult>(T t, (T X, T Y) a, (T X, T Y) b) where T : INumber<T> where TResult : IFloatingPoint<TResult> => Operations.Normalize<T, TResult>(Linear(t, a, b));
+    public static (TResult X, TResult Y) Nlerp<T, TResult>(T t, (T X, T Y) a, (T X, T Y) b) where T : INumber<T> where TResult : IFloatingPointIeee754<TResult> => Operations.Normalize<T, TResult>(Linear(t, a, b));
 
     /// <summary>
     /// The nlerp.
@@ -398,7 +396,7 @@ public static partial class Interpolators
     /// https://keithmaggio.wordpress.com/2011/02/15/math-magician-lerp-slerp-and-nlerp/
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (TResult X, TResult Y, TResult Z) Nlerp<T, TResult>(T t, (T X, T Y, T Z) a, (T X, T Y, T Z) b) where T : INumber<T> where TResult : IFloatingPoint<TResult> => Operations.Normalize<T, TResult>(Linear(t, a, b));
+    public static (TResult X, TResult Y, TResult Z) Nlerp<T, TResult>(T t, (T X, T Y, T Z) a, (T X, T Y, T Z) b) where T : INumber<T> where TResult : IFloatingPointIeee754<TResult> => Operations.Normalize<T, TResult>(Linear(t, a, b));
     #endregion
 
     #region Spherical Linear Interpolation
@@ -414,7 +412,7 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static ValuePoint2<T> Slerp<T>(T percent, ValuePoint2<T> a, ValuePoint2<T> b)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         // Dot product - the cosine of the angle between 2 vectors.
         // Clamp it to be in the range of Acos()
@@ -447,7 +445,7 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static ValuePoint3<T> Slerp<T>(T percent, ValuePoint3<T> a, ValuePoint3<T> b)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         // Dot product - the cosine of the angle between 2 vectors.
         // Clamp it to be in the range of Acos()
@@ -479,7 +477,7 @@ public static partial class Interpolators
     ////[DebuggerStepThrough]
     //[MethodImpl(MethodImplOptions.AggressiveInlining)]
     //public static T Curve<T>(T t, Polynomial<T> vCurve)
-    //    where T : IFloatingPoint<T>
+    //    where T : IFloatingPointIeee754<T>
     //{
     //    var v = T.Zero;
     //    for (int s = vCurve.Count - 1, d = 0; s >= 0; s--, d++)
@@ -506,7 +504,7 @@ public static partial class Interpolators
     ////[DebuggerStepThrough]
     //[MethodImpl(MethodImplOptions.AggressiveInlining)]
     //public static (T x, T y) Curve<T>(T t, Polynomial<T> xCurve, Polynomial<T> yCurve)
-    //    where T : IFloatingPoint<T>
+    //    where T : IFloatingPointIeee754<T>
     //{
     //    var (x, y) = (T.Zero, T.Zero);
     //    for (int s = xCurve.Count - 1, d = 0; s >= 0; s--, d++)
@@ -535,7 +533,7 @@ public static partial class Interpolators
     ////[DebuggerStepThrough]
     //[MethodImpl(MethodImplOptions.AggressiveInlining)]
     //public static (T x, T y, T z) Curve<T>(T t, Polynomial<T> xCurve, Polynomial<T> yCurve, Polynomial<T> zCurve)
-    //    where T : IFloatingPoint<T>
+    //    where T : IFloatingPointIeee754<T>
     //{
     //    var (x, y, z) = (T.Zero, T.Zero, T.Zero);
     //    for (int s = xCurve.Count - 1, d = 0; s >= 0; s--, d++)
@@ -569,12 +567,12 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T QuadraticBezier<T>(T t, T aV, T bV, T cV)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         // The negative of t.
         var ti = T.One - t;
 
-        return (aV * ti * ti) + (T.Create(2) * bV * ti * t) + (cV * t * t);
+        return (aV * ti * ti) + (T.CreateChecked(2) * bV * ti * t) + (cV * t * t);
     }
 
     /// <summary>
@@ -593,9 +591,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) QuadraticBezier<T>(T t, T aX, T aY, T bX, T bY, T cX, T cY)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        T two = T.Create(2);
+        T two = T.CreateChecked(2);
 
         // The negative of t.
         var ti = T.One - t;
@@ -631,9 +629,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z) QuadraticBezier<T>(T t, T x0, T y0, T z0, T x1, T y1, T z1, T x2, T y2, T z2)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        T two = T.Create(2);
+        T two = T.CreateChecked(2);
 
         // The negative of t.
         var ti = T.One - t;
@@ -666,7 +664,7 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T Cubic<T>(T t, T aV, T bV, T cV, T dV)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         var t2 = t * t;
         var a0 = dV - cV - aV + bV;
@@ -691,7 +689,7 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) Cubic<T>(T t, T aX, T aY, T bX, T bY, T cX, T cY, T dX, T dY)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         var t2 = t * t;
         var aX0 = dX - cX - aX + bX;
@@ -723,7 +721,7 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z) Cubic<T>(T t, T aX, T aY, T aZ, T bX, T bY, T bZ, T cX, T cY, T cZ, T dX, T dY, T dZ)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         var t2 = t * t;
         var aX0 = dX - cX - aX + bX;
@@ -751,9 +749,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T CubicBezier<T>(T t, T v0, T v1, T v2, T v3)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        T three = T.Create(3);
+        T three = T.CreateChecked(3);
 
         // Negate t.
         var ti = T.One - t;
@@ -786,9 +784,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) CubicBezier<T>(T t, T x0, T y0, T x1, T y1, T x2, T y2, T x3, T y3)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        T three = T.Create(3);
+        T three = T.CreateChecked(3);
 
         // The negative of t.
         var ti = T.One - t;
@@ -827,9 +825,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z) CubicBezier<T>(T t, T x0, T y0, T z0, T x1, T y1, T z1, T x2, T y2, T z2, T x3, T y3, T z3)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        T three = T.Create(3);
+        T three = T.CreateChecked(3);
 
         // The negative of t.
         var ti = T.One - t;
@@ -865,7 +863,7 @@ public static partial class Interpolators
     /// <param name="p4Y">The p4 y.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) QuinticBezier<T>(T t, T p0X, T p0Y, T p1X, T p1Y, T p2X, T p2Y, T p3X, T p3Y, T p4X, T p4Y) where T : IFloatingPoint<T> => CubicBezierSpline(t, new List<ValuePoint2<T>> { new(p0X, p0Y), new(p1X, p1Y), new(p2X, p2Y), new(p3X, p3Y), new(p4X, p4Y) });
+    public static (T X, T Y) QuinticBezier<T>(T t, T p0X, T p0Y, T p1X, T p1Y, T p2X, T p2Y, T p3X, T p3Y, T p4X, T p4Y) where T : IFloatingPointIeee754<T> => CubicBezierSpline(t, new List<ValuePoint2<T>> { new(p0X, p0Y), new(p1X, p1Y), new(p2X, p2Y), new(p3X, p3Y), new(p4X, p4Y) });
     #endregion
 
     #region N Bézier Interpolation
@@ -881,7 +879,7 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) CubicBezierSpline<T>(T t, List<ValuePoint2<T>> points)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         var n = points.Count - 1;
         int kn;
@@ -890,7 +888,7 @@ public static partial class Interpolators
 
         T blend;
         var muk = T.One;
-        var munk = T.Pow(T.One - t, T.Create(n));
+        var munk = T.Pow(T.One - t, T.CreateChecked(n));
 
         var b = (X: T.Zero, Y: T.Zero);
 
@@ -904,16 +902,16 @@ public static partial class Interpolators
             munk /= T.One - t;
             while (nn >= 1)
             {
-                blend *= T.Create(nn);
+                blend *= T.CreateChecked(nn);
                 nn--;
                 if (kn > 1)
                 {
-                    blend /= T.Create(kn);
+                    blend /= T.CreateChecked(kn);
                     kn--;
                 }
                 if (nkn > 1)
                 {
-                    blend /= T.Create(nkn);
+                    blend /= T.CreateChecked(nkn);
                     nkn--;
                 }
             }
@@ -948,10 +946,10 @@ public static partial class Interpolators
         var t2 = t * t;
         var t3 = t2 * t;
 
-        T two = T.Create(2);
-        T four = T.Create(4);
-        T three = T.Create(3);
-        T five = T.Create(5);
+        T two = T.CreateChecked(2);
+        T four = T.CreateChecked(4);
+        T three = T.CreateChecked(3);
+        T five = T.CreateChecked(5);
 
         return (
             (two * positionA.X
@@ -984,10 +982,10 @@ public static partial class Interpolators
         var t2 = t * t;
         var t3 = t2 * t;
 
-        T two = T.Create(2);
-        T three = T.Create(3);
-        T four = T.Create(4);
-        T five = T.Create(5);
+        T two = T.CreateChecked(2);
+        T three = T.CreateChecked(3);
+        T four = T.CreateChecked(4);
+        T five = T.CreateChecked(5);
 
         return
             (two * bV
@@ -1027,10 +1025,10 @@ public static partial class Interpolators
         var t2 = t * t;
         var t3 = t2 * t;
 
-        T two = T.Create(2);
-        T three = T.Create(3);
-        T four = T.Create(4);
-        T five = T.Create(5);
+        T two = T.CreateChecked(2);
+        T three = T.CreateChecked(3);
+        T four = T.CreateChecked(4);
+        T five = T.CreateChecked(5);
 
         return (
             (two * bX
@@ -1070,10 +1068,10 @@ public static partial class Interpolators
         var t2 = t * t;
         var t3 = t2 * t;
 
-        T two = T.Create(2);
-        T three = T.Create(3);
-        T four = T.Create(4);
-        T five = T.Create(5);
+        T two = T.CreateChecked(2);
+        T three = T.CreateChecked(3);
+        T four = T.CreateChecked(4);
+        T five = T.CreateChecked(5);
 
         return (
             (two * bX
@@ -1128,13 +1126,13 @@ public static partial class Interpolators
         var t2 = t * t;
         var t3 = t2 * t;
 
-        var m0 = (bV - aV) * (T.One + bias) * (T.One - tension) / T.Create(2);
-        m0 += (cV - bV) * (T.One - bias) * (T.One - tension) / T.Create(2);
+        var m0 = (bV - aV) * (T.One + bias) * (T.One - tension) / T.CreateChecked(2);
+        m0 += (cV - bV) * (T.One - bias) * (T.One - tension) / T.CreateChecked(2);
 
-        var m1 = (cV - bV) * (T.One + bias) * (T.One - tension) / T.Create(2);
-        m1 += (dV - cV) * (T.One - bias) * (T.One - tension) / T.Create(2);
+        var m1 = (cV - bV) * (T.One + bias) * (T.One - tension) / T.CreateChecked(2);
+        m1 += (dV - cV) * (T.One - bias) * (T.One - tension) / T.CreateChecked(2);
 
-        return (((T.Create(2) * t3) - (T.Create(3) * t2) + T.One) * bV) + ((t3 - (T.Create(2) * t2) + t) * m0) + ((t3 - t2) * m1) + (((-T.Create(2) * t3) + (T.Create(3) * t2)) * cV);
+        return (((T.CreateChecked(2) * t3) - (T.CreateChecked(3) * t2) + T.One) * bV) + ((t3 - (T.CreateChecked(2) * t2) + t) * m0) + ((t3 - t2) * m1) + (((-T.CreateChecked(2) * t3) + (T.CreateChecked(3) * t2)) * cV);
     }
 
     /// <summary>
@@ -1182,8 +1180,8 @@ public static partial class Interpolators
         var t3 = t2 * t;
 
         T one = T.One;
-        T two = T.Create(2);
-        T three = T.Create(3);
+        T two = T.CreateChecked(2);
+        T three = T.CreateChecked(3);
         var mX0 = (bX - aX) * (one + bias) * (one - tension) / two;
         mX0 += (cX - bX) * (one - bias) * (one - tension) / two;
 
@@ -1259,8 +1257,8 @@ public static partial class Interpolators
         var t3 = t2 * t;
 
         T one = T.One;
-        T two = T.Create(2);
-        T three = T.Create(3);
+        T two = T.CreateChecked(2);
+        T three = T.CreateChecked(3);
         var mX0 = (bX - aX) * (one + bias) * (one - tension) / two;
         mX0 += (cX - bX) * (one - bias) * (one - tension) / two;
 
@@ -1303,7 +1301,7 @@ public static partial class Interpolators
     /// <param name="sweepAngle">The difference of the angle to where the arc should end.</param>
     /// <returns>Interpolated point at theta.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) CircularArc<T>(T t, T cX, T cY, T r, T startAngle, T sweepAngle) where T : IFloatingPoint<T> => Circle(startAngle + (sweepAngle * t), cX, cY, r);
+    public static (T X, T Y) CircularArc<T>(T t, T cX, T cY, T r, T startAngle, T sweepAngle) where T : IFloatingPointIeee754<T> => Circle(startAngle + (sweepAngle * t), cX, cY, r);
 
     /// <summary>
     /// Interpolate a point on a circle, converting from unit iteration, to Pi radians.
@@ -1314,7 +1312,7 @@ public static partial class Interpolators
     /// <param name="r">Radius of circle.</param>
     /// <returns>Interpolated point at theta.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) UnitCircle<T>(T t, T cX, T cY, T r) where T : IFloatingPoint<T> => Circle(T.Tau * t, cX, cY, r);
+    public static (T X, T Y) UnitCircle<T>(T t, T cX, T cY, T r) where T : IFloatingPointIeee754<T> => Circle(T.Tau * t, cX, cY, r);
 
     /// <summary>
     /// Interpolate a point on a circle, applying translation to equation of circle at origin.
@@ -1325,7 +1323,7 @@ public static partial class Interpolators
     /// <param name="r">Radius of circle.</param>
     /// <returns>Interpolated point at theta.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) Circle<T>(T t, T cX, T cY, T r) where T : IFloatingPoint<T> => (cX + (T.Cos(t) * r), cY + (T.Sin(t) * r));
+    public static (T X, T Y) Circle<T>(T t, T cX, T cY, T r) where T : IFloatingPointIeee754<T> => (cX + (T.Cos(t) * r), cY + (T.Sin(t) * r));
     #endregion
 
     #region Ellipse Interpolation
@@ -1342,7 +1340,7 @@ public static partial class Interpolators
     /// <returns>Interpolated point at theta.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) EllipticalArc<T>(T t, T cX, T cY, T r1, T r2, T startAngle, T sweepAngle)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         var phi = startAngle + (sweepAngle * t);
         var theta = phi % T.Pi;
@@ -1351,11 +1349,11 @@ public static partial class Interpolators
         var x = T.Sqrt(r1 * r1 * (r2 * r2) / ((r2 * r2) + (r1 * r1 * (tanAngle * tanAngle))));
         var y = x * tanAngle;
 
-        return (theta >= T.Zero) && (theta < Operations.DegreesToRadians<T, T>(T.Create(90)))
+        return (theta >= T.Zero) && (theta < Operations.DegreesToRadians<T, T>(T.CreateChecked(90)))
             ? (cX + x, cY + y)
-            : (theta >= Operations.DegreesToRadians<T, T>(T.Create(90))) && (theta < Operations.DegreesToRadians<T, T>(T.Create(180)))
+            : (theta >= Operations.DegreesToRadians<T, T>(T.CreateChecked(90))) && (theta < Operations.DegreesToRadians<T, T>(T.CreateChecked(180)))
             ? (cX - x, cY + y)
-            : (theta >= Operations.DegreesToRadians<T, T>(T.Create(180))) && (theta < Operations.DegreesToRadians<T, T>(T.Create(270))) ? (cX - x, cY - y) : (cX + x, cY - y);
+            : (theta >= Operations.DegreesToRadians<T, T>(T.CreateChecked(180))) && (theta < Operations.DegreesToRadians<T, T>(T.CreateChecked(270))) ? (cX - x, cY - y) : (cX + x, cY - y);
     }
 
     /// <summary>
@@ -1371,7 +1369,7 @@ public static partial class Interpolators
     /// <param name="sweepAngle">The difference of the angle to where the arc should end.</param>
     /// <returns>Interpolated point at theta.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) EllipticalArc<T>(T t, T cX, T cY, T r1, T r2, T angle, T startAngle, T sweepAngle) where T : IFloatingPoint<T> => PolarEllipse(startAngle + (sweepAngle * t), cX, cY, r1, r2, angle);
+    public static (T X, T Y) EllipticalArc<T>(T t, T cX, T cY, T r1, T r2, T angle, T startAngle, T sweepAngle) where T : IFloatingPointIeee754<T> => PolarEllipse(startAngle + (sweepAngle * t), cX, cY, r1, r2, angle);
 
     /// <summary>
     /// Interpolates the Elliptical Arc, corrected for Polar coordinates.
@@ -1387,7 +1385,7 @@ public static partial class Interpolators
     /// <param name="sweepAngle">The difference of the angle to where the arc should end.</param>
     /// <returns>Interpolated point at theta.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) EllipticalArc<T>(T t, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle, T startAngle, T sweepAngle) where T : IFloatingPoint<T> => PolarEllipse(startAngle + (sweepAngle * t), cX, cY, r1, r2, cosAngle, sinAngle);
+    public static (T X, T Y) EllipticalArc<T>(T t, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle, T startAngle, T sweepAngle) where T : IFloatingPointIeee754<T> => PolarEllipse(startAngle + (sweepAngle * t), cX, cY, r1, r2, cosAngle, sinAngle);
 
     /// <summary>
     /// Interpolate a point on an Ellipse with Polar correction using a range from 0 to 1 for unit interpolation.
@@ -1400,7 +1398,7 @@ public static partial class Interpolators
     /// <param name="angle">Angle of rotation of Ellipse about it's center.</param>
     /// <returns>Interpolated point at theta adjusted to Polar angles.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) UnitPolarEllipse<T>(T t, T cX, T cY, T r1, T r2, T angle) where T : IFloatingPoint<T> => PolarEllipse(T.Tau * t, cX, cY, r1, r2, angle);
+    public static (T X, T Y) UnitPolarEllipse<T>(T t, T cX, T cY, T r1, T r2, T angle) where T : IFloatingPointIeee754<T> => PolarEllipse(T.Tau * t, cX, cY, r1, r2, angle);
 
     /// <summary>
     /// Interpolate a point on an Ellipse with Polar correction using a range from 0 to 1 for unit interpolation.
@@ -1414,7 +1412,7 @@ public static partial class Interpolators
     /// <param name="sinAngle">Vertical rotation transform of the Ellipse.</param>
     /// <returns>Interpolated point at theta adjusted to Polar angles.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) UnitPolarEllipse<T>(T t, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle) where T : IFloatingPoint<T> => PolarEllipse(T.Tau * t, cX, cY, r1, r2, cosAngle, sinAngle);
+    public static (T X, T Y) UnitPolarEllipse<T>(T t, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle) where T : IFloatingPointIeee754<T> => PolarEllipse(T.Tau * t, cX, cY, r1, r2, cosAngle, sinAngle);
 
     /// <summary>
     /// Interpolate a point on an Ellipse with Polar correction.
@@ -1427,7 +1425,7 @@ public static partial class Interpolators
     /// <param name="angle">Angle of rotation of Ellipse about it's center.</param>
     /// <returns>Interpolated point at theta adjusted to Polar angles.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) PolarEllipse<T>(T t, T cX, T cY, T r1, T r2, T angle) where T : IFloatingPoint<T> => Ellipse(Operations.EllipticalPolarAngle(t, r1, r2), cX, cY, r1, r2, angle);
+    public static (T X, T Y) PolarEllipse<T>(T t, T cX, T cY, T r1, T r2, T angle) where T : IFloatingPointIeee754<T> => Ellipse(Operations.EllipticalPolarAngle(t, r1, r2), cX, cY, r1, r2, angle);
 
     /// <summary>
     /// Interpolate a point on an Ellipse with Polar correction.
@@ -1441,7 +1439,7 @@ public static partial class Interpolators
     /// <param name="sinAngle">Vertical rotation transform of the Ellipse.</param>
     /// <returns>Interpolated point at theta adjusted to Polar angles.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) PolarEllipse<T>(T t, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle) where T : IFloatingPoint<T> => Ellipse(Operations.EllipticalPolarAngle(t, r1, r2), cX, cY, r1, r2, cosAngle, sinAngle);
+    public static (T X, T Y) PolarEllipse<T>(T t, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle) where T : IFloatingPointIeee754<T> => Ellipse(Operations.EllipticalPolarAngle(t, r1, r2), cX, cY, r1, r2, cosAngle, sinAngle);
 
     /// <summary>
     /// Interpolate a point on an Ellipse.
@@ -1454,7 +1452,7 @@ public static partial class Interpolators
     /// <param name="angle">Angle of rotation of Ellipse about it's center.</param>
     /// <returns>Interpolated point at theta.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) Ellipse<T>(T t, T cX, T cY, T r1, T r2, T angle) where T : IFloatingPoint<T> => Ellipse(T.Cos(t), T.Sin(t), cX, cY, r1, r2, T.Cos(angle), T.Sin(angle));
+    public static (T X, T Y) Ellipse<T>(T t, T cX, T cY, T r1, T r2, T angle) where T : IFloatingPointIeee754<T> => Ellipse(T.Cos(t), T.Sin(t), cX, cY, r1, r2, T.Cos(angle), T.Sin(angle));
 
     /// <summary>
     /// Interpolate a point on an Ellipse.
@@ -1468,7 +1466,7 @@ public static partial class Interpolators
     /// <param name="sinAngle">Vertical rotation transform of the Ellipse.</param>
     /// <returns>Interpolated point at theta.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static (T X, T Y) Ellipse<T>(T t, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle) where T : IFloatingPoint<T> => Ellipse(T.Cos(t), T.Sin(t), cX, cY, r1, r2, cosAngle, sinAngle);
+    public static (T X, T Y) Ellipse<T>(T t, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle) where T : IFloatingPointIeee754<T> => Ellipse(T.Cos(t), T.Sin(t), cX, cY, r1, r2, cosAngle, sinAngle);
 
     /// <summary>
     /// Interpolate a point on an Ellipse.
@@ -1487,7 +1485,7 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) Ellipse<T>(T cosTheta, T sinTheta, T cX, T cY, T r1, T r2, T cosAngle, T sinAngle)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
         // Ellipse equation for an ellipse at origin.
         var u = r1 * cosTheta;
@@ -1513,9 +1511,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T Cosine<T>(T t, T aV, T bV)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        var mu2 = (T.One - T.Cos(t * T.Pi)) / T.Create(2);
+        var mu2 = (T.One - T.Cos(t * T.Pi)) / T.CreateChecked(2);
         return (aV * (T.One - mu2)) + (bV * mu2);
     }
 
@@ -1533,9 +1531,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) Cosine<T>(T t, T aX, T aY, T bX, T bY)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        var mu2 = (T.One - T.Cos(t * T.Pi)) / T.Create(2);
+        var mu2 = (T.One - T.Cos(t * T.Pi)) / T.CreateChecked(2);
         return ((aX * (T.One - mu2)) + (bX * mu2),
                 (aY * (T.One - mu2)) + (bY * mu2));
     }
@@ -1556,9 +1554,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z) Cosine<T>(T t, T aX, T aY, T aZ, T bX, T bY, T bZ)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        var mu2 = (T.One - T.Cos(t * T.Pi)) / T.Create(2);
+        var mu2 = (T.One - T.Cos(t * T.Pi)) / T.CreateChecked(2);
         return (
             (aX * (T.One - mu2)) + (bX * mu2),
             (aY * (T.One - mu2)) + (bY * mu2),
@@ -1579,9 +1577,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static T Sine<T>(T t, T v1, T v2)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        var mu2 = (T.One - T.Sin(t * T.Pi)) * T.Create(0.5);
+        var mu2 = (T.One - T.Sin(t * T.Pi)) * T.CreateChecked(0.5);
         return (v1 * (T.One - mu2)) + (v2 * mu2);
     }
 
@@ -1599,9 +1597,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) Sine<T>(T t, T x1, T y1, T x2, T y2)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        var mu2 = (T.One - T.Sin(t * T.Pi)) * T.Create(0.5);
+        var mu2 = (T.One - T.Sin(t * T.Pi)) * T.CreateChecked(0.5);
         return (
             (x1 * (T.One - mu2)) + (x2 * mu2),
             (y1 * (T.One - mu2)) + (y2 * mu2));
@@ -1623,9 +1621,9 @@ public static partial class Interpolators
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y, T Z) Sine<T>(T t, T x1, T y1, T z1, T x2, T y2, T z2)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        var mu2 = (T.One - T.Sin(t * T.Pi)) * T.Create(0.5);
+        var mu2 = (T.One - T.Sin(t * T.Pi)) * T.CreateChecked(0.5);
         return (
             (x1 * (T.One - mu2)) + (x2 * mu2),
             (y1 * (T.One - mu2)) + (y2 * mu2),
@@ -1718,14 +1716,14 @@ public static partial class Interpolators
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static (T X, T Y) InterpolateParabola<T>(T t, T x1, T y1, T x2, T y2, T k)
-        where T : IFloatingPoint<T>
+        where T : IFloatingPointIeee754<T>
     {
-        var parabolicT = (t * T.Create(2)) - T.One;
+        var parabolicT = (t * T.CreateChecked(2)) - T.One;
         var (dX, dY) = (x2 - x1, y2 - y1);
         if (T.Abs(dX) < T.Epsilon && T.Abs(dY) < T.Epsilon)
         {
             // In place Vertical Throw.
-            return (x1, y1 + k * ((-T.Create(4) * t * t) + (T.Create(4) * t)));
+            return (x1, y1 + k * ((-T.CreateChecked(4) * t * t) + (T.CreateChecked(4) * t)));
         }
         if (T.Abs(dX) < T.Epsilon)
         {

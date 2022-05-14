@@ -1,5 +1,5 @@
 ﻿// <copyright file="Factories.Matricies.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -10,23 +10,22 @@
 // </remarks>
 
 using Microsoft.Toolkit.HighPerformance;
-using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The factories.
 /// </summary>
 public static partial class Factories
 {
     #region Create a Matrix from a List of Row Vectors
     /// <summary>
-    /// 
+    /// Matrices the from vector rows.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="vectors"></param>
-    /// <returns></returns>
+    /// <param name="vectors">The vectors.</param>
+    /// <returns>An array of TS.</returns>
     public static T[,] MatrixFromVectorRows<T>(IVector<T>[] vectors)
         where T : INumber<T>
     {
@@ -51,11 +50,10 @@ public static partial class Factories
     }
 
     /// <summary>
-    /// 
+    /// Matrices the from vector rows.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="vectors"></param>
-    /// <returns></returns>
+    /// <param name="vectors">The vectors.</param>
+    /// <returns>An array of TS.</returns>
     public static T[,] MatrixFromVectorRows<T>(Span<T[]> vectors)
         where T : INumber<T>
     {
@@ -82,11 +80,10 @@ public static partial class Factories
 
     #region Create a Matrix from a list of Vector Columns
     /// <summary>
-    /// 
+    /// Matrices the from vector columns.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="vectors"></param>
-    /// <returns></returns>
+    /// <param name="vectors">The vectors.</param>
+    /// <returns>An array of TS.</returns>
     public static T[,] MatrixFromVectorColumns<T>(IVector<T>[] vectors)
         where T : INumber<T>
     {
@@ -111,11 +108,10 @@ public static partial class Factories
     }
 
     /// <summary>
-    /// 
+    /// Matrices the from vector columns.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="vectors"></param>
-    /// <returns></returns>
+    /// <param name="vectors">The vectors.</param>
+    /// <returns>An array of TS.</returns>
     public static T[,] MatrixFromVectorColumns<T>(Span<T[]> vectors)
         where T : INumber<T>
     {
@@ -142,11 +138,10 @@ public static partial class Factories
 
     #region List the Columns of a Matrix
     /// <summary>
-    /// 
+    /// Matrices the columns.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="matrix"></param>
-    /// <returns></returns>
+    /// <param name="matrix">The matrix.</param>
+    /// <returns>An array of TS.</returns>
     public static T[][] MatrixColumns<T>(Span2D<T> matrix)
     {
         var rows = matrix.Height;
@@ -162,11 +157,10 @@ public static partial class Factories
     }
 
     /// <summary>
-    /// 
+    /// Matrices the vector columns.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="matrix"></param>
-    /// <returns></returns>
+    /// <param name="matrix">The matrix.</param>
+    /// <returns>An array of ValueVector.</returns>
     public static ValueVector<T>[] MatrixVectorColumns<T>(Span2D<T> matrix)
         where T : INumber<T>
     {
@@ -185,11 +179,10 @@ public static partial class Factories
 
     #region List the Rows of a Matrix
     /// <summary>
-    /// 
+    /// Matrices the rows.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="matrix"></param>
-    /// <returns></returns>
+    /// <param name="matrix">The matrix.</param>
+    /// <returns>An array of TS.</returns>
     public static T[][] MatrixRows<T>(Span2D<T> matrix)
     {
         var columns = matrix.Width;
@@ -205,11 +198,10 @@ public static partial class Factories
     }
 
     /// <summary>
-    /// 
+    /// Matrices the vector rows.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="matrix"></param>
-    /// <returns></returns>
+    /// <param name="matrix">The matrix.</param>
+    /// <returns>An array of ValueVector.</returns>
     public static ValueVector<T>[] MatrixVectorRows<T>(Span2D<T> matrix)
         where T : INumber<T>
     {
@@ -290,7 +282,7 @@ public static partial class Factories
     /// https://github.com/GeorgiSGeorgiev/ExtendedMatrixCalculator
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static T[,] RandomNonZeroMatrix<T>(int rows, int columns) where T : INumber<T> => RandomNonZeroMatrix(rows, columns, T.Zero, T.One / T.Create(1000));
+    public static T[,] RandomNonZeroMatrix<T>(int rows, int columns) where T : INumber<T> => RandomNonZeroMatrix(rows, columns, T.Zero, T.One / T.CreateChecked(1000));
 
     /// <summary>
     /// Random matrix generator.

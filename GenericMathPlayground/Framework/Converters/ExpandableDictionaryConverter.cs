@@ -1,5 +1,5 @@
 ﻿// <copyright file="ExpandableDictionaryConverter.cs" company="Shkyrockett" >
-//     Copyright © 2017 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2017 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -8,7 +8,6 @@
 // <summary></summary>
 // <remarks></remarks>
 
-using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Globalization;

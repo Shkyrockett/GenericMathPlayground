@@ -1,5 +1,5 @@
 ﻿// <copyright file="AngleConverter.cs" company="Shkyrockett" >
-//     Copyright © 2013 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2013 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -8,7 +8,6 @@
 // <summary></summary>
 // <remarks></remarks>
 
-using System;
 using System.ComponentModel;
 using System.Globalization;
 
@@ -80,13 +79,8 @@ public class AngleConverter
     /// <param name="destinationType">The destinationType.</param>
     /// <returns>The <see cref="object"/>.</returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
+    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType!!)
     {
-        if (destinationType is null)
-        {
-            throw new ArgumentNullException(nameof(destinationType));
-        }
-
         if (value is double @double)
         {
             if (destinationType == typeof(string))

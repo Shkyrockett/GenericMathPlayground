@@ -1,5 +1,5 @@
 ﻿// <copyright file="Operations.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,13 +9,13 @@
 // <remarks>
 // </remarks>
 
-using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The operations.
 /// </summary>
 public static partial class Operations
 {
@@ -33,7 +33,7 @@ public static partial class Operations
     /// <param name="upper">The Upper.</param>
     /// <returns>The random number.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static T Random<T>(this T lower, T upper) where T : INumber<T> => (T.Create(RandomNumberGenerator.Next()) * (upper - lower + T.One)) + lower;
+    public static T Random<T>(this T lower, T upper) where T : INumber<T> => (T.CreateChecked(RandomNumberGenerator.Next()) * (upper - lower + T.One)) + lower;
     #endregion
 
     #region Rounding
@@ -44,7 +44,7 @@ public static partial class Operations
     /// <param name="accuracy">The accuracy.</param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult Round<T, TResult>(T number, int accuracy) where T : IFloatingPoint<T> where TResult : INumber<TResult> => (accuracy < 15) ? TResult.Create(T.Round(number, accuracy)) : TResult.Create(number);
+    public static TResult Round<T, TResult>(T number, int accuracy) where T : IFloatingPointIeee754<T> where TResult : INumber<TResult> => (accuracy < 15) ? TResult.CreateChecked(T.Round(number, accuracy)) : TResult.CreateChecked(number);
     #endregion
 
     #region Clamp
@@ -73,53 +73,43 @@ public static partial class Operations
 
     #region Type Conversions
     /// <summary>
-    /// 
+    /// Tries the cast.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static bool TryCast<T, TResult>(this T value, out TResult result) where T : INumber<T> where TResult : INumber<TResult> => TResult.TryCreate(value, out result);
 
     /// <summary>
-    /// 
+    /// Tries the cast or default.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A TResult? .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult? TryCastOrDefault<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.TryCreate(value, out TResult? result) ? result : default;
 
     /// <summary>
-    /// 
+    /// Casts the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A TResult? .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult? Cast<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.Create(value);
+    public static TResult? Cast<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.CreateChecked(value);
 
     /// <summary>
-    /// 
+    /// Casts the saturating.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A TResult? .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult? CastSaturating<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.CreateSaturating(value);
 
     /// <summary>
-    /// 
+    /// Casts the truncating.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <param name="value">The value.</param>
+    /// <returns>A TResult? .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult? CastTruncating<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.CreateTruncating(value);
     #endregion

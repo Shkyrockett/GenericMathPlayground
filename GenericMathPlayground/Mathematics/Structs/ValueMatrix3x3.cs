@@ -1,5 +1,5 @@
 ﻿// <copyright file="ValueMatrix3x3.cs" company="Shkyrockett" >
-//     Copyright © 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,11 +9,11 @@
 // <remarks>
 // </remarks>
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -21,7 +21,7 @@ using System.Xml.Serialization;
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The value matrix3x3.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -29,8 +29,8 @@ namespace GenericMathPlayground.Mathematics;
 public struct ValueMatrix3x3<T>
     : IMatrix<T>, IMatrix3Columns<T, ValueVector3<T>>, IMatrix3Rows<T, ValueVector3<T>>,
     IFormattable,
-    IParseable<ValueMatrix3x3<T>>,
-    ISpanParseable<ValueMatrix3x3<T>>,
+    IParsable<ValueMatrix3x3<T>>,
+    ISpanParsable<ValueMatrix3x3<T>>,
     IEquatable<ValueMatrix3x3<T>>,
     IAdditiveIdentity<ValueMatrix3x3<T>, ValueMatrix3x3<T>>,
     IMultiplicativeIdentity<ValueMatrix3x3<T>, ValueMatrix3x3<T>>,
@@ -48,7 +48,7 @@ public struct ValueMatrix3x3<T>
 {
     #region Constructors
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix3x3{T}"/> class.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public ValueMatrix3x3() : this(
@@ -59,11 +59,11 @@ public struct ValueMatrix3x3<T>
     { }
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix3x3{T}"/> class.
     /// </summary>
-    /// <param name="vector1"></param>
-    /// <param name="vector2"></param>
-    /// <param name="vector3"></param>
+    /// <param name="vector1">The vector1.</param>
+    /// <param name="vector2">The vector2.</param>
+    /// <param name="vector3">The vector3.</param>
     public ValueMatrix3x3(IVector3<T> vector1, IVector3<T> vector2, IVector3<T> vector3) => (
         M1x1, M1x2, M1x3,
         M2x1, M2x2, M2x3,
@@ -75,9 +75,9 @@ public struct ValueMatrix3x3<T>
         );
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix3x3{T}"/> class.
     /// </summary>
-    /// <param name="matrix"></param>
+    /// <param name="matrix">The matrix.</param>
     public ValueMatrix3x3(ValueMatrix3x3<T> matrix) => (
         M1x1, M1x2, M1x3,
         M2x1, M2x2, M2x3,
@@ -89,11 +89,11 @@ public struct ValueMatrix3x3<T>
         );
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix3x3{T}"/> class.
     /// </summary>
-    /// <param name="tuple1"></param>
-    /// <param name="tuple2"></param>
-    /// <param name="tuple3"></param>
+    /// <param name="tuple1">The tuple1.</param>
+    /// <param name="tuple2">The tuple2.</param>
+    /// <param name="tuple3">The tuple3.</param>
     public ValueMatrix3x3(
         (T m1x1, T m1x2, T m1x3) tuple1,
         (T m2x1, T m2x2, T m2x3) tuple2,
@@ -108,9 +108,9 @@ public struct ValueMatrix3x3<T>
         );
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix3x3{T}"/> class.
     /// </summary>
-    /// <param name="tuple"></param>
+    /// <param name="tuple">The tuple.</param>
     public ValueMatrix3x3((
         T m1x1, T m1x2, T m1x3,
         T m2x1, T m2x2, T m2x3,
@@ -122,17 +122,17 @@ public struct ValueMatrix3x3<T>
         ) = tuple;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="ValueMatrix3x3{T}"/> class.
     /// </summary>
-    /// <param name="m1x1"></param>
-    /// <param name="m1x2"></param>
-    /// <param name="m1x3"></param>
-    /// <param name="m2x1"></param>
-    /// <param name="m2x2"></param>
-    /// <param name="m2x3"></param>
-    /// <param name="m3x1"></param>
-    /// <param name="m3x2"></param>
-    /// <param name="m3x3"></param>
+    /// <param name="m1x1">The m1x1.</param>
+    /// <param name="m1x2">The m1x2.</param>
+    /// <param name="m1x3">The m1x3.</param>
+    /// <param name="m2x1">The m2x1.</param>
+    /// <param name="m2x2">The m2x2.</param>
+    /// <param name="m2x3">The m2x3.</param>
+    /// <param name="m3x1">The m3x1.</param>
+    /// <param name="m3x2">The m3x2.</param>
+    /// <param name="m3x3">The m3x3.</param>
     public ValueMatrix3x3(
         T m1x1, T m1x2, T m1x3,
         T m2x1, T m2x2, T m2x3,
@@ -150,11 +150,11 @@ public struct ValueMatrix3x3<T>
 
     #region Deconstructors
     /// <summary>
-    /// 
+    /// Deconstructs the.
     /// </summary>
-    /// <param name="vector1"></param>
-    /// <param name="vector2"></param>
-    /// <param name="vector3"></param>
+    /// <param name="vector1">The vector1.</param>
+    /// <param name="vector2">The vector2.</param>
+    /// <param name="vector3">The vector3.</param>
     public void Deconstruct(
         out ValueVector3<T> vector1,
         out ValueVector3<T> vector2,
@@ -166,17 +166,17 @@ public struct ValueMatrix3x3<T>
         );
 
     /// <summary>
-    /// 
+    /// Deconstructs the.
     /// </summary>
-    /// <param name="m1x1"></param>
-    /// <param name="m1x2"></param>
-    /// <param name="m1x3"></param>
-    /// <param name="m2x1"></param>
-    /// <param name="m2x2"></param>
-    /// <param name="m2x3"></param>
-    /// <param name="m3x1"></param>
-    /// <param name="m3x2"></param>
-    /// <param name="m3x3"></param>
+    /// <param name="m1x1">The m1x1.</param>
+    /// <param name="m1x2">The m1x2.</param>
+    /// <param name="m1x3">The m1x3.</param>
+    /// <param name="m2x1">The m2x1.</param>
+    /// <param name="m2x2">The m2x2.</param>
+    /// <param name="m2x3">The m2x3.</param>
+    /// <param name="m3x1">The m3x1.</param>
+    /// <param name="m3x2">The m3x2.</param>
+    /// <param name="m3x3">The m3x3.</param>
     public void Deconstruct(
         out T m1x1, out T m1x2, out T m1x3,
         out T m2x1, out T m2x2, out T m2x3,
@@ -194,61 +194,61 @@ public struct ValueMatrix3x3<T>
 
     #region Properties
     /// <summary>
-    /// 
+    /// Gets or sets the m1x1.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M1x1 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the m1x2.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M1x2 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the m1x3.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M1x3 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the m2x1.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M2x1 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the m2x2.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M2x2 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the m2x3.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M2x3 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the m3x1.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M3x1 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the m3x2.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M3x2 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the m3x3.
     /// </summary>
     [RefreshProperties(RefreshProperties.All)]
     public T M3x3 { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets or sets the items.
     /// </summary>
     [Browsable(false)]
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
@@ -278,14 +278,14 @@ public struct ValueMatrix3x3<T>
     }
 
     /// <summary>
-    /// 
+    /// Gets the rows.
     /// </summary>
     [Browsable(false)]
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public int Rows => 3;
 
     /// <summary>
-    /// 
+    /// Gets the columns.
     /// </summary>
     [Browsable(false)]
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
@@ -373,7 +373,7 @@ public struct ValueMatrix3x3<T>
     public T Determinant => Operations.MatrixDeterminant(M1x1, M1x2, M1x3, M2x1, M2x2, M2x3, M3x1, M3x2, M3x3);
 
     /// <summary>
-    /// 
+    /// Gets the additive identity.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public static ValueMatrix3x3<T> AdditiveIdentity => new(
@@ -383,7 +383,7 @@ public struct ValueMatrix3x3<T>
         );
 
     /// <summary>
-    /// 
+    /// Gets the multiplicative identity.
     /// </summary>
     [IgnoreDataMember, XmlIgnore, SoapIgnore]
     public static ValueMatrix3x3<T> MultiplicativeIdentity => new(
@@ -435,9 +435,35 @@ public struct ValueMatrix3x3<T>
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static ValueMatrix3x3<T> operator checked +(ValueMatrix3x3<T> left, ValueMatrix3x3<T> right) => Operations.AddMatrix(
+            left.M1x1, left.M1x2, left.M1x3,
+            left.M2x1, left.M2x2, left.M2x3,
+            left.M3x1, left.M3x2, left.M3x3,
+            right.M1x1, right.M1x2, right.M1x3,
+            right.M2x1, right.M2x2, right.M2x3,
+            right.M3x1, right.M3x2, right.M3x3
+            );
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     public static ValueMatrix3x3<T> operator -(ValueMatrix3x3<T> value) => new(Operations.NegateMatrix(
+            value.M1x1, value.M1x2, value.M1x3,
+            value.M2x1, value.M2x2, value.M2x3,
+            value.M3x1, value.M3x2, value.M3x3
+            ));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static ValueMatrix3x3<T> operator checked -(ValueMatrix3x3<T> value) => new(Operations.NegateMatrix(
             value.M1x1, value.M1x2, value.M1x3,
             value.M2x1, value.M2x2, value.M2x3,
             value.M3x1, value.M3x2, value.M3x3
@@ -464,7 +490,33 @@ public struct ValueMatrix3x3<T>
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
+    public static ValueMatrix3x3<T> operator checked -(ValueMatrix3x3<T> left, ValueMatrix3x3<T> right) => Operations.SubtractMatrix(
+            left.M1x1, left.M1x2, left.M1x3,
+            left.M2x1, left.M2x2, left.M2x3,
+            left.M3x1, left.M3x2, left.M3x3,
+            right.M1x1, right.M1x2, right.M1x3,
+            right.M2x1, right.M2x2, right.M2x3,
+            right.M3x1, right.M3x2, right.M3x3
+            );
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static ValueMatrix3x3<T> operator *(ValueMatrix3x3<T> left, T right) => new(Operations.ScaleMatrixRight(
+            left.M1x1, left.M1x2, left.M1x3,
+            left.M2x1, left.M2x2, left.M2x3,
+            left.M3x1, left.M3x2, left.M3x3, right));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static ValueMatrix3x3<T> operator checked *(ValueMatrix3x3<T> left, T right) => new(Operations.ScaleMatrixRight(
             left.M1x1, left.M1x2, left.M1x3,
             left.M2x1, left.M2x2, left.M2x3,
             left.M3x1, left.M3x2, left.M3x3, right));
@@ -486,8 +538,32 @@ public struct ValueMatrix3x3<T>
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
+    public static ValueMatrix3x3<T> operator checked *(T left, ValueMatrix3x3<T> right) => new(Operations.ScaleMatrixLeft(left,
+            right.M1x1, right.M1x2, right.M1x3,
+            right.M2x1, right.M2x2, right.M2x3,
+            right.M3x1, right.M3x2, right.M3x3));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     public static ValueVector3<T> operator *(ValueMatrix3x3<T> left, IVector3<T> right) => new(Operations.MultiplyMatrixVector(
+            left.M1x1, left.M1x2, left.M1x3,
+            left.M2x1, left.M2x2, left.M2x3,
+            left.M3x1, left.M3x2, left.M3x3,
+            right.X, right.Y, right.Z
+            ));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static ValueVector3<T> operator checked *(ValueMatrix3x3<T> left, IVector3<T> right) => new(Operations.MultiplyMatrixVector(
             left.M1x1, left.M1x2, left.M1x3,
             left.M2x1, left.M2x2, left.M2x3,
             left.M3x1, left.M3x2, left.M3x3,
@@ -514,8 +590,36 @@ public struct ValueMatrix3x3<T>
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
+    public static ValueVector3<T> operator checked *(IVector3<T> left, ValueMatrix3x3<T> right) => new(Operations.MultiplyVectorMatrix(
+            left.X, left.Y, left.Z,
+            right.M1x1, right.M1x2, right.M1x3,
+            right.M2x1, right.M2x2, right.M2x3,
+            right.M3x1, right.M3x2, right.M3x3
+            ));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     public static ValueMatrix3x3<T> operator *(ValueMatrix3x3<T> left, ValueMatrix3x3<T> right) => new(Operations.MultiplyMatrix(
+            left.M1x1, left.M1x2, left.M1x3,
+            left.M2x1, left.M2x2, left.M2x3,
+            left.M3x1, left.M3x2, left.M3x3,
+            right.M1x1, right.M1x2, right.M1x3,
+            right.M2x1, right.M2x2, right.M2x3,
+            right.M3x1, right.M3x2, right.M3x3
+            ));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static ValueMatrix3x3<T> operator checked *(ValueMatrix3x3<T> left, ValueMatrix3x3<T> right) => new(Operations.MultiplyMatrix(
             left.M1x1, left.M1x2, left.M1x3,
             left.M2x1, left.M2x2, left.M2x3,
             left.M3x1, left.M3x2, left.M3x3,
@@ -556,9 +660,9 @@ public struct ValueMatrix3x3<T>
     #endregion
 
     /// <summary>
-    /// 
+    /// Gets the hash code.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>An int.</returns>
     public override int GetHashCode()
     {
         HashCode hash = new();
@@ -575,92 +679,92 @@ public struct ValueMatrix3x3<T>
     }
 
     /// <summary>
-    /// 
+    /// Equals the.
     /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
+    /// <param name="obj">The obj.</param>
+    /// <returns>A bool.</returns>
     public override bool Equals(object? obj) => obj is ValueMatrix3x3<T> matrix && Equals(matrix);
 
     /// <summary>
-    /// 
+    /// Equals the.
     /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
+    /// <param name="other">The other.</param>
+    /// <returns>A bool.</returns>
     public bool Equals(ValueMatrix3x3<T> other)
         => M1x1.Equals(other.M1x1) && M1x2.Equals(other.M1x2) && M1x2.Equals(other.M1x3) &&
            M2x1.Equals(other.M2x1) && M2x2.Equals(other.M2x2) && M2x2.Equals(other.M2x3) &&
            M3x1.Equals(other.M3x1) && M3x2.Equals(other.M3x2) && M3x2.Equals(other.M3x3);
 
     /// <summary>
-    /// 
+    /// Parses the.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <returns>A ValueMatrix3x3.</returns>
     public static ValueMatrix3x3<T> Parse(string s, IFormatProvider? provider)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// 
+    /// Tries the parse.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
     public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out ValueMatrix3x3<T> result)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// 
+    /// Parses the.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <returns>A ValueMatrix3x3.</returns>
     public static ValueMatrix3x3<T> Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// 
+    /// Tries the parse.
     /// </summary>
-    /// <param name="s"></param>
-    /// <param name="provider"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    /// <param name="s">The s.</param>
+    /// <param name="provider">The provider.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
     public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ValueMatrix3x3<T> result)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// 
+    /// Tos the string.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A string? .</returns>
     public override string? ToString() => ToString("R", CultureInfo.InvariantCulture);
 
     /// <summary>
-    /// 
+    /// Tos the string.
     /// </summary>
-    /// <param name="formatProvider"></param>
-    /// <returns></returns>
+    /// <param name="formatProvider">The format provider.</param>
+    /// <returns>A string.</returns>
     public string ToString(IFormatProvider formatProvider) => ToString("R", formatProvider);
 
     /// <summary>
-    /// 
+    /// Tos the string.
     /// </summary>
-    /// <param name="format"></param>
-    /// <param name="formatProvider"></param>
-    /// <returns></returns>
+    /// <param name="format">The format.</param>
+    /// <param name="formatProvider">The format provider.</param>
+    /// <returns>A string.</returns>
     public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueMatrix3x3<T>)}: ({M1x1.ToString(format, formatProvider)}, {M1x2.ToString(format, formatProvider)}, {M2x1.ToString(format, formatProvider)}, {M2x2.ToString(format, formatProvider)})";
 
     /// <summary>
-    /// 
+    /// Gets the debugger display.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A string? .</returns>
     private string? GetDebuggerDisplay() => ToString();
 }

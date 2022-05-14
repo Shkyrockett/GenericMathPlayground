@@ -30,13 +30,13 @@ It seems like it may be possible to have something similar to a constants by usi
 
 ```cs
 public static class MathFloatConsts<T>
-    where T : IFloatingPoint<T>
+    where T : IFloatingPointIeee754<T>
 {
-    public static readonly T OneThird = T.Create(1) / T.Create(4);
+    public static readonly T OneThird = T.CreateChecked(1) / T.CreateChecked(4);
 
-    public static readonly T OneHalf = T.Create(1) / T.Create(2);
+    public static readonly T OneHalf = T.CreateChecked(1) / T.CreateChecked(2);
 
-    public static readonly T OneAndOneHalf =  T.Create(3) / T.Create(2);
+    public static readonly T OneAndOneHalf =  T.CreateChecked(3) / T.CreateChecked(2);
 
     public static readonly T Hau = OneHalf * T.Pi;
 
@@ -52,37 +52,37 @@ public static class MathConsts<T>
 {
     public static readonly T? MaxValue = T.Zero switch
     {
-        char => T.Create(char.MaxValue),
-        sbyte => T.Create(sbyte.MaxValue),
-        byte => T.Create(byte.MaxValue),
-        short => T.Create(short.MaxValue),
-        ushort => T.Create(ushort.MaxValue),
-        int => T.Create(int.MaxValue),
-        uint => T.Create(uint.MaxValue),
-        long => T.Create(long.MaxValue),
-        ulong => T.Create(ulong.MaxValue),
-        Half => T.Create(Half.MaxValue),
-        float => T.Create(float.MaxValue),
-        double => T.Create(double.MaxValue),
-        decimal => T.Create(decimal.MaxValue),
+        char => T.CreateChecked(char.MaxValue),
+        sbyte => T.CreateChecked(sbyte.MaxValue),
+        byte => T.CreateChecked(byte.MaxValue),
+        short => T.CreateChecked(short.MaxValue),
+        ushort => T.CreateChecked(ushort.MaxValue),
+        int => T.CreateChecked(int.MaxValue),
+        uint => T.CreateChecked(uint.MaxValue),
+        long => T.CreateChecked(long.MaxValue),
+        ulong => T.CreateChecked(ulong.MaxValue),
+        Half => T.CreateChecked(Half.MaxValue),
+        float => T.CreateChecked(float.MaxValue),
+        double => T.CreateChecked(double.MaxValue),
+        decimal => T.CreateChecked(decimal.MaxValue),
         _ => null
     };
 
     public static readonly T? MinValue = T.Zero switch
     {
-        char => T.Create(char.MinValue),
-        sbyte => T.Create(sbyte.MinValue),
-        byte => T.Create(byte.MinValue),
-        short => T.Create(short.MinValue),
-        ushort => T.Create(ushort.MinValue),
-        int => T.Create(int.MinValue),
-        uint => T.Create(uint.MinValue),
-        long => T.Create(long.MinValue),
-        ulong => T.Create(ulong.MinValue),
-        Half => T.Create(Half.MinValue),
-        float => T.Create(float.MinValue),
-        double => T.Create(double.MinValue),
-        decimal => T.Create(decimal.MinValue),
+        char => T.CreateChecked(char.MinValue),
+        sbyte => T.CreateChecked(sbyte.MinValue),
+        byte => T.CreateChecked(byte.MinValue),
+        short => T.CreateChecked(short.MinValue),
+        ushort => T.CreateChecked(ushort.MinValue),
+        int => T.CreateChecked(int.MinValue),
+        uint => T.CreateChecked(uint.MinValue),
+        long => T.CreateChecked(long.MinValue),
+        ulong => T.CreateChecked(ulong.MinValue),
+        Half => T.CreateChecked(Half.MinValue),
+        float => T.CreateChecked(float.MinValue),
+        double => T.CreateChecked(double.MinValue),
+        decimal => T.CreateChecked(decimal.MinValue),
         _ => null
     };
 }
@@ -92,7 +92,7 @@ However, it seems like it simply is not possible to use generic types for defaul
 There are some standard constants, but they are implemented as static properties, and using static properties for constants means you can't create default parameters for generic type values:
 
 ```cs
-public static Wrap<T>(T value, min = T.Zero, T max = T.Create(2))
+public static Wrap<T>(T value, min = T.Zero, T max = T.CreateChecked(2))
     where T : INumber<T>
 {
 ...
@@ -104,7 +104,7 @@ To work around this, multiple methods without the default parameters have to be 
 ```cs
 public static Wrap<T>(T value) where T : INumber<T> => Wrap<T>(value, T.Zero)
 
-public static Wrap<T>(T value, min) where T : INumber<T> => Wrap<T>(value, min, T.Create(2))
+public static Wrap<T>(T value, min) where T : INumber<T> => Wrap<T>(value, min, T.CreateChecked(2))
 
 public static Wrap<T>(T value, min, T max)
     where T : INumber<T>

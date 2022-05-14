@@ -1,5 +1,5 @@
 ﻿// <copyright file="Operations.Statistics.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,24 +9,22 @@
 // <remarks>
 // </remarks>
 
-using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The operations.
 /// </summary>
 public static partial class Operations
 {
     #region Summation
     /// <summary>
-    /// 
+    /// Sums the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="values"></param>
-    /// <returns></returns>
+    /// <param name="values">The values.</param>
+    /// <returns>A TResult.</returns>
     /// <acknowledgment>
     /// https://devblogs.microsoft.com/dotnet/preview-features-in-net-6-generic-math/#generic-math
     /// </acknowledgment>
@@ -39,7 +37,7 @@ public static partial class Operations
 
         foreach (var value in values)
         {
-            result += TResult.Create(value);
+            result += TResult.CreateChecked(value);
         }
 
         return result;
@@ -48,12 +46,10 @@ public static partial class Operations
 
     #region Averaging
     /// <summary>
-    /// 
+    /// Averages the.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="values"></param>
-    /// <returns></returns>
+    /// <param name="values">The values.</param>
+    /// <returns>A TResult.</returns>
     /// <acknowledgment>
     /// https://devblogs.microsoft.com/dotnet/preview-features-in-net-6-generic-math/#generic-math
     /// </acknowledgment>
@@ -63,25 +59,23 @@ public static partial class Operations
         where TResult : INumber<TResult>
     {
         var sum = Sum<T, TResult>(values);
-        return TResult.Create(sum) / TResult.Create(values.Length);
+        return TResult.CreateChecked(sum) / TResult.CreateChecked(values.Length);
     }
     #endregion
 
     #region Standard Deviation
     /// <summary>
-    /// 
+    /// Standards the deviation.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="values"></param>
-    /// <returns></returns>
+    /// <param name="values">The values.</param>
+    /// <returns>A TResult.</returns>
     /// <acknowledgment>
     /// https://devblogs.microsoft.com/dotnet/preview-features-in-net-6-generic-math/#generic-math
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static TResult StandardDeviation<T, TResult>(Span<T> values)
         where T : INumber<T>
-        where TResult : IFloatingPoint<TResult>
+        where TResult : IFloatingPointIeee754<TResult>
     {
         var standardDeviation = TResult.Zero;
 
@@ -90,10 +84,10 @@ public static partial class Operations
             TResult average = Average<T, TResult>(values);
             TResult sum = Sum<TResult, TResult>(values.Select((value) =>
             {
-                var deviation = TResult.Create(value) - average;
+                var deviation = TResult.CreateChecked(value) - average;
                 return deviation * deviation;
             }));
-            standardDeviation = TResult.Sqrt(sum / TResult.Create(values.Length - 1));
+            standardDeviation = TResult.Sqrt(sum / TResult.CreateChecked(values.Length - 1));
         }
 
         return standardDeviation;

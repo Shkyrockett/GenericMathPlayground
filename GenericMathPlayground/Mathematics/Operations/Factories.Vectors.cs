@@ -1,5 +1,5 @@
 ﻿// <copyright file="Factories.Vectors.cs" company="Shkyrockett" >
-//     Copyright © 2020 - 2021 Shkyrockett. All rights reserved.
+//     Copyright © 2020 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>
@@ -9,13 +9,13 @@
 // <remarks>
 // </remarks>
 
-using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace GenericMathPlayground.Mathematics;
 
 /// <summary>
-/// 
+/// The factories.
 /// </summary>
 public static partial class Factories
 {
@@ -71,7 +71,7 @@ public static partial class Factories
     /// https://github.com/GeorgiSGeorgiev/ExtendedMatrixCalculator
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static T[] RandomNonZeroVector<T>(int length) where T : INumber<T> => RandomNonZeroVector(length, T.Zero, T.One / T.Create(1000));
+    public static T[] RandomNonZeroVector<T>(int length) where T : INumber<T> => RandomNonZeroVector(length, T.Zero, T.One / T.CreateChecked(1000));
 
     /// <summary>
     /// Random vector generator.
