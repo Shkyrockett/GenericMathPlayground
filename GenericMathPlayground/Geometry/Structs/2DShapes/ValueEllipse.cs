@@ -29,11 +29,11 @@ public class ValueEllipse<T, R>
     /// <param name="center">The center.</param>
     /// <param name="radii">The radii.</param>
     /// <param name="rotation">The rotation.</param>
-    public ValueEllipse(IPoint2<T> center!!, ISize2<T> radii!!, IRotation2<R> rotation!!)
+    public ValueEllipse(IPoint2<T> center, ISize2<T> radii, IRotation2<R> rotation)
     {
-        Center = center;
-        Radii = radii;
-        Rotation = rotation;
+        Center = center ?? throw new ArgumentNullException(nameof(center));
+        Radii = radii ?? throw new ArgumentNullException(nameof(radii));
+        Rotation = rotation ?? throw new ArgumentNullException(nameof(rotation));
         Bounds = default;
     }
     #endregion

@@ -57,6 +57,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Physics\Structs\FeetUnit.cs.bac" />
+	  <None Remove="Physics\Structs\InchesUnit.cs.bac" />
+	  <None Remove="Physics\Structs\MetersUnit.cs.bac" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="Physics\Structs\FeetUnit.cs.bac" />
+	  <Compile Include="Physics\Structs\InchesUnit.cs.bac" />
+	  <Compile Include="Physics\Structs\MetersUnit.cs.bac" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
 		<None Include="..\LICENSE.md" Link="Properties\LICENSE.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>

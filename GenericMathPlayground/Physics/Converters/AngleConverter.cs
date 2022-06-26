@@ -79,7 +79,7 @@ public class AngleConverter
     /// <param name="destinationType">The destinationType.</param>
     /// <returns>The <see cref="object"/>.</returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType!!)
+    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
     {
         if (value is double @double)
         {
@@ -107,6 +107,11 @@ public class AngleConverter
                     return new System.ComponentModel.Design.Serialization.InstanceDescriptor(constructor, new object[] { angle2 });
                 }
             }
+        }
+
+        if (destinationType is null)
+        {
+            throw new ArgumentNullException(nameof(destinationType));
         }
 
         return base.ConvertTo(context, culture, value, destinationType);

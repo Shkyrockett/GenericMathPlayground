@@ -37,8 +37,13 @@ public class ExpandableCollectionConverter
     /// The <see cref="object" />.
     /// </returns>
     /// <exception cref="ArgumentNullException">destinationType</exception>
-    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType!!)
+    public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
     {
+        if (destinationType is null)
+        {
+            throw new ArgumentNullException(nameof(destinationType));
+        }
+
         return destinationType == typeof(string) ? "(Collection)" : base.ConvertTo(context, culture, value, destinationType);
     }
 

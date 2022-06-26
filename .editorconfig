@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CA2019: Improper 'ThreadStatic' field initialization
+dotnet_diagnostic.CA2019.severity = none

@@ -37,11 +37,12 @@ public partial class Form1
 
         var l = new ValueVectorList<MetersUnit>(a, b, c, d);
 
-        var e = new MetersUnit(2);
-        UnitConversion.ConvertTo(e, out FeetUnit f);
+        var e = new MetersUnit(2d);
+        var f = new FeetUnit(e);
+        //UnitConversion.ConvertTo(e, out FeetUnit f);
 
-        var m = ValueMatrix<double>.MultiplicativeIdentity(2, 2) + ValueMatrix<double>.MultiplicativeIdentity(2, 2).RotateClockwise() * 2;
-        var v = ValueVector<double>.MultiplicativeIdentity(2) * 2;
+        var m = ValueMatrix<double>.MultiplicativeIdentity(2, 2) + ValueMatrix<double>.MultiplicativeIdentity(2, 2).RotateClockwise() * 2d;
+        var v = ValueVector<double>.MultiplicativeIdentity(2) * 2d;
 
         var r = m * v;
 

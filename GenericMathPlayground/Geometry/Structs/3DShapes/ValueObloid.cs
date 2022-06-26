@@ -30,11 +30,11 @@ public class ValueObloid<T, R>
     /// <param name="center">The center.</param>
     /// <param name="radii">The radii.</param>
     /// <param name="rotation">The rotation.</param>
-    public ValueObloid(IPoint<T> center!!, ISize<T> radii!!, IRotation<R> rotation!!)
+    public ValueObloid(IPoint<T> center, ISize<T> radii, IRotation<R> rotation)
     {
-        Center = center;
-        Radii = radii;
-        Rotation = rotation;
+        Center = center ?? throw new ArgumentNullException(nameof(center));
+        Radii = radii ?? throw new ArgumentNullException(nameof(radii));
+        Rotation = rotation ?? throw new ArgumentNullException(nameof(rotation));
         Bounds = default;
     }
     #endregion

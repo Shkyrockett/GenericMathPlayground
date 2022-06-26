@@ -79,7 +79,12 @@ public static partial class Operations
     /// <param name="result">The result.</param>
     /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static bool TryCast<T, TResult>(this T value, out TResult result) where T : INumber<T> where TResult : INumber<TResult> => TResult.TryCreate(value, out result);
+    public static bool TryCast<T, TResult>(this T value, out TResult result) where T : INumber<T> where TResult : INumber<TResult>
+    {
+        //return TResult.TryConvertFromChecked(value, out result);
+        result = TResult.CreateChecked(value);
+        return true;
+    }
 
     /// <summary>
     /// Tries the cast or default.
@@ -87,7 +92,11 @@ public static partial class Operations
     /// <param name="value">The value.</param>
     /// <returns>A TResult? .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult? TryCastOrDefault<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.TryCreate(value, out TResult? result) ? result : default;
+    public static TResult? TryCastOrDefault<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult>
+    {
+        //return TResult.TryConvertFromChecked(value, out TResult? result) ? result : default;
+        return TResult.CreateChecked(value) ?? default;
+    }
 
     /// <summary>
     /// Casts the.
@@ -95,7 +104,7 @@ public static partial class Operations
     /// <param name="value">The value.</param>
     /// <returns>A TResult? .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult? Cast<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult> => TResult.CreateChecked(value);
+    public static TResult? CastChecked<T, TResult>(this T value) where T : INumberBase<T> where TResult : INumberBase<TResult> => TResult.CreateChecked(value);
 
     /// <summary>
     /// Casts the saturating.
