@@ -698,73 +698,97 @@ public struct ValueMatrix3x3<T>
     /// <summary>
     /// Parses the.
     /// </summary>
-    /// <param name="s">The s.</param>
-    /// <param name="provider">The provider.</param>
+    /// <param name="source">The s.</param>
+    /// <param name="formatProvider">The provider.</param>
     /// <returns>A ValueMatrix3x3.</returns>
-    public static ValueMatrix3x3<T> Parse(string s, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Tries the parse.
-    /// </summary>
-    /// <param name="s">The s.</param>
-    /// <param name="provider">The provider.</param>
-    /// <param name="result">The result.</param>
-    /// <returns>A bool.</returns>
-    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out ValueMatrix3x3<T> result)
-    {
-        throw new NotImplementedException();
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static ValueMatrix3x3<T> Parse(string source, IFormatProvider? formatProvider) => Parse((ReadOnlySpan<char>)source, formatProvider);
 
     /// <summary>
     /// Parses the.
     /// </summary>
-    /// <param name="s">The s.</param>
-    /// <param name="provider">The provider.</param>
+    /// <param name="source">The s.</param>
+    /// <param name="formatProvider">The provider.</param>
     /// <returns>A ValueMatrix3x3.</returns>
-    public static ValueMatrix3x3<T> Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static ValueMatrix3x3<T> Parse(ReadOnlySpan<char> source, IFormatProvider? formatProvider) => TryParse(source, formatProvider, out var result) ? result : result;
 
     /// <summary>
     /// Tries the parse.
     /// </summary>
-    /// <param name="s">The s.</param>
-    /// <param name="provider">The provider.</param>
+    /// <param name="source">The s.</param>
+    /// <param name="formatProvider">The provider.</param>
     /// <param name="result">The result.</param>
     /// <returns>A bool.</returns>
-    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ValueMatrix3x3<T> result)
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static bool TryParse([NotNullWhen(true)] string? source, IFormatProvider? formatProvider, out ValueMatrix3x3<T> result) => TryParse((ReadOnlySpan<char>)source, formatProvider, out result);
+
+    /// <summary>
+    /// Tries the parse.
+    /// </summary>
+    /// <param name="source">The s.</param>
+    /// <param name="formatProvider">The provider.</param>
+    /// <param name="result">The result.</param>
+    /// <returns>A bool.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static bool TryParse(ReadOnlySpan<char> source, IFormatProvider? formatProvider, out ValueMatrix3x3<T> result)
     {
-        throw new NotImplementedException();
+        var tokenizer = new Tokenizer(source, formatProvider);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result1);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result2);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result3);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result4);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result5);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result6);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result7);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result8);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result9);
+        var value = new ValueMatrix3x3<T>(result1, result2, result3, result4, result5, result6, result7, result8, result9);
+
+        // There should be no more tokens in this string.
+        tokenizer.LastTokenRequired();
+        result = value;
+        return true;
     }
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a human-readable string that represents this <see cref="ValueMatrix3x3{T}" /> struct.
     /// </summary>
-    /// <returns>A string? .</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public override string? ToString() => ToString("R", CultureInfo.InvariantCulture);
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a string representation of this <see cref="ValueMatrix3x3{T}" /> struct based on the IFormatProvider
+    /// passed in.  If the provider is null, the CurrentCulture is used.
     /// </summary>
     /// <param name="formatProvider">The format provider.</param>
-    /// <returns>A string.</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public string ToString(IFormatProvider formatProvider) => ToString("R", formatProvider);
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a string representation of this <see cref="ValueMatrix3x3{T}" /> struct based on the IFormatProvider
+    /// passed in.  If the provider is null, the CurrentCulture is used.
     /// </summary>
     /// <param name="format">The format.</param>
     /// <param name="formatProvider">The format provider.</param>
-    /// <returns>A string.</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueMatrix3x3<T>)}: ({M1x1.ToString(format, formatProvider)}, {M1x2.ToString(format, formatProvider)}, {M2x1.ToString(format, formatProvider)}, {M2x2.ToString(format, formatProvider)})";
 
     /// <summary>
     /// Gets the debugger display.
     /// </summary>
-    /// <returns>A string? .</returns>
+    /// <returns>
+    /// A string representation of this object for display in the debugger.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private string? GetDebuggerDisplay() => ToString();
 }

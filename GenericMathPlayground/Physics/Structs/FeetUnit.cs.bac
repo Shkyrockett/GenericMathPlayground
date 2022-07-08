@@ -146,7 +146,7 @@
 //    public static FeetUnit NegativeOne => -1d;
 
 //    /// <summary>
-//    /// Gets the in meters.
+//    /// Gets the conversion unit of in meters.
 //    /// </summary>
 //    [RequiresPreviewFeatures]
 //    public static double InMeters => 0.3048d;

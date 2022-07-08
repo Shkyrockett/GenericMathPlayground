@@ -9,14 +9,12 @@
 // <remarks>
 // </remarks>
 
-using GenericMathPlayground.Mathematics;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using System.Runtime.Versioning;
 
 namespace GenericMathPlayground.Physics;
 
@@ -25,6 +23,7 @@ namespace GenericMathPlayground.Physics;
 /// </summary>
 [TypeConverter(typeof(LengthUnitConverter<InchesUnit>))]
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public readonly struct InchesUnit
     : ILengthUnit,
     IComparable, IComparable<InchesUnit>, IEquatable<InchesUnit>,
@@ -52,9 +51,7 @@ public readonly struct InchesUnit
     /// <param name="value">The value.</param>
     public InchesUnit(ILengthUnit value)
     {
-        // Dirty hack to get around not being able to access the InMeters static property on the incoming value.
-        var valueInMeters = (double)(value.GetType()?.GetProperty("InMeters")?.GetValue(typeof(double), null) ?? default(double));
-        Value = value.Value * (valueInMeters * (1d / InchesUnit.InMeters));
+        Value = value.Value * (value.UnitInMeters * UnitOfMeters);
     }
     #endregion
 
@@ -65,9 +62,14 @@ public readonly struct InchesUnit
     public double Value { get; }
 
     /// <summary>
-    /// Gets the in meters.
+    /// Gets the conversion unit in meters.
     /// </summary>
-    public static double InMeters => 0.0254d;
+    public double UnitInMeters => 1d / UnitOfMeters;
+
+    /// <summary>
+    /// Gets the conversion of unit in meters.
+    /// </summary>
+    public static double UnitOfMeters => 1d / 0.0254d;
 
     /// <summary>
     /// Gets the e.
@@ -367,6 +369,7 @@ public readonly struct InchesUnit
     /// Gets the hash code.
     /// </summary>
     /// <returns>An int.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public override int GetHashCode() => HashCode.Combine(Value);
 
     /// <summary>
@@ -418,10 +421,7 @@ public readonly struct InchesUnit
     /// <param name="result">The result.</param>
     /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    static bool INumberBase<InchesUnit>.TryConvertFromChecked<TOther>(TOther value, out InchesUnit result)
-    {
-        return TryConvertFrom(value, out result);
-    }
+    static bool INumberBase<InchesUnit>.TryConvertFromChecked<TOther>(TOther value, out InchesUnit result) => TryConvertFrom(value, out result);
 
     /// <summary>
     /// Tries the convert from saturating.
@@ -430,10 +430,7 @@ public readonly struct InchesUnit
     /// <param name="result">The result.</param>
     /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    static bool INumberBase<InchesUnit>.TryConvertFromSaturating<TOther>(TOther value, out InchesUnit result)
-    {
-        return TryConvertFrom(value, out result);
-    }
+    static bool INumberBase<InchesUnit>.TryConvertFromSaturating<TOther>(TOther value, out InchesUnit result) => TryConvertFrom(value, out result);
 
     /// <summary>
     /// Tries the convert from truncating.
@@ -442,10 +439,7 @@ public readonly struct InchesUnit
     /// <param name="result">The result.</param>
     /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    static bool INumberBase<InchesUnit>.TryConvertFromTruncating<TOther>(TOther value, out InchesUnit result)
-    {
-        return TryConvertFrom(value, out result);
-    }
+    static bool INumberBase<InchesUnit>.TryConvertFromTruncating<TOther>(TOther value, out InchesUnit result) => TryConvertFrom(value, out result);
 
     /// <summary>
     /// 
@@ -603,10 +597,7 @@ public readonly struct InchesUnit
     /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     static bool INumberBase<InchesUnit>.TryConvertToSaturating<TOther>(InchesUnit value, out TOther result)
-        where TOther : default
-    {
-        return TryConvertTo<TOther>(value, out result);
-    }
+        where TOther : default => TryConvertTo<TOther>(value, out result);
 
     /// <summary>
     /// Tries the convert to truncating.
@@ -616,10 +607,7 @@ public readonly struct InchesUnit
     /// <returns>A bool.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     static bool INumberBase<InchesUnit>.TryConvertToTruncating<TOther>(InchesUnit value, out TOther result)
-        where TOther : default
-    {
-        return TryConvertTo<TOther>(value, out result);
-    }
+        where TOther : default => TryConvertTo<TOther>(value, out result);
 
     /// <summary>
     /// 
@@ -683,13 +671,13 @@ public readonly struct InchesUnit
         }
         if (type == typeof(float))
         {
-            float ff = ((float)value.Value);
+            float ff = (float)value.Value;
             result = (TOther)(object)ff;
             return true;
         }
         if (type == typeof(double))
         {
-            double dd = ((double)value.Value);
+            double dd = (double)value.Value;
             result = (TOther)(object)dd;
             return true;
         }
@@ -801,7 +789,7 @@ public readonly struct InchesUnit
     /// <param name="conversionType">The conversion type.</param>
     /// <param name="provider">The provider.</param>
     /// <returns>An object.</returns>
-    public object ToType(Type conversionType, IFormatProvider? provider) => throw new NotImplementedException();
+    public object ToType(Type conversionType, IFormatProvider? provider) => Convert.ChangeType(this, conversionType, provider);
 
     /// <summary>
     /// Converts the numeric value of this instance to its equivalent string representation.
@@ -844,7 +832,9 @@ public readonly struct InchesUnit
     /// <summary>
     /// Gets the debugger display.
     /// </summary>
-    /// <returns>A string.</returns>
+    /// <returns>
+    /// A string representation of this object for display in the debugger.
+    /// </returns>
     private string? GetDebuggerDisplay() => ToString();
 
     /// <summary>
@@ -1250,25 +1240,35 @@ public readonly struct InchesUnit
     /// Gets the exponent byte count.
     /// </summary>
     /// <returns>An int.</returns>
-    public int GetExponentByteCount() => throw new NotImplementedException();
+    public int GetExponentByteCount() => 2;
 
     /// <summary>
     /// Gets the exponent shortest bit length.
     /// </summary>
     /// <returns>An int.</returns>
-    public int GetExponentShortestBitLength() => throw new NotImplementedException();
+    public int GetExponentShortestBitLength()
+    {
+        ulong bits = BitConverter.DoubleToUInt64Bits(Value);
+        var BiasedExponent = (ushort)((bits >> 52) & 0x7FF);
+        short exponent = (short)(BiasedExponent - 1023);
+        if (exponent >= 0)
+        {
+            return 16 - short.LeadingZeroCount(exponent);
+        }
+        return 17 - short.LeadingZeroCount((short)~exponent);
+    }
 
     /// <summary>
     /// Gets the significand byte count.
     /// </summary>
     /// <returns>An int.</returns>
-    public int GetSignificandByteCount() => throw new NotImplementedException();
+    public int GetSignificandByteCount() => 8;
 
     /// <summary>
     /// Gets the significand bit length.
     /// </summary>
     /// <returns>An int.</returns>
-    public int GetSignificandBitLength() => throw new NotImplementedException();
+    public int GetSignificandBitLength() => 53;
 
     /// <summary>
     /// Tries the write exponent big endian.
@@ -1277,6 +1277,19 @@ public readonly struct InchesUnit
     /// <param name="bytesWritten">The bytes written.</param>
     /// <returns>A bool.</returns>
     public bool TryWriteExponentBigEndian(Span<byte> destination, out int bytesWritten) => throw new NotImplementedException();
+    //	{
+    //		if (destination.Length >= 2)
+    //		{
+    //			short exponent = Exponent;
+    //    _ = BitConverter.IsLittleEndian;
+    //			exponent = BinaryPrimitives.ReverseEndianness(exponent);
+    //			Unsafe.WriteUnaligned(ref MemoryMarshal.GetReference(destination), exponent);
+    //			bytesWritten = 2;
+    //			return true;
+    //		}
+    //bytesWritten = 0;
+    //		return false;
+    //	}
 
     /// <summary>
     /// Tries the write exponent little endian.
@@ -1285,6 +1298,20 @@ public readonly struct InchesUnit
     /// <param name="bytesWritten">The bytes written.</param>
     /// <returns>A bool.</returns>
     public bool TryWriteExponentLittleEndian(Span<byte> destination, out int bytesWritten) => throw new NotImplementedException();
+    //    	{
+    //		if (destination.Length >= 2)
+    //		{
+    //			short exponent = Exponent;
+    //			if (!BitConverter.IsLittleEndian)
+    //			{
+    //			}
+    //			Unsafe.WriteUnaligned(ref MemoryMarshal.GetReference(destination), exponent);
+    //			bytesWritten = 2;
+    //			return true;
+    //		}
+    //bytesWritten = 0;
+    //		return false;
+    //	}
 
     /// <summary>
     /// Tries the write significand big endian.
@@ -1293,6 +1320,19 @@ public readonly struct InchesUnit
     /// <param name="bytesWritten">The bytes written.</param>
     /// <returns>A bool.</returns>
     public bool TryWriteSignificandBigEndian(Span<byte> destination, out int bytesWritten) => throw new NotImplementedException();
+    //    	{
+    //		if (destination.Length >= 8)
+    //		{
+    //			ulong significand = Significand;
+    //    _ = BitConverter.IsLittleEndian;
+    //			significand = BinaryPrimitives.ReverseEndianness(significand);
+    //			Unsafe.WriteUnaligned(ref MemoryMarshal.GetReference(destination), significand);
+    //			bytesWritten = 8;
+    //			return true;
+    //		}
+    //bytesWritten = 0;
+    //		return false;
+    //	}
 
     /// <summary>
     /// Tries the write significand little endian.
@@ -1301,6 +1341,20 @@ public readonly struct InchesUnit
     /// <param name="bytesWritten">The bytes written.</param>
     /// <returns>A bool.</returns>
     public bool TryWriteSignificandLittleEndian(Span<byte> destination, out int bytesWritten) => throw new NotImplementedException();
+    //    	{
+    //		if (destination.Length >= 8)
+    //		{
+    //			ulong significand = Significand;
+    //			if (!BitConverter.IsLittleEndian)
+    //			{
+    //			}
+    //			Unsafe.WriteUnaligned(ref MemoryMarshal.GetReference(destination), significand);
+    //			bytesWritten = 8;
+    //			return true;
+    //		}
+    //bytesWritten = 0;
+    //		return false;
+    //	}
 
     /// <summary>
     /// Fuseds the multiply add.
@@ -1369,14 +1423,14 @@ public readonly struct InchesUnit
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A bool.</returns>
-    public static bool IsCanonical(InchesUnit value) => throw new NotImplementedException();
+    public static bool IsCanonical(InchesUnit value) => true;
 
     /// <summary>
     /// Are the complex number.
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A bool.</returns>
-    public static bool IsComplexNumber(InchesUnit value) => throw new NotImplementedException();
+    public static bool IsComplexNumber(InchesUnit value) => false;
 
     /// <summary>
     /// Are the even integer.
@@ -1397,7 +1451,7 @@ public readonly struct InchesUnit
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A bool.</returns>
-    public static bool IsImaginaryNumber(InchesUnit value) => throw new NotImplementedException();
+    public static bool IsImaginaryNumber(InchesUnit value) => false;
 
     /// <summary>
     /// Are the infinity.
@@ -1490,7 +1544,11 @@ public readonly struct InchesUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A (Metric Sin, Metric Cos) .</returns>
-    public static (InchesUnit Sin, InchesUnit Cos) SinCos(InchesUnit x) => throw new NotImplementedException();
+    public static (InchesUnit Sin, InchesUnit Cos) SinCos(InchesUnit x)
+    {
+        var v = Math.SinCos(x.Value);
+        return (new(v.Sin), new(v.Cos));
+    }
 
     /// <summary>
     /// Sins the.

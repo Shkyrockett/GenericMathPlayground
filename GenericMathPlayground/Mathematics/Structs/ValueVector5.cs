@@ -319,75 +319,97 @@ public struct ValueVector5<T>
     public bool Equals(ValueVector5<T> other) => I.Equals(other.I) && J.Equals(other.J) && K.Equals(other.K) && L.Equals(other.L) && M.Equals(other.M);
 
     /// <summary>
-    /// Parses the.
+    /// Parse a string for a <see cref="ValueVector5{T}" /> value.
     /// </summary>
-    /// <param name="s">The s.</param>
-    /// <param name="provider">The provider.</param>
+    /// <param name="source">The source string.</param>
+    /// <param name="formatProvider">The format provider.</param>
     /// <returns>A ValueVector5.</returns>
-    public static ValueVector5<T> Parse(string s, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static ValueVector5<T> Parse(string source, IFormatProvider? formatProvider) => Parse((ReadOnlySpan<char>)source, formatProvider);
 
     /// <summary>
-    /// Parses the.
+    /// Parse a string for a <see cref="ValueVector5{T}" /> value.
     /// </summary>
-    /// <param name="s">The s.</param>
-    /// <param name="provider">The provider.</param>
+    /// <param name="source">The source string.</param>
+    /// <param name="formatProvider">The format provider.</param>
     /// <returns>A ValueVector5.</returns>
-    public static ValueVector5<T> Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static ValueVector5<T> Parse(ReadOnlySpan<char> source, IFormatProvider? formatProvider) => TryParse(source, formatProvider, out var result) ? result : result;
 
     /// <summary>
-    /// Tries the parse.
+    /// Try Parse a string for a <see cref="ValueVector5{T}" /> value.
     /// </summary>
-    /// <param name="s">The s.</param>
-    /// <param name="provider">The provider.</param>
+    /// <param name="source">The source string.</param>
+    /// <param name="formatProvider">The format provider.</param>
     /// <param name="result">The result.</param>
     /// <returns>A bool.</returns>
-    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, out ValueVector5<T> result)
-    {
-        throw new NotImplementedException();
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static bool TryParse([NotNullWhen(true)] string? source, IFormatProvider? formatProvider, out ValueVector5<T> result) => TryParse((ReadOnlySpan<char>)source, formatProvider, out result);
 
     /// <summary>
-    /// Tries the parse.
+    /// Try Parse a string for a <see cref="ValueVector5{T}" /> value.
     /// </summary>
-    /// <param name="s">The s.</param>
-    /// <param name="provider">The provider.</param>
+    /// <param name="source">The source string.</param>
+    /// <param name="formatProvider">The format provider.</param>
     /// <param name="result">The result.</param>
     /// <returns>A bool.</returns>
-    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ValueVector5<T> result)
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public static bool TryParse(ReadOnlySpan<char> source, IFormatProvider? formatProvider, out ValueVector5<T> result)
     {
-        throw new NotImplementedException();
+        var tokenizer = new Tokenizer(source, formatProvider);
+        var firstToken = tokenizer.NextTokenRequired();
+
+        T.TryParse(firstToken, formatProvider, out var result1);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result2);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result3);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result4);
+        T.TryParse(tokenizer.NextTokenRequired(), formatProvider, out var result5);
+        var value = new ValueVector5<T>(result1, result2, result3, result4, result5);
+
+        // There should be no more tokens in this string.
+        tokenizer.LastTokenRequired();
+        result = value;
+        return true;
     }
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a human-readable string that represents this <see cref="ValueVector5{T}" /> struct.
     /// </summary>
-    /// <returns>A string? .</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public override string? ToString() => ToString("R", CultureInfo.InvariantCulture);
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a string representation of this <see cref="ValueVector5{T}" /> struct based on the IFormatProvider
+    /// passed in.  If the provider is null, the CurrentCulture is used.
     /// </summary>
     /// <param name="formatProvider">The format provider.</param>
-    /// <returns>A string.</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public string ToString(IFormatProvider formatProvider) => ToString("R", formatProvider);
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a string representation of this <see cref="ValueVector5{T}" /> struct based on the IFormatProvider
+    /// passed in.  If the provider is null, the CurrentCulture is used.
     /// </summary>
     /// <param name="format">The format.</param>
     /// <param name="formatProvider">The format provider.</param>
-    /// <returns>A string.</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueVector5<T>)}: ({nameof(I)}: {I.ToString(format, formatProvider)}, {nameof(J)}: {J.ToString(format, formatProvider)}, {nameof(K)}: {K.ToString(format, formatProvider)}, {nameof(L)}: {L.ToString(format, formatProvider)}, {nameof(M)}: {M.ToString(format, formatProvider)})";
 
     /// <summary>
     /// Gets the debugger display.
     /// </summary>
-    /// <returns>A string? .</returns>
+    /// <returns>
+    /// A string representation of this object for display in the debugger.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private string? GetDebuggerDisplay() => ToString();
 }

@@ -120,29 +120,43 @@ public struct RGBA<T>
     public override int GetHashCode() => HashCode.Combine(R, G, B, A);
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a human-readable string that represents this <see cref="RGBA{T}" /> struct.
     /// </summary>
-    /// <returns>A string? .</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public override string? ToString() => ToString("R", CultureInfo.InvariantCulture);
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a string representation of this <see cref="RGBA{T}" /> struct based on the IFormatProvider
+    /// passed in.  If the provider is null, the CurrentCulture is used.
     /// </summary>
     /// <param name="formatProvider">The format provider.</param>
-    /// <returns>A string.</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public string ToString(IFormatProvider formatProvider) => ToString("R", formatProvider);
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a string representation of this <see cref="RGBA{T}" /> struct based on the IFormatProvider
+    /// passed in.  If the provider is null, the CurrentCulture is used.
     /// </summary>
     /// <param name="format">The format.</param>
     /// <param name="formatProvider">The format provider.</param>
-    /// <returns>A string.</returns>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(RGBA<T>)}: ({nameof(R)}: {R.ToString(format, formatProvider)}, {nameof(G)}: {G.ToString(format, formatProvider)}, {nameof(B)}: {B.ToString(format, formatProvider)}, {nameof(A)}: {A.ToString(format, formatProvider)})";
 
     /// <summary>
     /// Gets the debugger display.
     /// </summary>
-    /// <returns>A string? .</returns>
+    /// <returns>
+    /// A string representation of this object for display in the debugger.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private string? GetDebuggerDisplay() => ToString();
 }

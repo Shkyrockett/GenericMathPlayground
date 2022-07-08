@@ -9,11 +9,14 @@
 // <remarks>
 // </remarks>
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace GenericMathPlayground.Physics;
 
 /// <summary>
 /// The length unit.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public interface ILengthUnit
 {
     /// <summary>
@@ -22,7 +25,17 @@ public interface ILengthUnit
     double Value { get; }
 
     /// <summary>
-    /// Gets the in meters.
+    /// Gets the conversion unit in meters.
     /// </summary>
-    static abstract double InMeters { get; }
+    /// <remarks>
+    /// A dumb hack to gain access to the <see cref="UnitOfMeters"/> static property. 
+    /// This must be overridden in the struct with 1d / UnitOfMeters. 
+    /// Sadly default interface methods do not work for properties.
+    /// </remarks>
+    abstract double UnitInMeters { get; }
+
+    /// <summary>
+    /// Gets the conversion of unit in meters.
+    /// </summary>
+    static abstract double UnitOfMeters { get; }
 }

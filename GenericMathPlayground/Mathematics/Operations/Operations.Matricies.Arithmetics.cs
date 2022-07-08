@@ -2460,13 +2460,10 @@ public static partial class Operations
         T multiplicand1x1, T multiplicand1x2,
         T multiplicand2x1, T multiplicand2x2,
         T multiplierX, T multiplierY)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicand1x1 * multiplierX) + (multiplicand1x2 * multiplierY),
             (multiplicand2x1 * multiplierX) + (multiplicand2x2 * multiplierY)
                );
-    }
 
     /// <summary>
     /// Multiplies the matrix vector.
@@ -2486,14 +2483,11 @@ public static partial class Operations
         T multiplicand2x1, T multiplicand2x2,
         T multiplicand3x1, T multiplicand3x2,
         T multiplierX, T multiplierY)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicand1x1 * multiplierX) + (multiplicand1x2 * multiplierY),
             (multiplicand2x1 * multiplierX) + (multiplicand2x2 * multiplierY),
             (multiplicand3x1 * multiplierX) + (multiplicand3x2 * multiplierY)
                );
-    }
 
     /// <summary>
     /// Multiplies the matrix vector.
@@ -2517,14 +2511,11 @@ public static partial class Operations
         T multiplicand2x1, T multiplicand2x2, T multiplicand2x3,
         T multiplicand3x1, T multiplicand3x2, T multiplicand3x3,
         T multiplierX, T multiplierY, T multiplierZ)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicand1x1 * multiplierX) + (multiplicand1x2 * multiplierY) + (multiplicand1x3 * multiplierZ),
             (multiplicand2x1 * multiplierX) + (multiplicand2x2 * multiplierY) + (multiplicand2x3 * multiplierZ),
             (multiplicand3x1 * multiplierX) + (multiplicand3x2 * multiplierY) + (multiplicand3x3 * multiplierZ)
                );
-    }
 
     /// <summary>
     /// Multiplies the matrix vector.
@@ -2557,15 +2548,12 @@ public static partial class Operations
         T multiplicand3x1, T multiplicand3x2, T multiplicand3x3, T multiplicand3x4,
         T multiplicand4x1, T multiplicand4x2, T multiplicand4x3, T multiplicand4x4,
         T multiplierX, T multiplierY, T multiplierZ, T multiplierW)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicand1x1 * multiplierX) + (multiplicand1x2 * multiplierY) + (multiplicand1x3 * multiplierZ) + (multiplicand1x4 * multiplierW),
             (multiplicand2x1 * multiplierX) + (multiplicand2x2 * multiplierY) + (multiplicand2x3 * multiplierZ) + (multiplicand2x4 * multiplierW),
             (multiplicand3x1 * multiplierX) + (multiplicand3x2 * multiplierY) + (multiplicand3x3 * multiplierZ) + (multiplicand3x4 * multiplierW),
             (multiplicand4x1 * multiplierX) + (multiplicand4x2 * multiplierY) + (multiplicand4x3 * multiplierZ) + (multiplicand4x4 * multiplierW)
                );
-    }
 
     /// <summary>
     /// Multiplies the matrix vector.
@@ -2609,16 +2597,13 @@ public static partial class Operations
         T multiplicand4x1, T multiplicand4x2, T multiplicand4x3, T multiplicand4x4, T multiplicand4x5,
         T multiplicand5x1, T multiplicand5x2, T multiplicand5x3, T multiplicand5x4, T multiplicand5x5,
         T multiplierX, T multiplierY, T multiplierZ, T multiplierW, T multiplierV)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicand1x1 * multiplierX) + (multiplicand1x2 * multiplierY) + (multiplicand1x3 * multiplierZ) + (multiplicand1x4 * multiplierW) + (multiplicand1x5 * multiplierV),
             (multiplicand2x1 * multiplierX) + (multiplicand2x2 * multiplierY) + (multiplicand2x3 * multiplierZ) + (multiplicand2x4 * multiplierW) + (multiplicand2x5 * multiplierV),
             (multiplicand3x1 * multiplierX) + (multiplicand3x2 * multiplierY) + (multiplicand3x3 * multiplierZ) + (multiplicand3x4 * multiplierW) + (multiplicand3x5 * multiplierV),
             (multiplicand4x1 * multiplierX) + (multiplicand4x2 * multiplierY) + (multiplicand4x3 * multiplierZ) + (multiplicand4x4 * multiplierW) + (multiplicand4x5 * multiplierV),
             (multiplicand5x1 * multiplierX) + (multiplicand5x2 * multiplierY) + (multiplicand5x3 * multiplierZ) + (multiplicand5x4 * multiplierW) + (multiplicand5x5 * multiplierV)
                );
-    }
 
     /// <summary>
     /// Multiplies the specified multiplicand.
@@ -2685,13 +2670,10 @@ public static partial class Operations
         T multiplicandX, T multiplicandY,
         T multiplier1x1, T multiplier1x2,
         T multiplier2x1, T multiplier2x2)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicandX * multiplier1x1) + (multiplicandY * multiplier2x1),
             (multiplicandX * multiplier1x2) + (multiplicandY * multiplier2x2)
                );
-    }
 
     /// <summary>
     /// Multiplies the vector matrix.
@@ -2712,13 +2694,10 @@ public static partial class Operations
         T multiplier1x1, T multiplier1x2,
         T multiplier2x1, T multiplier2x2,
         T multiplier3x1, T multiplier3x2)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicandX * multiplier1x1) + (multiplicandY * multiplier2x1) + (multiplicandZ * multiplier3x1),
             (multiplicandX * multiplier1x2) + (multiplicandY * multiplier2x2) + (multiplicandZ * multiplier3x2)
                );
-    }
 
     /// <summary>
     /// Multiplies the vector matrix.
@@ -2742,14 +2721,11 @@ public static partial class Operations
         T multiplier1x1, T multiplier1x2, T multiplier1x3,
         T multiplier2x1, T multiplier2x2, T multiplier2x3,
         T multiplier3x1, T multiplier3x2, T multiplier3x3)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicandX * multiplier1x1) + (multiplicandY * multiplier2x1) + (multiplicandZ * multiplier3x1),
             (multiplicandX * multiplier1x2) + (multiplicandY * multiplier2x2) + (multiplicandZ * multiplier3x2),
             (multiplicandX * multiplier1x3) + (multiplicandY * multiplier2x3) + (multiplicandZ * multiplier3x3)
                );
-    }
 
     /// <summary>
     /// Multiplies the vector matrix.
@@ -2782,15 +2758,12 @@ public static partial class Operations
         T multiplier2x1, T multiplier2x2, T multiplier2x3, T multiplier2x4,
         T multiplier3x1, T multiplier3x2, T multiplier3x3, T multiplier3x4,
         T multiplier4x1, T multiplier4x2, T multiplier4x3, T multiplier4x4)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicandX * multiplier1x1) + (multiplicandY * multiplier2x1) + (multiplicandZ * multiplier3x1) + (multiplicandW * multiplier4x1),
             (multiplicandX * multiplier1x2) + (multiplicandY * multiplier2x2) + (multiplicandZ * multiplier3x2) + (multiplicandW * multiplier4x2),
             (multiplicandX * multiplier1x3) + (multiplicandY * multiplier2x3) + (multiplicandZ * multiplier3x3) + (multiplicandW * multiplier4x3),
             (multiplicandX * multiplier1x4) + (multiplicandY * multiplier2x4) + (multiplicandZ * multiplier3x4) + (multiplicandW * multiplier4x4)
                );
-    }
 
     /// <summary>
     /// Multiplies the vector matrix.
@@ -2834,16 +2807,13 @@ public static partial class Operations
         T multiplier3x1, T multiplier3x2, T multiplier3x3, T multiplier3x4, T multiplier3x5,
         T multiplier4x1, T multiplier4x2, T multiplier4x3, T multiplier4x4, T multiplier4x5,
         T multiplier5x1, T multiplier5x2, T multiplier5x3, T multiplier5x4, T multiplier5x5)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicandX * multiplier1x1) + (multiplicandY * multiplier2x1) + (multiplicandZ * multiplier3x1) + (multiplicandW * multiplier4x1) + (multiplicandV * multiplier5x1),
             (multiplicandX * multiplier1x2) + (multiplicandY * multiplier2x2) + (multiplicandZ * multiplier3x2) + (multiplicandW * multiplier4x2) + (multiplicandV * multiplier5x2),
             (multiplicandX * multiplier1x3) + (multiplicandY * multiplier2x3) + (multiplicandZ * multiplier3x3) + (multiplicandW * multiplier4x3) + (multiplicandV * multiplier5x3),
             (multiplicandX * multiplier1x4) + (multiplicandY * multiplier2x4) + (multiplicandZ * multiplier3x4) + (multiplicandW * multiplier4x4) + (multiplicandV * multiplier5x4),
             (multiplicandX * multiplier1x5) + (multiplicandY * multiplier2x5) + (multiplicandZ * multiplier3x5) + (multiplicandW * multiplier4x5) + (multiplicandV * multiplier5x5)
                );
-    }
     #endregion
 
     #region Matrix Multiplication
@@ -3366,13 +3336,10 @@ public static partial class Operations
         T multiplicand2x1, T multiplicand2x2,
         T multiplier1x1, T multiplier1x2,
         T multiplier2x1, T multiplier2x2)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
                    (multiplicand1x1 * multiplier1x1) + (multiplicand1x2 * multiplier2x1), (multiplicand1x1 * multiplier1x2) + (multiplicand1x2 * multiplier2x2),
                    (multiplicand2x1 * multiplier1x1) + (multiplicand2x2 * multiplier2x1), (multiplicand2x1 * multiplier1x2) + (multiplicand2x2 * multiplier2x2)
                );
-    }
 
     /// <summary>
     /// Multiply3x3x3x3s the specified multiplicand1x1.
@@ -3408,14 +3375,11 @@ public static partial class Operations
         T multiplier1x1, T multiplier1x2, T multiplier1x3,
         T multiplier2x1, T multiplier2x2, T multiplier2x3,
         T multiplier3x1, T multiplier3x2, T multiplier3x3)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
                    (multiplicand1x1 * multiplier1x1) + (multiplicand1x2 * multiplier2x1) + (multiplicand1x3 * multiplier3x1), (multiplicand1x1 * multiplier1x2) + (multiplicand1x2 * multiplier2x2) + (multiplicand1x3 * multiplier3x2), (multiplicand1x1 * multiplier1x3) + (multiplicand1x2 * multiplier2x3) + (multiplicand1x3 * multiplier3x3),
                    (multiplicand2x1 * multiplier1x1) + (multiplicand2x2 * multiplier2x1) + (multiplicand2x3 * multiplier3x1), (multiplicand2x1 * multiplier1x2) + (multiplicand2x2 * multiplier2x2) + (multiplicand2x3 * multiplier3x2), (multiplicand2x1 * multiplier1x3) + (multiplicand2x2 * multiplier2x3) + (multiplicand2x3 * multiplier3x3),
                    (multiplicand3x1 * multiplier1x1) + (multiplicand3x2 * multiplier2x1) + (multiplicand3x3 * multiplier3x1), (multiplicand3x1 * multiplier1x2) + (multiplicand3x2 * multiplier2x2) + (multiplicand3x3 * multiplier3x2), (multiplicand3x1 * multiplier1x3) + (multiplicand3x2 * multiplier2x3) + (multiplicand3x3 * multiplier3x3)
                );
-    }
 
     /// <summary>
     /// Used to multiply two Matrices.
@@ -3468,15 +3432,12 @@ public static partial class Operations
         T multiplier2x1, T multiplier2x2, T multiplier2x3, T multiplier2x4,
         T multiplier3x1, T multiplier3x2, T multiplier3x3, T multiplier3x4,
         T multiplier4x1, T multiplier4x2, T multiplier4x3, T multiplier4x4)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
                    (multiplicand1x1 * multiplier1x1) + (multiplicand1x2 * multiplier2x1) + (multiplicand1x3 * multiplier3x1) + (multiplicand1x4 * multiplier4x1), (multiplicand1x1 * multiplier1x2) + (multiplicand1x2 * multiplier2x2) + (multiplicand1x3 * multiplier3x2) + (multiplicand1x4 * multiplier4x2), (multiplicand1x1 * multiplier1x3) + (multiplicand1x2 * multiplier2x3) + (multiplicand1x3 * multiplier3x3) + (multiplicand1x4 * multiplier4x3), (multiplicand1x1 * multiplier1x4) + (multiplicand1x2 * multiplier2x4) + (multiplicand1x3 * multiplier3x4) + (multiplicand1x4 * multiplier4x4),
                    (multiplicand2x1 * multiplier1x1) + (multiplicand2x2 * multiplier2x1) + (multiplicand2x3 * multiplier3x1) + (multiplicand2x4 * multiplier4x1), (multiplicand2x1 * multiplier1x2) + (multiplicand2x2 * multiplier2x2) + (multiplicand2x3 * multiplier3x2) + (multiplicand2x4 * multiplier4x2), (multiplicand2x1 * multiplier1x3) + (multiplicand2x2 * multiplier2x3) + (multiplicand2x3 * multiplier3x3) + (multiplicand2x4 * multiplier4x3), (multiplicand2x1 * multiplier1x4) + (multiplicand2x2 * multiplier2x4) + (multiplicand2x3 * multiplier3x4) + (multiplicand2x4 * multiplier4x4),
                    (multiplicand3x1 * multiplier1x1) + (multiplicand3x2 * multiplier2x1) + (multiplicand3x3 * multiplier3x1) + (multiplicand3x4 * multiplier4x1), (multiplicand3x1 * multiplier1x2) + (multiplicand3x2 * multiplier2x2) + (multiplicand3x3 * multiplier3x2) + (multiplicand3x4 * multiplier4x2), (multiplicand3x1 * multiplier1x3) + (multiplicand3x2 * multiplier2x3) + (multiplicand3x3 * multiplier3x3) + (multiplicand3x4 * multiplier4x3), (multiplicand3x1 * multiplier1x4) + (multiplicand3x2 * multiplier2x4) + (multiplicand3x3 * multiplier3x4) + (multiplicand3x4 * multiplier4x4),
                    (multiplicand4x1 * multiplier1x1) + (multiplicand4x2 * multiplier2x1) + (multiplicand4x3 * multiplier3x1) + (multiplicand4x4 * multiplier4x1), (multiplicand4x1 * multiplier1x2) + (multiplicand4x2 * multiplier2x2) + (multiplicand4x3 * multiplier3x2) + (multiplicand4x4 * multiplier4x2), (multiplicand4x1 * multiplier1x3) + (multiplicand4x2 * multiplier2x3) + (multiplicand4x3 * multiplier3x3) + (multiplicand4x4 * multiplier4x3), (multiplicand4x1 * multiplier1x4) + (multiplicand4x2 * multiplier2x4) + (multiplicand4x3 * multiplier3x4) + (multiplicand4x4 * multiplier4x4)
                );
-    }
 
     /// <summary>
     /// Multiply5x5x5x5s the specified multiplicand M1X1.
@@ -3550,9 +3511,7 @@ public static partial class Operations
         T multiplier3x1, T multiplier3x2, T multiplier3x3, T multiplier3x4, T multiplier3x5,
         T multiplier4x1, T multiplier4x2, T multiplier4x3, T multiplier4x4, T multiplier4x5,
         T multiplier5x1, T multiplier5x2, T multiplier5x3, T multiplier5x4, T multiplier5x5)
-        where T : INumber<T>
-    {
-        return (
+        where T : INumber<T> => (
             (multiplicand1x1 * multiplier1x1) + (multiplicand1x2 * multiplier2x1) + (multiplicand1x3 * multiplier3x1) + (multiplicand1x4 * multiplier4x1) + (multiplicand1x5 * multiplier5x1),
             (multiplicand1x1 * multiplier1x2) + (multiplicand1x2 * multiplier2x2) + (multiplicand1x3 * multiplier3x2) + (multiplicand1x4 * multiplier4x2) + (multiplicand1x5 * multiplier5x2),
             (multiplicand1x1 * multiplier1x3) + (multiplicand1x2 * multiplier2x3) + (multiplicand1x3 * multiplier3x3) + (multiplicand1x4 * multiplier4x3) + (multiplicand1x5 * multiplier5x3),
@@ -3579,7 +3538,6 @@ public static partial class Operations
             (multiplicand5x1 * multiplier1x4) + (multiplicand5x2 * multiplier2x4) + (multiplicand5x3 * multiplier3x4) + (multiplicand5x4 * multiplier4x4) + (multiplicand5x5 * multiplier5x4),
             (multiplicand5x1 * multiplier1x5) + (multiplicand5x2 * multiplier2x5) + (multiplicand5x3 * multiplier3x5) + (multiplicand5x4 * multiplier4x5) + (multiplicand5x5 * multiplier5x5)
                );
-    }
     #endregion
 
     #region Multiply Vectors with the right vector a transposed matrix

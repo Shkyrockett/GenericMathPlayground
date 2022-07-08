@@ -45,5 +45,5 @@ public static partial class UnitConversion
     /// <param name="value">The value.</param>
     /// <param name="result">The result.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static void ConvertTo<T, R>(this T value, out R result) where T : INumber<T>, ILengthUnit where R : INumber<R>, ILengthUnit => result = R.CreateChecked(value.Value * (T.InMeters * (1d / R.InMeters)));
+    public static void ConvertTo<T, R>(this T value, out R result) where T : INumber<T>, ILengthUnit where R : INumber<R>, ILengthUnit => result = R.CreateChecked(value.Value * (T.UnitOfMeters * (1d / R.UnitOfMeters)));
 }

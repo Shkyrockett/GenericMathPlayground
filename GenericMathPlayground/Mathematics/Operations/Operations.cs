@@ -92,11 +92,9 @@ public static partial class Operations
     /// <param name="value">The value.</param>
     /// <returns>A TResult? .</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    public static TResult? TryCastOrDefault<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult>
-    {
+    public static TResult? TryCastOrDefault<T, TResult>(this T value) where T : INumber<T> where TResult : INumber<TResult> =>
         //return TResult.TryConvertFromChecked(value, out TResult? result) ? result : default;
-        return TResult.CreateChecked(value) ?? default;
-    }
+        TResult.CreateChecked(value) ?? default;
 
     /// <summary>
     /// Casts the.

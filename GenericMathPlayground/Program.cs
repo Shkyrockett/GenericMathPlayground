@@ -1,5 +1,5 @@
-// <copyright file="Program.cs" company="Shkyrockett" >
-//     Copyright � 2021 - 2022 Shkyrockett. All rights reserved.
+﻿// <copyright file="Program.cs" company="Shkyrockett" >
+//     Copyright © 2021 - 2022 Shkyrockett. All rights reserved.
 // </copyright>
 // <author id="shkyrockett">Shkyrockett</author>
 // <license>

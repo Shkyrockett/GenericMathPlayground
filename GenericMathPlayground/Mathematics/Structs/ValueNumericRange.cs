@@ -257,7 +257,10 @@ namespace GenericMathPlayground.Mathematics
         /// <summary>
         /// Gets the debugger display.
         /// </summary>
-        /// <returns>A string? .</returns>
+        /// <returns>
+        /// A string representation of this object for display in the debugger.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
         private string? GetDebuggerDisplay() => ToString();
         #endregion
     }

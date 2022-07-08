@@ -9,12 +9,19 @@
 // <remarks>
 // </remarks>
 
+using System.Numerics;
+
 namespace GenericMathPlayground.Mathematics
 {
     /// <summary>
     /// The polynomial.
     /// </summary>
-    public interface IPolynomial
+    public interface IPolynomial<T>
+        where T : INumber<T>
     {
+        /// <summary>
+        /// Gets or sets the coefficients.
+        /// </summary>
+        internal T[] Coefficients { get; set; }
     }
 }

@@ -12,6 +12,7 @@
 using GenericMathPlayground.Framework;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
@@ -101,15 +102,44 @@ public struct ValueVectorList<T>
     public bool Equals(ValueVectorList<T> other) => EqualityComparer<List<IVector<T>>>.Default.Equals(Items, other.Items);
 
     /// <summary>
-    /// Tos the string.
+    /// Creates a human-readable string that represents this <see cref="ValueVectorList{T}" /> struct.
     /// </summary>
-    /// <returns>A string? .</returns>
-    public override string? ToString() => base.ToString();
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public override string? ToString() => ToString("R", CultureInfo.InvariantCulture);
+
+    /// <summary>
+    /// Creates a string representation of this <see cref="ValueVectorList{T}" /> struct based on the IFormatProvider
+    /// passed in.  If the provider is null, the CurrentCulture is used.
+    /// </summary>
+    /// <param name="formatProvider">The format provider.</param>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public string ToString(IFormatProvider formatProvider) => ToString("R", formatProvider);
+
+    /// <summary>
+    /// Creates a string representation of this <see cref="ValueVectorList{T}" /> struct based on the IFormatProvider
+    /// passed in.  If the provider is null, the CurrentCulture is used.
+    /// </summary>
+    /// <param name="format">The format.</param>
+    /// <param name="formatProvider">The format provider.</param>
+    /// <returns>
+    /// A string representation of this object.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    public string ToString(string? format, IFormatProvider? formatProvider) => $"{nameof(ValueVectorList<T>)}: ({string.Join(", ", Items)})";
 
     /// <summary>
     /// Gets the debugger display.
     /// </summary>
-    /// <returns>A string? .</returns>
+    /// <returns>
+    /// A string representation of this object for display in the debugger.
+    /// </returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private string? GetDebuggerDisplay() => ToString();
     #endregion
 }
