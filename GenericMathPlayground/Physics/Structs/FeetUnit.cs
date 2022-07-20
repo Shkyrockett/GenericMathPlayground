@@ -1227,14 +1227,14 @@ public readonly struct FeetUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit BitDecrement(FeetUnit x) => new(Math.BitDecrement(x.Value));
+    public static FeetUnit BitDecrement(FeetUnit x) => new(double.BitDecrement(x.Value));
 
     /// <summary>
     /// Bits the increment.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit BitIncrement(FeetUnit x) => new(Math.BitIncrement(x.Value));
+    public static FeetUnit BitIncrement(FeetUnit x) => new(double.BitIncrement(x.Value));
 
     /// <summary>
     /// Gets the exponent byte count.
@@ -1363,7 +1363,7 @@ public readonly struct FeetUnit
     /// <param name="right">The right.</param>
     /// <param name="addend">The addend.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit FusedMultiplyAdd(FeetUnit left, FeetUnit right, FeetUnit addend) => new(Math.FusedMultiplyAdd(left.Value, right.Value, addend.Value));
+    public static FeetUnit FusedMultiplyAdd(FeetUnit left, FeetUnit right, FeetUnit addend) => new(double.FusedMultiplyAdd(left.Value, right.Value, addend.Value));
 
     /// <summary>
     /// Ieee754S the remainder.
@@ -1371,21 +1371,21 @@ public readonly struct FeetUnit
     /// <param name="left">The left.</param>
     /// <param name="right">The right.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Ieee754Remainder(FeetUnit left, FeetUnit right) => new(Math.IEEERemainder(left.Value, right.Value));
+    public static FeetUnit Ieee754Remainder(FeetUnit left, FeetUnit right) => new(double.Ieee754Remainder(left.Value, right.Value));
 
     /// <summary>
     /// Reciprocals the estimate.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit ReciprocalEstimate(FeetUnit x) => new(Math.ReciprocalEstimate(x.Value));
+    public static FeetUnit ReciprocalEstimate(FeetUnit x) => new(double.ReciprocalEstimate(x.Value));
 
     /// <summary>
     /// Reciprocals the sqrt estimate.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit ReciprocalSqrtEstimate(FeetUnit x) => new(Math.ReciprocalSqrtEstimate(x.Value));
+    public static FeetUnit ReciprocalSqrtEstimate(FeetUnit x) => new(double.ReciprocalSqrtEstimate(x.Value));
 
     /// <summary>
     /// Scales the b.
@@ -1393,7 +1393,7 @@ public readonly struct FeetUnit
     /// <param name="x">The x.</param>
     /// <param name="n">The n.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit ScaleB(FeetUnit x, int n) => new(Math.ScaleB(x.Value, n));
+    public static FeetUnit ScaleB(FeetUnit x, int n) => new(double.ScaleB(x.Value, n));
 
     /// <summary>
     /// Copies the sign.
@@ -1415,7 +1415,7 @@ public readonly struct FeetUnit
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Abs(FeetUnit value) => new(Math.Abs(value.Value));
+    public static FeetUnit Abs(FeetUnit value) => new(double.Abs(value.Value));
 
     #region Queries
     /// <summary>
@@ -1546,7 +1546,7 @@ public readonly struct FeetUnit
     /// <returns>A (Metric Sin, Metric Cos) .</returns>
     public static (FeetUnit Sin, FeetUnit Cos) SinCos(FeetUnit x)
     {
-        var v = Math.SinCos(x.Value);
+        var v = double.SinCos(x.Value);
         return (new(v.Sin), new(v.Cos));
     }
 
@@ -1555,42 +1555,42 @@ public readonly struct FeetUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Sin(FeetUnit x) => new(Math.Sin(x.Value));
+    public static FeetUnit Sin(FeetUnit x) => new(double.Sin(x.Value));
 
     /// <summary>
     /// Cos the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Cos(FeetUnit x) => new(Math.Cos(x.Value));
+    public static FeetUnit Cos(FeetUnit x) => new(double.Cos(x.Value));
 
     /// <summary>
     /// Tans the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Tan(FeetUnit x) => new(Math.Tan(x.Value));
+    public static FeetUnit Tan(FeetUnit x) => new(double.Tan(x.Value));
 
     /// <summary>
     /// Asins the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Asin(FeetUnit x) => new(Math.Asin(x.Value));
+    public static FeetUnit Asin(FeetUnit x) => new(double.Asin(x.Value));
 
     /// <summary>
     /// Acos the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Acos(FeetUnit x) => new(Math.Acos(x.Value));
+    public static FeetUnit Acos(FeetUnit x) => new(double.Acos(x.Value));
 
     /// <summary>
     /// Atans the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Atan(FeetUnit x) => new(Math.Atan(x.Value));
+    public static FeetUnit Atan(FeetUnit x) => new(double.Atan(x.Value));
 
     /// <summary>
     /// Atan2S the.
@@ -1598,48 +1598,114 @@ public readonly struct FeetUnit
     /// <param name="y">The y.</param>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Atan2(FeetUnit y, FeetUnit x) => new(Math.Atan2(y.Value, x.Value));
+    public static FeetUnit Atan2(FeetUnit y, FeetUnit x) => new(double.Atan2(y.Value, x.Value));
 
     /// <summary>
     /// Asinhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Asinh(FeetUnit x) => new(Math.Asinh(x.Value));
+    public static FeetUnit Asinh(FeetUnit x) => new(double.Asinh(x.Value));
 
     /// <summary>
     /// Acoshes the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Acosh(FeetUnit x) => new(Math.Acosh(x.Value));
+    public static FeetUnit Acosh(FeetUnit x) => new(double.Acosh(x.Value));
 
     /// <summary>
     /// Atanhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Atanh(FeetUnit x) => new(Math.Atanh(x.Value));
+    public static FeetUnit Atanh(FeetUnit x) => new(double.Atanh(x.Value));
 
     /// <summary>
     /// Sinhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Sinh(FeetUnit x) => new(Math.Sinh(x.Value));
+    public static FeetUnit Sinh(FeetUnit x) => new(double.Sinh(x.Value));
 
     /// <summary>
     /// Coshes the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Cosh(FeetUnit x) => new(Math.Cosh(x.Value));
+    public static FeetUnit Cosh(FeetUnit x) => new(double.Cosh(x.Value));
 
     /// <summary>
     /// Tanhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static FeetUnit Tanh(FeetUnit x) => new(Math.Tanh(x.Value));
+    public static FeetUnit Tanh(FeetUnit x) => new(double.Tanh(x.Value));
+
+    /// <summary>
+    /// Acos the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit AcosPi(FeetUnit x) => new(double.AcosPi(x.Value));
+
+    /// <summary>
+    /// Asins the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit AsinPi(FeetUnit x) => new(double.AsinPi(x.Value));
+
+    /// <summary>
+    /// Atan2S the pi.
+    /// </summary>
+    /// <param name="y">The y.</param>
+    /// <param name="x">The x.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit Atan2Pi(FeetUnit y, FeetUnit x) => new(double.Atan2Pi(y.Value, x.Value));
+
+    /// <summary>
+    /// Atans the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit AtanPi(FeetUnit x) => new(double.AtanPi(x.Value));
+
+    /// <summary>
+    /// Cos the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit CosPi(FeetUnit x) => new(double.CosPi(x.Value));
+
+    /// <summary>
+    /// Sins the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit SinPi(FeetUnit x) => new(double.SinPi(x.Value));
+
+    /// <summary>
+    /// Tans the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit TanPi(FeetUnit x) => new(double.TanPi(x.Value));
+
+    /// <summary>
+    /// Hypots the.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit Hypot(FeetUnit x, FeetUnit y) => new(double.Hypot(x.Value, y.Value));
+
+    /// <summary>
+    /// Roots the.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="n">The n.</param>
+    /// <returns>A FeetUnit.</returns>
+    public static FeetUnit Root(FeetUnit x, int n) => new(double.Root(x.Value, n));
     #endregion
 }

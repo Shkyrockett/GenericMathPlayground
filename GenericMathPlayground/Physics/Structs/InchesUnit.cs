@@ -971,7 +971,7 @@ public readonly struct InchesUnit
     /// <param name="x">The x.</param>
     /// <param name="y">The y.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Min(InchesUnit x, InchesUnit y) => new(Math.Min(x.Value, y.Value));
+    public static InchesUnit Min(InchesUnit x, InchesUnit y) => new(double.Min(x.Value, y.Value));
 
     /// <summary>
     /// Maxes the.
@@ -979,7 +979,7 @@ public readonly struct InchesUnit
     /// <param name="x">The x.</param>
     /// <param name="y">The y.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Max(InchesUnit x, InchesUnit y) => new(Math.Max(x.Value, y.Value));
+    public static InchesUnit Max(InchesUnit x, InchesUnit y) => new(double.Max(x.Value, y.Value));
 
     /// <summary>
     /// Mins the number.
@@ -1034,14 +1034,14 @@ public readonly struct InchesUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Ceiling(InchesUnit x) => new(Math.Ceiling(x.Value));
+    public static InchesUnit Ceiling(InchesUnit x) => new(double.Ceiling(x.Value));
 
     /// <summary>
     /// Floors the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Floor(InchesUnit x) => new(Math.Floor(x.Value));
+    public static InchesUnit Floor(InchesUnit x) => new(double.Floor(x.Value));
 
     /// <summary>
     /// Clamps the.
@@ -1050,21 +1050,21 @@ public readonly struct InchesUnit
     /// <param name="min">The min.</param>
     /// <param name="max">The max.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Clamp(InchesUnit value, InchesUnit min, InchesUnit max) => new(Math.Clamp(value.Value, min.Value, max.Value));
+    public static InchesUnit Clamp(InchesUnit value, InchesUnit min, InchesUnit max) => new(double.Clamp(value.Value, min.Value, max.Value));
 
     /// <summary>
     /// Truncates the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Truncate(InchesUnit x) => new(Math.Truncate(x.Value));
+    public static InchesUnit Truncate(InchesUnit x) => new(double.Truncate(x.Value));
 
     /// <summary>
     /// Rounds the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Round(InchesUnit x) => new(Math.Round(x.Value));
+    public static InchesUnit Round(InchesUnit x) => new(double.Round(x.Value));
 
     /// <summary>
     /// Rounds the.
@@ -1072,7 +1072,7 @@ public readonly struct InchesUnit
     /// <param name="x">The x.</param>
     /// <param name="digits">The digits.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Round(InchesUnit x, int digits) => new(Math.Round(x.Value, digits));
+    public static InchesUnit Round(InchesUnit x, int digits) => new(double.Round(x.Value, digits));
 
     /// <summary>
     /// Rounds the.
@@ -1080,7 +1080,7 @@ public readonly struct InchesUnit
     /// <param name="x">The x.</param>
     /// <param name="mode">The mode.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Round(InchesUnit x, MidpointRounding mode) => new(Math.Round(x.Value, mode));
+    public static InchesUnit Round(InchesUnit x, MidpointRounding mode) => new(double.Round(x.Value, mode));
 
     /// <summary>
     /// Rounds the.
@@ -1089,7 +1089,7 @@ public readonly struct InchesUnit
     /// <param name="digits">The digits.</param>
     /// <param name="mode">The mode.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Round(InchesUnit x, int digits, MidpointRounding mode) => new(Math.Round(x.Value, digits, mode));
+    public static InchesUnit Round(InchesUnit x, int digits, MidpointRounding mode) => new(double.Round(x.Value, digits, mode));
     #endregion
 
     #region Exponents Powers Logs Roots
@@ -1106,63 +1106,63 @@ public readonly struct InchesUnit
     /// <param name="x">The x.</param>
     /// <param name="y">The y.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Pow(InchesUnit x, InchesUnit y) => new(Math.Pow(x.Value, x.Value));
+    public static InchesUnit Pow(InchesUnit x, InchesUnit y) => new(double.Pow(x.Value, x.Value));
 
     /// <summary>
     /// Exps the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Exp(InchesUnit x) => new(Math.Exp(x.Value));
+    public static InchesUnit Exp(InchesUnit x) => new(double.Exp(x.Value));
 
     /// <summary>
     /// Exp10S the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Exp10(InchesUnit x) => new(Math.Pow(10.0, x.Value));
+    public static InchesUnit Exp10(InchesUnit x) => new(double.Pow(10.0, x.Value));
 
     /// <summary>
     /// Exp10S the m1.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Exp10M1(InchesUnit x) => new(Math.Pow(10.0, x.Value) - 1d);
+    public static InchesUnit Exp10M1(InchesUnit x) => new(double.Pow(10.0, x.Value) - 1d);
 
     /// <summary>
     /// Exp2S the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Exp2(InchesUnit x) => new(Math.Pow(2.0, x.Value));
+    public static InchesUnit Exp2(InchesUnit x) => new(double.Pow(2.0, x.Value));
 
     /// <summary>
     /// Exp2S the m1.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Exp2M1(InchesUnit x) => new(Math.Pow(2.0, x.Value) - 1.0);
+    public static InchesUnit Exp2M1(InchesUnit x) => new(double.Pow(2.0, x.Value) - 1.0);
 
     /// <summary>
     /// Exps the m1.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit ExpM1(InchesUnit x) => new(Math.Exp(x.Value) - 1.0);
+    public static InchesUnit ExpM1(InchesUnit x) => new(double.Exp(x.Value) - 1.0);
 
     /// <summary>
     /// IS the log b.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>An int.</returns>
-    public static int ILogB(InchesUnit x) => Math.ILogB(x.Value);
+    public static int ILogB(InchesUnit x) => double.ILogB(x.Value);
 
     /// <summary>
     /// Logs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Log(InchesUnit x) => new(Math.Log(x.Value));
+    public static InchesUnit Log(InchesUnit x) => new(double.Log(x.Value));
 
     /// <summary>
     /// Logs the.
@@ -1170,21 +1170,21 @@ public readonly struct InchesUnit
     /// <param name="x">The x.</param>
     /// <param name="newBase">The new base.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Log(InchesUnit x, InchesUnit newBase) => new(Math.Log(x.Value, newBase.Value));
+    public static InchesUnit Log(InchesUnit x, InchesUnit newBase) => new(double.Log(x.Value, newBase.Value));
 
     /// <summary>
     /// Log2S the.
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Log2(InchesUnit value) => new(Math.Log2(value.Value));
+    public static InchesUnit Log2(InchesUnit value) => new(double.Log2(value.Value));
 
     /// <summary>
     /// Log10S the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Log10(InchesUnit x) => new(Math.Log10(x.Value));
+    public static InchesUnit Log10(InchesUnit x) => new(double.Log10(x.Value));
 
     /// <summary>
     /// Log10S the p1.
@@ -1212,14 +1212,14 @@ public readonly struct InchesUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Cbrt(InchesUnit x) => new(Math.Cbrt(x.Value));
+    public static InchesUnit Cbrt(InchesUnit x) => new(double.Cbrt(x.Value));
 
     /// <summary>
     /// Sqrts the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Sqrt(InchesUnit x) => new(Math.Sqrt(x.Value));
+    public static InchesUnit Sqrt(InchesUnit x) => new(double.Sqrt(x.Value));
     #endregion
 
     /// <summary>
@@ -1227,14 +1227,14 @@ public readonly struct InchesUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit BitDecrement(InchesUnit x) => new(Math.BitDecrement(x.Value));
+    public static InchesUnit BitDecrement(InchesUnit x) => new(double.BitDecrement(x.Value));
 
     /// <summary>
     /// Bits the increment.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit BitIncrement(InchesUnit x) => new(Math.BitIncrement(x.Value));
+    public static InchesUnit BitIncrement(InchesUnit x) => new(double.BitIncrement(x.Value));
 
     /// <summary>
     /// Gets the exponent byte count.
@@ -1363,7 +1363,7 @@ public readonly struct InchesUnit
     /// <param name="right">The right.</param>
     /// <param name="addend">The addend.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit FusedMultiplyAdd(InchesUnit left, InchesUnit right, InchesUnit addend) => new(Math.FusedMultiplyAdd(left.Value, right.Value, addend.Value));
+    public static InchesUnit FusedMultiplyAdd(InchesUnit left, InchesUnit right, InchesUnit addend) => new(double.FusedMultiplyAdd(left.Value, right.Value, addend.Value));
 
     /// <summary>
     /// Ieee754S the remainder.
@@ -1371,21 +1371,21 @@ public readonly struct InchesUnit
     /// <param name="left">The left.</param>
     /// <param name="right">The right.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Ieee754Remainder(InchesUnit left, InchesUnit right) => new(Math.IEEERemainder(left.Value, right.Value));
+    public static InchesUnit Ieee754Remainder(InchesUnit left, InchesUnit right) => new(double.Ieee754Remainder(left.Value, right.Value));
 
     /// <summary>
     /// Reciprocals the estimate.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit ReciprocalEstimate(InchesUnit x) => new(Math.ReciprocalEstimate(x.Value));
+    public static InchesUnit ReciprocalEstimate(InchesUnit x) => new(double.ReciprocalEstimate(x.Value));
 
     /// <summary>
     /// Reciprocals the sqrt estimate.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit ReciprocalSqrtEstimate(InchesUnit x) => new(Math.ReciprocalSqrtEstimate(x.Value));
+    public static InchesUnit ReciprocalSqrtEstimate(InchesUnit x) => new(double.ReciprocalSqrtEstimate(x.Value));
 
     /// <summary>
     /// Scales the b.
@@ -1393,7 +1393,7 @@ public readonly struct InchesUnit
     /// <param name="x">The x.</param>
     /// <param name="n">The n.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit ScaleB(InchesUnit x, int n) => new(Math.ScaleB(x.Value, n));
+    public static InchesUnit ScaleB(InchesUnit x, int n) => new(double.ScaleB(x.Value, n));
 
     /// <summary>
     /// Copies the sign.
@@ -1415,7 +1415,7 @@ public readonly struct InchesUnit
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Abs(InchesUnit value) => new(Math.Abs(value.Value));
+    public static InchesUnit Abs(InchesUnit value) => new(double.Abs(value.Value));
 
     #region Queries
     /// <summary>
@@ -1546,7 +1546,7 @@ public readonly struct InchesUnit
     /// <returns>A (Metric Sin, Metric Cos) .</returns>
     public static (InchesUnit Sin, InchesUnit Cos) SinCos(InchesUnit x)
     {
-        var v = Math.SinCos(x.Value);
+        var v = double.SinCos(x.Value);
         return (new(v.Sin), new(v.Cos));
     }
 
@@ -1555,42 +1555,42 @@ public readonly struct InchesUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Sin(InchesUnit x) => new(Math.Sin(x.Value));
+    public static InchesUnit Sin(InchesUnit x) => new(double.Sin(x.Value));
 
     /// <summary>
     /// Cos the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Cos(InchesUnit x) => new(Math.Cos(x.Value));
+    public static InchesUnit Cos(InchesUnit x) => new(double.Cos(x.Value));
 
     /// <summary>
     /// Tans the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Tan(InchesUnit x) => new(Math.Tan(x.Value));
+    public static InchesUnit Tan(InchesUnit x) => new(double.Tan(x.Value));
 
     /// <summary>
     /// Asins the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Asin(InchesUnit x) => new(Math.Asin(x.Value));
+    public static InchesUnit Asin(InchesUnit x) => new(double.Asin(x.Value));
 
     /// <summary>
     /// Acos the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Acos(InchesUnit x) => new(Math.Acos(x.Value));
+    public static InchesUnit Acos(InchesUnit x) => new(double.Acos(x.Value));
 
     /// <summary>
     /// Atans the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Atan(InchesUnit x) => new(Math.Atan(x.Value));
+    public static InchesUnit Atan(InchesUnit x) => new(double.Atan(x.Value));
 
     /// <summary>
     /// Atan2S the.
@@ -1598,48 +1598,114 @@ public readonly struct InchesUnit
     /// <param name="y">The y.</param>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Atan2(InchesUnit y, InchesUnit x) => new(Math.Atan2(y.Value, x.Value));
+    public static InchesUnit Atan2(InchesUnit y, InchesUnit x) => new(double.Atan2(y.Value, x.Value));
 
     /// <summary>
     /// Asinhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Asinh(InchesUnit x) => new(Math.Asinh(x.Value));
+    public static InchesUnit Asinh(InchesUnit x) => new(double.Asinh(x.Value));
 
     /// <summary>
     /// Acoshes the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Acosh(InchesUnit x) => new(Math.Acosh(x.Value));
+    public static InchesUnit Acosh(InchesUnit x) => new(double.Acosh(x.Value));
 
     /// <summary>
     /// Atanhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Atanh(InchesUnit x) => new(Math.Atanh(x.Value));
+    public static InchesUnit Atanh(InchesUnit x) => new(double.Atanh(x.Value));
 
     /// <summary>
     /// Sinhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Sinh(InchesUnit x) => new(Math.Sinh(x.Value));
+    public static InchesUnit Sinh(InchesUnit x) => new(double.Sinh(x.Value));
 
     /// <summary>
     /// Coshes the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Cosh(InchesUnit x) => new(Math.Cosh(x.Value));
+    public static InchesUnit Cosh(InchesUnit x) => new(double.Cosh(x.Value));
 
     /// <summary>
     /// Tanhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static InchesUnit Tanh(InchesUnit x) => new(Math.Tanh(x.Value));
+    public static InchesUnit Tanh(InchesUnit x) => new(double.Tanh(x.Value));
+
+    /// <summary>
+    /// Acos the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit AcosPi(InchesUnit x) => new(double.AcosPi(x.Value));
+
+    /// <summary>
+    /// Asins the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit AsinPi(InchesUnit x) => new(double.AsinPi(x.Value));
+
+    /// <summary>
+    /// Atan2S the pi.
+    /// </summary>
+    /// <param name="y">The y.</param>
+    /// <param name="x">The x.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit Atan2Pi(InchesUnit y, InchesUnit x) => new(double.Atan2Pi(y.Value, x.Value));
+
+    /// <summary>
+    /// Atans the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit AtanPi(InchesUnit x) => new(double.AtanPi(x.Value));
+
+    /// <summary>
+    /// Cos the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit CosPi(InchesUnit x) => new(double.CosPi(x.Value));
+
+    /// <summary>
+    /// Sins the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit SinPi(InchesUnit x) => new(double.SinPi(x.Value));
+
+    /// <summary>
+    /// Tans the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit TanPi(InchesUnit x) => new(double.TanPi(x.Value));
+
+    /// <summary>
+    /// Hypots the.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit Hypot(InchesUnit x, InchesUnit y) => new(double.Hypot(x.Value, y.Value));
+
+    /// <summary>
+    /// Roots the.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="n">The n.</param>
+    /// <returns>An InchesUnit.</returns>
+    public static InchesUnit Root(InchesUnit x, int n) => new(double.Root(x.Value, n));
     #endregion
 }

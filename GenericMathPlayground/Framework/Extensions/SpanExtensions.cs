@@ -26,7 +26,7 @@ public static class SpanExtensions
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
     /// <acknowledgment>
-    /// https://github.com/dotnet/coreclr/blob/master/src/System.Private.CoreLib/shared/System/MemoryExtensions.Trim.cs
+    /// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.Trim.cs
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static int ClampStart(this Span<char> span)
@@ -52,13 +52,11 @@ public static class SpanExtensions
     /// <param name="trimElement">The specified element to look for and remove.</param>
     /// <returns></returns>
     /// <acknowledgment>
-    /// https://github.com/dotnet/coreclr/blob/master/src/System.Private.CoreLib/shared/System/MemoryExtensions.Trim.cs
+    /// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.Trim.cs
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static int ClampStart<T>(this Span<T> span, T trimElement)
-#nullable disable // to enable use with both T and T? for reference types due to IEquatable<T> being invariant
-            where T : IEquatable<T>
-#nullable restore
+        where T : IEquatable<T>
     {
         var start = 0;
 
@@ -95,13 +93,11 @@ public static class SpanExtensions
     /// <param name="trimElements">The span which contains the set of elements to remove.</param>
     /// <returns></returns>
     /// <acknowledgment>
-    /// https://github.com/dotnet/coreclr/blob/master/src/System.Private.CoreLib/shared/System/MemoryExtensions.Trim.cs
+    /// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.Trim.cs
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static int ClampStart<T>(this Span<T> span, Span<T> trimElements)
-#nullable disable // to enable use with both T and T? for reference types due to IEquatable<T> being invariant
-            where T : IEquatable<T>
-#nullable restore
+        where T : IEquatable<T>
     {
         var start = 0;
         for (; start < span.Length; start++)
@@ -122,7 +118,7 @@ public static class SpanExtensions
     /// <param name="start">The start index from which to being searching.</param>
     /// <returns></returns>
     /// <acknowledgment>
-    /// https://github.com/dotnet/coreclr/blob/master/src/System.Private.CoreLib/shared/System/MemoryExtensions.Trim.cs
+    /// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.Trim.cs
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static int ClampEnd(this Span<char> span, int start)
@@ -152,13 +148,11 @@ public static class SpanExtensions
     /// <param name="trimElement">The specified element to look for and remove.</param>
     /// <returns></returns>
     /// <acknowledgment>
-    /// https://github.com/dotnet/coreclr/blob/master/src/System.Private.CoreLib/shared/System/MemoryExtensions.Trim.cs
+    /// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.Trim.cs
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static int ClampEnd<T>(this Span<T> span, int start, T trimElement)
-#nullable disable // to enable use with both T and T? for reference types due to IEquatable<T> being invariant
-            where T : IEquatable<T>
-#nullable restore
+        where T : IEquatable<T>
     {
         // Initially, start==len==0. If ClampStart trims all, start==len
         Debug.Assert((uint)start <= span.Length);
@@ -199,13 +193,11 @@ public static class SpanExtensions
     /// <param name="trimElements">The span which contains the set of elements to remove.</param>
     /// <returns></returns>
     /// <acknowledgment>
-    /// https://github.com/dotnet/coreclr/blob/master/src/System.Private.CoreLib/shared/System/MemoryExtensions.Trim.cs
+    /// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.Trim.cs
     /// </acknowledgment>
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static int ClampEnd<T>(this Span<T> span, int start, Span<T> trimElements)
-#nullable disable // to enable use with both T and T? for reference types due to IEquatable<T> being invariant
-            where T : IEquatable<T>
-#nullable restore
+        where T : IEquatable<T>
     {
         // Initially, start==len==0. If ClampStart trims all, start==len
         Debug.Assert((uint)start <= span.Length);

@@ -971,7 +971,7 @@ public readonly struct MetersUnit
     /// <param name="x">The x.</param>
     /// <param name="y">The y.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Min(MetersUnit x, MetersUnit y) => new(Math.Min(x.Value, y.Value));
+    public static MetersUnit Min(MetersUnit x, MetersUnit y) => new(double.Min(x.Value, y.Value));
 
     /// <summary>
     /// Maxes the.
@@ -979,7 +979,7 @@ public readonly struct MetersUnit
     /// <param name="x">The x.</param>
     /// <param name="y">The y.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Max(MetersUnit x, MetersUnit y) => new(Math.Max(x.Value, y.Value));
+    public static MetersUnit Max(MetersUnit x, MetersUnit y) => new(double.Max(x.Value, y.Value));
 
     /// <summary>
     /// Mins the number.
@@ -1034,14 +1034,14 @@ public readonly struct MetersUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Ceiling(MetersUnit x) => new(Math.Ceiling(x.Value));
+    public static MetersUnit Ceiling(MetersUnit x) => new(double.Ceiling(x.Value));
 
     /// <summary>
     /// Floors the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Floor(MetersUnit x) => new(Math.Floor(x.Value));
+    public static MetersUnit Floor(MetersUnit x) => new(double.Floor(x.Value));
 
     /// <summary>
     /// Clamps the.
@@ -1050,21 +1050,21 @@ public readonly struct MetersUnit
     /// <param name="min">The min.</param>
     /// <param name="max">The max.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Clamp(MetersUnit value, MetersUnit min, MetersUnit max) => new(Math.Clamp(value.Value, min.Value, max.Value));
+    public static MetersUnit Clamp(MetersUnit value, MetersUnit min, MetersUnit max) => new(double.Clamp(value.Value, min.Value, max.Value));
 
     /// <summary>
     /// Truncates the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Truncate(MetersUnit x) => new(Math.Truncate(x.Value));
+    public static MetersUnit Truncate(MetersUnit x) => new(double.Truncate(x.Value));
 
     /// <summary>
     /// Rounds the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Round(MetersUnit x) => new(Math.Round(x.Value));
+    public static MetersUnit Round(MetersUnit x) => new(double.Round(x.Value));
 
     /// <summary>
     /// Rounds the.
@@ -1072,7 +1072,7 @@ public readonly struct MetersUnit
     /// <param name="x">The x.</param>
     /// <param name="digits">The digits.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Round(MetersUnit x, int digits) => new(Math.Round(x.Value, digits));
+    public static MetersUnit Round(MetersUnit x, int digits) => new(double.Round(x.Value, digits));
 
     /// <summary>
     /// Rounds the.
@@ -1080,7 +1080,7 @@ public readonly struct MetersUnit
     /// <param name="x">The x.</param>
     /// <param name="mode">The mode.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Round(MetersUnit x, MidpointRounding mode) => new(Math.Round(x.Value, mode));
+    public static MetersUnit Round(MetersUnit x, MidpointRounding mode) => new(double.Round(x.Value, mode));
 
     /// <summary>
     /// Rounds the.
@@ -1089,7 +1089,7 @@ public readonly struct MetersUnit
     /// <param name="digits">The digits.</param>
     /// <param name="mode">The mode.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Round(MetersUnit x, int digits, MidpointRounding mode) => new(Math.Round(x.Value, digits, mode));
+    public static MetersUnit Round(MetersUnit x, int digits, MidpointRounding mode) => new(double.Round(x.Value, digits, mode));
     #endregion
 
     #region Exponents Powers Logs Roots
@@ -1106,63 +1106,63 @@ public readonly struct MetersUnit
     /// <param name="x">The x.</param>
     /// <param name="y">The y.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Pow(MetersUnit x, MetersUnit y) => new(Math.Pow(x.Value, x.Value));
+    public static MetersUnit Pow(MetersUnit x, MetersUnit y) => new(double.Pow(x.Value, x.Value));
 
     /// <summary>
     /// Exps the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Exp(MetersUnit x) => new(Math.Exp(x.Value));
+    public static MetersUnit Exp(MetersUnit x) => new(double.Exp(x.Value));
 
     /// <summary>
     /// Exp10S the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Exp10(MetersUnit x) => new(Math.Pow(10.0, x.Value));
+    public static MetersUnit Exp10(MetersUnit x) => new(double.Pow(10.0, x.Value));
 
     /// <summary>
     /// Exp10S the m1.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Exp10M1(MetersUnit x) => new(Math.Pow(10.0, x.Value) - 1d);
+    public static MetersUnit Exp10M1(MetersUnit x) => new(double.Pow(10.0, x.Value) - 1d);
 
     /// <summary>
     /// Exp2S the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Exp2(MetersUnit x) => new(Math.Pow(2.0, x.Value));
+    public static MetersUnit Exp2(MetersUnit x) => new(double.Pow(2.0, x.Value));
 
     /// <summary>
     /// Exp2S the m1.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Exp2M1(MetersUnit x) => new(Math.Pow(2.0, x.Value) - 1.0);
+    public static MetersUnit Exp2M1(MetersUnit x) => new(double.Pow(2.0, x.Value) - 1.0);
 
     /// <summary>
     /// Exps the m1.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit ExpM1(MetersUnit x) => new(Math.Exp(x.Value) - 1.0);
+    public static MetersUnit ExpM1(MetersUnit x) => new(double.Exp(x.Value) - 1.0);
 
     /// <summary>
     /// IS the log b.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>An int.</returns>
-    public static int ILogB(MetersUnit x) => Math.ILogB(x.Value);
+    public static int ILogB(MetersUnit x) => double.ILogB(x.Value);
 
     /// <summary>
     /// Logs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Log(MetersUnit x) => new(Math.Log(x.Value));
+    public static MetersUnit Log(MetersUnit x) => new(double.Log(x.Value));
 
     /// <summary>
     /// Logs the.
@@ -1170,21 +1170,21 @@ public readonly struct MetersUnit
     /// <param name="x">The x.</param>
     /// <param name="newBase">The new base.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Log(MetersUnit x, MetersUnit newBase) => new(Math.Log(x.Value, newBase.Value));
+    public static MetersUnit Log(MetersUnit x, MetersUnit newBase) => new(double.Log(x.Value, newBase.Value));
 
     /// <summary>
     /// Log2S the.
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Log2(MetersUnit value) => new(Math.Log2(value.Value));
+    public static MetersUnit Log2(MetersUnit value) => new(double.Log2(value.Value));
 
     /// <summary>
     /// Log10S the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Log10(MetersUnit x) => new(Math.Log10(x.Value));
+    public static MetersUnit Log10(MetersUnit x) => new(double.Log10(x.Value));
 
     /// <summary>
     /// Log10S the p1.
@@ -1212,14 +1212,14 @@ public readonly struct MetersUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Cbrt(MetersUnit x) => new(Math.Cbrt(x.Value));
+    public static MetersUnit Cbrt(MetersUnit x) => new(double.Cbrt(x.Value));
 
     /// <summary>
     /// Sqrts the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Sqrt(MetersUnit x) => new(Math.Sqrt(x.Value));
+    public static MetersUnit Sqrt(MetersUnit x) => new(double.Sqrt(x.Value));
     #endregion
 
     /// <summary>
@@ -1227,14 +1227,14 @@ public readonly struct MetersUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit BitDecrement(MetersUnit x) => new(Math.BitDecrement(x.Value));
+    public static MetersUnit BitDecrement(MetersUnit x) => new(double.BitDecrement(x.Value));
 
     /// <summary>
     /// Bits the increment.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit BitIncrement(MetersUnit x) => new(Math.BitIncrement(x.Value));
+    public static MetersUnit BitIncrement(MetersUnit x) => new(double.BitIncrement(x.Value));
 
     /// <summary>
     /// Gets the exponent byte count.
@@ -1363,7 +1363,7 @@ public readonly struct MetersUnit
     /// <param name="right">The right.</param>
     /// <param name="addend">The addend.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit FusedMultiplyAdd(MetersUnit left, MetersUnit right, MetersUnit addend) => new(Math.FusedMultiplyAdd(left.Value, right.Value, addend.Value));
+    public static MetersUnit FusedMultiplyAdd(MetersUnit left, MetersUnit right, MetersUnit addend) => new(double.FusedMultiplyAdd(left.Value, right.Value, addend.Value));
 
     /// <summary>
     /// Ieee754S the remainder.
@@ -1371,21 +1371,21 @@ public readonly struct MetersUnit
     /// <param name="left">The left.</param>
     /// <param name="right">The right.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Ieee754Remainder(MetersUnit left, MetersUnit right) => new(Math.IEEERemainder(left.Value, right.Value));
+    public static MetersUnit Ieee754Remainder(MetersUnit left, MetersUnit right) => new(double.Ieee754Remainder(left.Value, right.Value));
 
     /// <summary>
     /// Reciprocals the estimate.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit ReciprocalEstimate(MetersUnit x) => new(Math.ReciprocalEstimate(x.Value));
+    public static MetersUnit ReciprocalEstimate(MetersUnit x) => new(double.ReciprocalEstimate(x.Value));
 
     /// <summary>
     /// Reciprocals the sqrt estimate.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit ReciprocalSqrtEstimate(MetersUnit x) => new(Math.ReciprocalSqrtEstimate(x.Value));
+    public static MetersUnit ReciprocalSqrtEstimate(MetersUnit x) => new(double.ReciprocalSqrtEstimate(x.Value));
 
     /// <summary>
     /// Scales the b.
@@ -1393,7 +1393,7 @@ public readonly struct MetersUnit
     /// <param name="x">The x.</param>
     /// <param name="n">The n.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit ScaleB(MetersUnit x, int n) => new(Math.ScaleB(x.Value, n));
+    public static MetersUnit ScaleB(MetersUnit x, int n) => new(double.ScaleB(x.Value, n));
 
     /// <summary>
     /// Copies the sign.
@@ -1415,7 +1415,7 @@ public readonly struct MetersUnit
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Abs(MetersUnit value) => new(Math.Abs(value.Value));
+    public static MetersUnit Abs(MetersUnit value) => new(double.Abs(value.Value));
 
     #region Queries
     /// <summary>
@@ -1546,7 +1546,7 @@ public readonly struct MetersUnit
     /// <returns>A (Metric Sin, Metric Cos) .</returns>
     public static (MetersUnit Sin, MetersUnit Cos) SinCos(MetersUnit x)
     {
-        var v = Math.SinCos(x.Value);
+        var v = double.SinCos(x.Value);
         return (new(v.Sin), new(v.Cos));
     }
 
@@ -1555,42 +1555,42 @@ public readonly struct MetersUnit
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Sin(MetersUnit x) => new(Math.Sin(x.Value));
+    public static MetersUnit Sin(MetersUnit x) => new(double.Sin(x.Value));
 
     /// <summary>
     /// Cos the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Cos(MetersUnit x) => new(Math.Cos(x.Value));
+    public static MetersUnit Cos(MetersUnit x) => new(double.Cos(x.Value));
 
     /// <summary>
     /// Tans the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Tan(MetersUnit x) => new(Math.Tan(x.Value));
+    public static MetersUnit Tan(MetersUnit x) => new(double.Tan(x.Value));
 
     /// <summary>
     /// Asins the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Asin(MetersUnit x) => new(Math.Asin(x.Value));
+    public static MetersUnit Asin(MetersUnit x) => new(double.Asin(x.Value));
 
     /// <summary>
     /// Acos the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Acos(MetersUnit x) => new(Math.Acos(x.Value));
+    public static MetersUnit Acos(MetersUnit x) => new(double.Acos(x.Value));
 
     /// <summary>
     /// Atans the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Atan(MetersUnit x) => new(Math.Atan(x.Value));
+    public static MetersUnit Atan(MetersUnit x) => new(double.Atan(x.Value));
 
     /// <summary>
     /// Atan2S the.
@@ -1598,48 +1598,114 @@ public readonly struct MetersUnit
     /// <param name="y">The y.</param>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Atan2(MetersUnit y, MetersUnit x) => new(Math.Atan2(y.Value, x.Value));
+    public static MetersUnit Atan2(MetersUnit y, MetersUnit x) => new(double.Atan2(y.Value, x.Value));
 
     /// <summary>
     /// Asinhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Asinh(MetersUnit x) => new(Math.Asinh(x.Value));
+    public static MetersUnit Asinh(MetersUnit x) => new(double.Asinh(x.Value));
 
     /// <summary>
     /// Acoshes the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Acosh(MetersUnit x) => new(Math.Acosh(x.Value));
+    public static MetersUnit Acosh(MetersUnit x) => new(double.Acosh(x.Value));
 
     /// <summary>
     /// Atanhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Atanh(MetersUnit x) => new(Math.Atanh(x.Value));
+    public static MetersUnit Atanh(MetersUnit x) => new(double.Atanh(x.Value));
 
     /// <summary>
     /// Sinhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Sinh(MetersUnit x) => new(Math.Sinh(x.Value));
+    public static MetersUnit Sinh(MetersUnit x) => new(double.Sinh(x.Value));
 
     /// <summary>
     /// Coshes the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Cosh(MetersUnit x) => new(Math.Cosh(x.Value));
+    public static MetersUnit Cosh(MetersUnit x) => new(double.Cosh(x.Value));
 
     /// <summary>
     /// Tanhs the.
     /// </summary>
     /// <param name="x">The x.</param>
     /// <returns>A Metric.</returns>
-    public static MetersUnit Tanh(MetersUnit x) => new(Math.Tanh(x.Value));
+    public static MetersUnit Tanh(MetersUnit x) => new(double.Tanh(x.Value));
+
+    /// <summary>
+    /// Acos the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit AcosPi(MetersUnit x) => new(double.AcosPi(x.Value));
+
+    /// <summary>
+    /// Asins the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit AsinPi(MetersUnit x) => new(double.AsinPi(x.Value));
+
+    /// <summary>
+    /// Atan2S the pi.
+    /// </summary>
+    /// <param name="y">The y.</param>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit Atan2Pi(MetersUnit y, MetersUnit x) => new(double.Atan2Pi(y.Value, x.Value));
+
+    /// <summary>
+    /// Atans the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit AtanPi(MetersUnit x) => new(double.AtanPi(x.Value));
+
+    /// <summary>
+    /// Cos the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit CosPi(MetersUnit x) => new(double.CosPi(x.Value));
+
+    /// <summary>
+    /// Sins the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit SinPi(MetersUnit x) => new(double.SinPi(x.Value));
+
+    /// <summary>
+    /// Tans the pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit TanPi(MetersUnit x) => new(double.TanPi(x.Value));
+
+    /// <summary>
+    /// Hypots the.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="y">The y.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit Hypot(MetersUnit x, MetersUnit y) => new(double.Hypot(x.Value, y.Value));
+
+    /// <summary>
+    /// Roots the.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <param name="n">The n.</param>
+    /// <returns>A MetersUnit.</returns>
+    public static MetersUnit Root(MetersUnit x, int n) => new(double.Root(x.Value, n));
     #endregion
 }
