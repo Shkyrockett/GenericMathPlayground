@@ -9,8 +9,8 @@
 // <remarks>
 // </remarks>
 
+using CommunityToolkit.HighPerformance;
 using GenericMathPlayground.Geometry;
-using Microsoft.Toolkit.HighPerformance;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 

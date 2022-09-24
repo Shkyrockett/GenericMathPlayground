@@ -32,7 +32,7 @@ public readonly struct MetersUnit
     IAdditiveIdentity<MetersUnit, MetersUnit>, IMultiplicativeIdentity<MetersUnit, MetersUnit>,
     ISignedNumber<MetersUnit>, INumber<MetersUnit>, INumberBase<MetersUnit>, IBinaryNumber<MetersUnit>, IFloatingPoint<MetersUnit>, IFloatingPointIeee754<MetersUnit>, IBinaryFloatingPointIeee754<MetersUnit>,
     ITrigonometricFunctions<MetersUnit>, ILogarithmicFunctions<MetersUnit>, IExponentialFunctions<MetersUnit>, IHyperbolicFunctions<MetersUnit>, IPowerFunctions<MetersUnit>, IRootFunctions<MetersUnit>,
-    IBitwiseOperators<MetersUnit, MetersUnit, MetersUnit>, IComparisonOperators<MetersUnit, MetersUnit>, IEqualityOperators<MetersUnit, MetersUnit>, IUnaryNegationOperators<MetersUnit, MetersUnit>, IUnaryPlusOperators<MetersUnit, MetersUnit>, IDecrementOperators<MetersUnit>, IIncrementOperators<MetersUnit>, IAdditionOperators<MetersUnit, MetersUnit, MetersUnit>, ISubtractionOperators<MetersUnit, MetersUnit, MetersUnit>, IMultiplyOperators<MetersUnit, MetersUnit, MetersUnit>, IDivisionOperators<MetersUnit, MetersUnit, MetersUnit>, IModulusOperators<MetersUnit, MetersUnit, MetersUnit>,
+    IBitwiseOperators<MetersUnit, MetersUnit, MetersUnit>, IComparisonOperators<MetersUnit, MetersUnit, bool>, IEqualityOperators<MetersUnit, MetersUnit, bool>, IUnaryNegationOperators<MetersUnit, MetersUnit>, IUnaryPlusOperators<MetersUnit, MetersUnit>, IDecrementOperators<MetersUnit>, IIncrementOperators<MetersUnit>, IAdditionOperators<MetersUnit, MetersUnit, MetersUnit>, ISubtractionOperators<MetersUnit, MetersUnit, MetersUnit>, IMultiplyOperators<MetersUnit, MetersUnit, MetersUnit>, IDivisionOperators<MetersUnit, MetersUnit, MetersUnit>, IModulusOperators<MetersUnit, MetersUnit, MetersUnit>,
     IMinMaxValue<MetersUnit>
 {
     #region Constructors
@@ -1686,6 +1686,13 @@ public readonly struct MetersUnit
     public static MetersUnit SinPi(MetersUnit x) => new(double.SinPi(x.Value));
 
     /// <summary>
+    /// Sins the cos pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A (MetersUnit SinPi, MetersUnit CosPi) .</returns>
+    public static (MetersUnit SinPi, MetersUnit CosPi) SinCosPi(MetersUnit x) => double.SinCosPi(x.Value);
+
+    /// <summary>
     /// Tans the pi.
     /// </summary>
     /// <param name="x">The x.</param>
@@ -1706,6 +1713,6 @@ public readonly struct MetersUnit
     /// <param name="x">The x.</param>
     /// <param name="n">The n.</param>
     /// <returns>A MetersUnit.</returns>
-    public static MetersUnit Root(MetersUnit x, int n) => new(double.Root(x.Value, n));
+    public static MetersUnit RootN(MetersUnit x, int n) => new(double.RootN(x.Value, n));
     #endregion
 }

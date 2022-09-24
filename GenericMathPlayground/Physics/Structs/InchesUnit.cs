@@ -32,7 +32,7 @@ public readonly struct InchesUnit
     IAdditiveIdentity<InchesUnit, InchesUnit>, IMultiplicativeIdentity<InchesUnit, InchesUnit>,
     ISignedNumber<InchesUnit>, INumber<InchesUnit>, INumberBase<InchesUnit>, IBinaryNumber<InchesUnit>, IFloatingPoint<InchesUnit>, IFloatingPointIeee754<InchesUnit>, IBinaryFloatingPointIeee754<InchesUnit>,
     ITrigonometricFunctions<InchesUnit>, ILogarithmicFunctions<InchesUnit>, IExponentialFunctions<InchesUnit>, IHyperbolicFunctions<InchesUnit>, IPowerFunctions<InchesUnit>, IRootFunctions<InchesUnit>,
-    IBitwiseOperators<InchesUnit, InchesUnit, InchesUnit>, IComparisonOperators<InchesUnit, InchesUnit>, IEqualityOperators<InchesUnit, InchesUnit>, IUnaryNegationOperators<InchesUnit, InchesUnit>, IUnaryPlusOperators<InchesUnit, InchesUnit>, IDecrementOperators<InchesUnit>, IIncrementOperators<InchesUnit>, IAdditionOperators<InchesUnit, InchesUnit, InchesUnit>, ISubtractionOperators<InchesUnit, InchesUnit, InchesUnit>, IMultiplyOperators<InchesUnit, InchesUnit, InchesUnit>, IDivisionOperators<InchesUnit, InchesUnit, InchesUnit>, IModulusOperators<InchesUnit, InchesUnit, InchesUnit>,
+    IBitwiseOperators<InchesUnit, InchesUnit, InchesUnit>, IComparisonOperators<InchesUnit, InchesUnit, bool>, IEqualityOperators<InchesUnit, InchesUnit, bool>, IUnaryNegationOperators<InchesUnit, InchesUnit>, IUnaryPlusOperators<InchesUnit, InchesUnit>, IDecrementOperators<InchesUnit>, IIncrementOperators<InchesUnit>, IAdditionOperators<InchesUnit, InchesUnit, InchesUnit>, ISubtractionOperators<InchesUnit, InchesUnit, InchesUnit>, IMultiplyOperators<InchesUnit, InchesUnit, InchesUnit>, IDivisionOperators<InchesUnit, InchesUnit, InchesUnit>, IModulusOperators<InchesUnit, InchesUnit, InchesUnit>,
     IMinMaxValue<InchesUnit>
 {
     #region Constructors
@@ -1686,6 +1686,13 @@ public readonly struct InchesUnit
     public static InchesUnit SinPi(InchesUnit x) => new(double.SinPi(x.Value));
 
     /// <summary>
+    /// Sins the cos pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A (InchesUnit SinPi, InchesUnit CosPi) .</returns>
+    public static (InchesUnit SinPi, InchesUnit CosPi) SinCosPi(InchesUnit x) => double.SinCosPi(x.Value);
+
+    /// <summary>
     /// Tans the pi.
     /// </summary>
     /// <param name="x">The x.</param>
@@ -1706,6 +1713,6 @@ public readonly struct InchesUnit
     /// <param name="x">The x.</param>
     /// <param name="n">The n.</param>
     /// <returns>An InchesUnit.</returns>
-    public static InchesUnit Root(InchesUnit x, int n) => new(double.Root(x.Value, n));
+    public static InchesUnit RootN(InchesUnit x, int n) => new(double.RootN(x.Value, n));
     #endregion
 }

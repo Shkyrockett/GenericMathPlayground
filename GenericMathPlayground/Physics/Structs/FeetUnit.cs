@@ -32,7 +32,7 @@ public readonly struct FeetUnit
     IAdditiveIdentity<FeetUnit, FeetUnit>, IMultiplicativeIdentity<FeetUnit, FeetUnit>,
     ISignedNumber<FeetUnit>, INumber<FeetUnit>, INumberBase<FeetUnit>, IBinaryNumber<FeetUnit>, IFloatingPoint<FeetUnit>, IFloatingPointIeee754<FeetUnit>, IBinaryFloatingPointIeee754<FeetUnit>,
     ITrigonometricFunctions<FeetUnit>, ILogarithmicFunctions<FeetUnit>, IExponentialFunctions<FeetUnit>, IHyperbolicFunctions<FeetUnit>, IPowerFunctions<FeetUnit>, IRootFunctions<FeetUnit>,
-    IBitwiseOperators<FeetUnit, FeetUnit, FeetUnit>, IComparisonOperators<FeetUnit, FeetUnit>, IEqualityOperators<FeetUnit, FeetUnit>, IUnaryNegationOperators<FeetUnit, FeetUnit>, IUnaryPlusOperators<FeetUnit, FeetUnit>, IDecrementOperators<FeetUnit>, IIncrementOperators<FeetUnit>, IAdditionOperators<FeetUnit, FeetUnit, FeetUnit>, ISubtractionOperators<FeetUnit, FeetUnit, FeetUnit>, IMultiplyOperators<FeetUnit, FeetUnit, FeetUnit>, IDivisionOperators<FeetUnit, FeetUnit, FeetUnit>, IModulusOperators<FeetUnit, FeetUnit, FeetUnit>,
+    IBitwiseOperators<FeetUnit, FeetUnit, FeetUnit>, IComparisonOperators<FeetUnit, FeetUnit, bool>, IEqualityOperators<FeetUnit, FeetUnit, bool>, IUnaryNegationOperators<FeetUnit, FeetUnit>, IUnaryPlusOperators<FeetUnit, FeetUnit>, IDecrementOperators<FeetUnit>, IIncrementOperators<FeetUnit>, IAdditionOperators<FeetUnit, FeetUnit, FeetUnit>, ISubtractionOperators<FeetUnit, FeetUnit, FeetUnit>, IMultiplyOperators<FeetUnit, FeetUnit, FeetUnit>, IDivisionOperators<FeetUnit, FeetUnit, FeetUnit>, IModulusOperators<FeetUnit, FeetUnit, FeetUnit>,
     IMinMaxValue<FeetUnit>
 {
     #region Constructors
@@ -1686,6 +1686,13 @@ public readonly struct FeetUnit
     public static FeetUnit SinPi(FeetUnit x) => new(double.SinPi(x.Value));
 
     /// <summary>
+    /// Sins the cos pi.
+    /// </summary>
+    /// <param name="x">The x.</param>
+    /// <returns>A (FeetUnit SinPi, FeetUnit CosPi) .</returns>
+    public static (FeetUnit SinPi, FeetUnit CosPi) SinCosPi(FeetUnit x) => double.SinCosPi(x.Value);
+
+    /// <summary>
     /// Tans the pi.
     /// </summary>
     /// <param name="x">The x.</param>
@@ -1706,6 +1713,6 @@ public readonly struct FeetUnit
     /// <param name="x">The x.</param>
     /// <param name="n">The n.</param>
     /// <returns>A FeetUnit.</returns>
-    public static FeetUnit Root(FeetUnit x, int n) => new(double.Root(x.Value, n));
+    public static FeetUnit RootN(FeetUnit x, int n) => new(double.RootN(x.Value, n));
     #endregion
 }

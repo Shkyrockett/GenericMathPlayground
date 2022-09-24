@@ -10,7 +10,7 @@
 // <remarks>
 // </remarks>
 
-using Microsoft.Toolkit.HighPerformance;
+using CommunityToolkit.HighPerformance;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 

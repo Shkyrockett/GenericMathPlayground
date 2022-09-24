@@ -35,7 +35,7 @@ public struct ValueMatrix2x3<T>
     IEquatable<ValueMatrix2x3<T>>,
     IAdditiveIdentity<ValueMatrix2x3<T>, ValueMatrix2x3<T>>,
     IMultiplicativeIdentity<ValueMatrix2x3<T>, ValueMatrix2x3<T>>,
-    IEqualityOperators<ValueMatrix2x3<T>, ValueMatrix2x3<T>>,
+    IEqualityOperators<ValueMatrix2x3<T>, ValueMatrix2x3<T>, bool>,
     IUnaryPlusOperators<ValueMatrix2x3<T>, ValueMatrix2x3<T>>,
     IAdditionOperators<ValueMatrix2x3<T>, ValueMatrix2x3<T>, ValueMatrix2x3<T>>,
     IUnaryNegationOperators<ValueMatrix2x3<T>, ValueMatrix2x3<T>>,

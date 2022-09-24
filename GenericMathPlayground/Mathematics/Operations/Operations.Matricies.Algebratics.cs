@@ -9,7 +9,7 @@
 // <remarks>
 // </remarks>
 
-using Microsoft.Toolkit.HighPerformance;
+using CommunityToolkit.HighPerformance;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 

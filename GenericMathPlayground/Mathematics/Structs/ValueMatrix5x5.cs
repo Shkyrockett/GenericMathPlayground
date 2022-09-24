@@ -34,7 +34,7 @@ public struct ValueMatrix5x5<T>
     IEquatable<ValueMatrix5x5<T>>,
     IAdditiveIdentity<ValueMatrix5x5<T>, ValueMatrix5x5<T>>,
     IMultiplicativeIdentity<ValueMatrix5x5<T>, ValueMatrix5x5<T>>,
-    IEqualityOperators<ValueMatrix5x5<T>, ValueMatrix5x5<T>>,
+    IEqualityOperators<ValueMatrix5x5<T>, ValueMatrix5x5<T>, bool>,
     IUnaryPlusOperators<ValueMatrix5x5<T>, ValueMatrix5x5<T>>,
     IAdditionOperators<ValueMatrix5x5<T>, ValueMatrix5x5<T>, ValueMatrix5x5<T>>,
     IUnaryNegationOperators<ValueMatrix5x5<T>, ValueMatrix5x5<T>>,

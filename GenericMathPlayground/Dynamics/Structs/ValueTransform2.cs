@@ -36,7 +36,7 @@ public struct ValueTransform2<T>
     IEquatable<ValueTransform2<T>>,
     IAdditiveIdentity<ValueTransform2<T>, ValueTransform2<T>>,
     IMultiplicativeIdentity<ValueTransform2<T>, ValueTransform2<T>>,
-    IEqualityOperators<ValueTransform2<T>, ValueTransform2<T>>,
+    IEqualityOperators<ValueTransform2<T>, ValueTransform2<T>, bool>,
     IUnaryPlusOperators<ValueTransform2<T>, ValueTransform2<T>>,
     IAdditionOperators<ValueTransform2<T>, ValueTransform2<T>, ValueTransform2<T>>,
     IUnaryNegationOperators<ValueTransform2<T>, ValueTransform2<T>>,

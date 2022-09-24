@@ -34,7 +34,7 @@ public struct ValueMatrix4x4<T>
     IEquatable<ValueMatrix4x4<T>>,
     IAdditiveIdentity<ValueMatrix4x4<T>, ValueMatrix4x4<T>>,
     IMultiplicativeIdentity<ValueMatrix4x4<T>, ValueMatrix4x4<T>>,
-    IEqualityOperators<ValueMatrix4x4<T>, ValueMatrix4x4<T>>,
+    IEqualityOperators<ValueMatrix4x4<T>, ValueMatrix4x4<T>, bool>,
     IUnaryPlusOperators<ValueMatrix4x4<T>, ValueMatrix4x4<T>>,
     IAdditionOperators<ValueMatrix4x4<T>, ValueMatrix4x4<T>, ValueMatrix4x4<T>>,
     IUnaryNegationOperators<ValueMatrix4x4<T>, ValueMatrix4x4<T>>,

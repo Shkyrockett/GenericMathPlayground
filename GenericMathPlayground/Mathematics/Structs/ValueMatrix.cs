@@ -36,7 +36,7 @@ public struct ValueMatrix<T>
     IAdditiveIdentity2DMethod<ValueMatrix<T>, ValueMatrix<T>>,
     IMultiplicativeIdentityMethod<ValueMatrix<T>, ValueMatrix<T>>,
     IMultiplicativeIdentity2DMethod<ValueMatrix<T>, ValueMatrix<T>>,
-    IEqualityOperators<ValueMatrix<T>, ValueMatrix<T>>,
+    IEqualityOperators<ValueMatrix<T>, ValueMatrix<T>, bool>,
     IUnaryPlusOperators<ValueMatrix<T>, ValueMatrix<T>>,
     IAdditionOperators<ValueMatrix<T>, ValueMatrix<T>, ValueMatrix<T>>,
     IUnaryNegationOperators<ValueMatrix<T>, ValueMatrix<T>>,
