@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
 		<Version>0.0.0.1</Version>
-		<StartupObject>GenericMathPlayground.Program</StartupObject>
+		<OutputType>WinExe</OutputType>
 		<TargetFramework>net7.0-windows</TargetFramework>
 		<Platforms>AnyCPU;ARM32;ARM64;x64;x86</Platforms>
 		<Nullable>enable</Nullable>
@@ -61,7 +60,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\.editorconfig" Link=".editorconfig" />
+		<None Include="..\.editorconfig" Link="Properties\.editorconfig" />
 		<None Include="..\LICENSE.md" Link="Properties\LICENSE.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
